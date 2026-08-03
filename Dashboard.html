@@ -178,7 +178,6 @@ body{
   gap:16px;
 }
 
-/* AQUA MAIN SITE BUTTON */
 .main-site-btn{
   display:inline-flex;
   align-items:center;
@@ -372,7 +371,7 @@ body{
   gap:8px;
 }
 
-.audio-thumb svg{ width:36px; height:36px; color:var(--purple); }
+.audio-thumb svg{ width:36px; height:36px; color:var(--gold); }
 
 .card-info{
   padding:12px 14px;
@@ -694,14 +693,14 @@ let pendingQueue = [];
 let currentPendingIndex = 0;
 let fallbackAuth = false;
 
-// SAFE STORAGE WRAPPERS (Prevents security crashes in Private browsing)
+// SAFE STORAGE WRAPPERS
 function safeSetSession(k, v){ try{ sessionStorage.setItem(k, v); }catch(e){ fallbackAuth = true; } }
 function safeGetSession(k){ try{ return sessionStorage.getItem(k); }catch(e){ return fallbackAuth ? 'authenticated' : null; } }
 function safeRemoveSession(k){ try{ sessionStorage.removeItem(k); }catch(e){} fallbackAuth = false; }
 function safeSetLocal(k, v){ try{ localStorage.setItem(k, v); return true; }catch(e){ return false; } }
 function safeGetLocal(k){ try{ return localStorage.getItem(k); }catch(e){ return null; } }
 
-// HTML STRING ESCAPING (FIXED SYNTAX)
+// HTML STRING ESCAPING
 function esc(s){
   if(!s) return '';
   return String(s)
@@ -709,6 +708,25 @@ function esc(s){
     .replace(/"/g, '&quot;')
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;');
+}
+
+// FILE EXTENSION DETECTOR
+function getFileExtension(file) {
+  if (file.name && file.name.includes('.')) {
+    const ext = file.name.split('.').pop().toLowerCase();
+    if (ext && ext.length <= 5) return '.' + ext;
+  }
+  const t = (file.type || '').toLowerCase();
+  if (t.includes('png')) return '.png';
+  if (t.includes('jpeg') || t.includes('jpg')) return '.jpg';
+  if (t.includes('gif')) return '.gif';
+  if (t.includes('webp')) return '.webp';
+  if (t.includes('mp3')) return '.mp3';
+  if (t.includes('wav')) return '.wav';
+  if (t.includes('ogg')) return '.ogg';
+  if (t.includes('mp4')) return '.mp4';
+  if (t.includes('webm')) return '.webm';
+  return '';
 }
 
 // AUTHENTICATION
@@ -852,7 +870,7 @@ function showUploadModal(){
 }
 
 function confirmUpload(){
-  const customName = document.getElementById('modal-name-input').value.trim();
+  let customName = document.getElementById('modal-name-input').value.trim();
   const selectedCat = document.getElementById('modal-cat-select').value;
   const item = pendingQueue[currentPendingIndex];
 
@@ -861,11 +879,24 @@ function confirmUpload(){
     return;
   }
 
+  // Preserve or attach correct file extension
+  const ext = getFileExtension(item.file);
+  if (ext && !customName.toLowerCase().endsWith(ext)) {
+    customName = customName.replace(/\.+$/, '') + ext;
+  }
+
+  // Normalize Data URL MIME Header
+  let dataUrl = item.dataUrl;
+  if (dataUrl.startsWith('data:application/octet-stream') || dataUrl.startsWith('data:;')) {
+    const mime = item.file.type || (selectedCat === 'images' ? 'image/png' : selectedCat === 'audio' ? 'audio/mpeg' : 'video/mp4');
+    dataUrl = dataUrl.replace(/^data:[^;]*/, 'data:' + mime);
+  }
+
   const entry = {
     id: Date.now() + '-' + Math.random().toString(36).slice(2),
     name: customName,
     type: item.file.type || selectedCat,
-    data: item.dataUrl,
+    data: dataUrl,
     cat: selectedCat,
     added: new Date().toLocaleDateString()
   };
@@ -887,6 +918,41 @@ function readFile(f){
     r.onerror = rej;
     r.readAsDataURL(f);
   });
+}
+
+// PROGRAMMATIC DOWNLOAD HANDLER (Forces Exact Name & Extension)
+function triggerDownload(id, dataKey){
+  const f = (files[dataKey] || []).find(x => x.id === id);
+  if(!f) return;
+
+  try {
+    const parts = f.data.split(',');
+    const mimeMatch = parts[0].match(/:(.*?);/);
+    const mime = mimeMatch ? mimeMatch[1] : 'application/octet-stream';
+    const bstr = atob(parts[1]);
+    let n = bstr.length;
+    const u8arr = new Uint8Array(n);
+    while(n--){
+      u8arr[n] = bstr.charCodeAt(n);
+    }
+    const blob = new Blob([u8arr], {type: mime});
+    const blobUrl = URL.createObjectURL(blob);
+
+    const a = document.createElement('a');
+    a.href = blobUrl;
+    a.download = f.name;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(() => URL.revokeObjectURL(blobUrl), 1000);
+  } catch(e) {
+    const a = document.createElement('a');
+    a.href = f.data;
+    a.download = f.name;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  }
 }
 
 // RENDERERS
@@ -935,9 +1001,9 @@ function buildCard(f, dataKey){
     <div class="card-info">
       <span class="card-name" title="${esc(f.name)}">${esc(f.name)}</span>
       <div class="card-actions">
-        <a class="action-btn" href="${f.data}" download="${esc(f.name)}" title="Download">
+        <button class="action-btn" onclick="triggerDownload('${f.id}','${dataKey}')" title="Download">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-        </a>
+        </button>
         <button class="action-btn del" onclick="deleteFile('${f.id}','${dataKey}')" title="Delete">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
         </button>
