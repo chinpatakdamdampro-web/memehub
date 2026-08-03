@@ -3,410 +3,240 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MemeHub 🍆✋</title>
+<title>MemeHub - Ultimate Meme Vault</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700;800&display=swap" rel="stylesheet">
 <style>
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-}
-html{
-scroll-behavior:smooth;
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --gold: #ffd700;
+  --gold-deep: #b8860b;
+  --black: #080808;
+  --surface: #111111;
+  --surface2: #1a1a1a;
+  --border: #2a2a2a;
+  --border-gold: #3d3000;
+  --text: #e8e0d0;
+  --text-muted: #6b6355;
+  --aqua: #00f2fe;
 }
 body{
-font-family:'Inter',sans-serif;
-background:#0d1117;
-color:#e6edf3;
-}
-::-webkit-scrollbar{
-width:10px;
-}
-::-webkit-scrollbar-thumb{
-background:#30363d;
-border-radius:999px;
-}
-::-webkit-scrollbar-thumb:hover{
-background:#484f58;
-}
-.container{
-width:min(1080px,95%);
-margin:auto;
-padding:60px 0 80px;
+  font-family:'Inter',sans-serif;
+  background:var(--black);
+  color:var(--text);
+  min-height:100vh;
 }
 header{
-text-align:center;
-margin-bottom:60px;
+  position:sticky;
+  top:0;
+  z-index:100;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 32px;
+  height:70px;
+  background:rgba(8,8,8,.9);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--border-gold);
 }
-header h1{
-font-size:3.2rem;
-color:white;
-font-weight:800;
-letter-spacing:-1px;
+.logo{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:1.4rem;
+  font-weight:800;
+  color:var(--gold);
+  text-decoration:none;
 }
-header p{
-color:#8b949e;
-margin-top:12px;
-font-size:1.05rem;
+.admin-link{
+  padding:8px 16px;
+  background:var(--surface2);
+  border:1px solid var(--border-gold);
+  color:var(--gold);
+  border-radius:10px;
+  text-decoration:none;
+  font-weight:700;
+  font-size:0.85rem;
 }
-
-/* ── GOLD DASHBOARD BUTTON ── */
-.dashboard-btn-wrap{
-display:flex;
-justify-content:center;
-margin-top:28px;
-}
-.dashboard-btn{
-display:inline-flex;
-align-items:center;
-gap:10px;
-padding:14px 32px;
-background:linear-gradient(135deg,#b8860b 0%,#ffd700 45%,#b8860b 100%);
-background-size:200% 200%;
-color:#0d0d0d;
-font-family:'Inter',sans-serif;
-font-size:1rem;
-font-weight:800;
-letter-spacing:.5px;
-border:none;
-border-radius:12px;
-cursor:pointer;
-text-decoration:none;
-box-shadow:
-0 0 18px rgba(255,215,0,.35),
-0 4px 20px rgba(0,0,0,.5);
-transition:transform .2s, box-shadow .2s, background-position .4s;
-background-position:left center;
-}
-.dashboard-btn:hover{
-transform:translateY(-2px);
-background-position:right center;
-box-shadow:
-0 0 30px rgba(255,215,0,.55),
-0 8px 28px rgba(0,0,0,.6);
-}
-.dashboard-btn:active{
-transform:translateY(0);
-}
-.dashboard-btn .icon{
-font-size:1.2rem;
-}
-
+.admin-link:hover{ background:var(--gold-deep); color:#000; }
+.container{ width:min(1200px,95%); margin:40px auto; }
 .section-title{
-text-align:center;
-font-size:2rem;
-font-weight:700;
-color:white;
-margin:60px 0 45px;
+  font-family:'Space Grotesk',sans-serif;
+  font-size:1.5rem;
+  color:var(--gold);
+  margin:40px 0 20px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  border-bottom:1px solid var(--border-gold);
+  padding-bottom:10px;
+}
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(240px,1fr));
+  gap:20px;
 }
 .card{
-background:#161b22;
-border:1px solid #30363d;
-border-radius:18px;
-overflow:hidden;
-margin-bottom:35px;
-transition:.2s;
-box-shadow:0 10px 30px rgba(0,0,0,.35);
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:16px;
+  overflow:hidden;
+  transition:transform .2s;
 }
-.card:hover{
-transform:translateY(-3px);
-border-color:#58a6ff;
-box-shadow:
-0 0 0 1px rgba(88,166,255,.15),
-0 15px 40px rgba(0,0,0,.45);
+.card:hover{ transform:translateY(-4px); border-color:var(--gold); }
+.card-preview{ width:100%; height:200px; object-fit:cover; background:#000; display:block; }
+.audio-card-box{
+  height:120px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:linear-gradient(135deg,#1a0a2e,#0d0820);
 }
-.card-header{
-display:flex;
-justify-content:space-between;
-align-items:center;
-padding:20px 24px;
-border-bottom:1px solid #30363d;
+.card-body{
+  padding:14px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
 }
-.filename{
-font-size:1.3rem;
-font-weight:700;
-color:white;
-white-space:nowrap;
-overflow:hidden;
-text-overflow:ellipsis;
-max-width:80%;
-}
-.badge{
-background:#1f6feb;
-color:white;
-padding:6px 13px;
-border-radius:999px;
-font-size:.82rem;
-font-weight:700;
-}
-.preview{
-width:72%;
-margin:30px auto;
-background:#000;
-border:2px solid #000;
-border-radius:12px;
-overflow:hidden;
-max-height: 500px;
-display: flex;
-align-items: center;
-justify-content: center;
-}
-.preview img, .preview video{
-width:100%;
-max-height: 500px;
-object-fit: contain;
-display:block;
-}
-.description{
-margin:0 28px 28px;
-background:#0d1117;
-border:1px solid #30363d;
-border-left:5px solid #58a6ff;
-border-radius:12px;
-padding:22px;
-}
-.description h3{
-color:#58a6ff;
-margin-bottom:14px;
-}
-.description p{
-color:#c9d1d9;
-line-height:1.8;
-}
-.audio-card{
-background:#161b22;
-border:1px solid #30363d;
-border-radius:18px;
-padding:35px;
-text-align:center;
-transition:.2s;
-box-shadow:0 10px 30px rgba(0,0,0,.35);
-margin-bottom:24px;
-}
-.audio-card:hover{
-transform:translateY(-3px);
-border-color:#58a6ff;
-}
-.audio-card h2{
-font-size:2rem;
-color:white;
-margin-bottom:30px;
-white-space:nowrap;
-overflow:hidden;
-text-overflow:ellipsis;
-}
-audio{
-width:100%;
-max-width:700px;
-filter:invert(.92);
+.card-title{
+  font-size:0.9rem;
+  font-weight:700;
+  color:var(--text);
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  max-width:140px;
 }
 .download-btn{
-display:inline-block;
-padding:10px 20px;
-background:#1f6feb;
-color:white;
-border-radius:8px;
-text-decoration:none;
-font-weight:600;
-margin-top:10px;
+  background:linear-gradient(135deg,var(--gold-deep),var(--gold));
+  color:#000;
+  border:none;
+  padding:8px 14px;
+  border-radius:8px;
+  font-weight:800;
+  font-size:0.8rem;
+  cursor:pointer;
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
 }
-footer{
-margin-top:70px;
-text-align:center;
-color:#6e7681;
-font-size:.9rem;
-}
+.download-btn:hover{ opacity:0.9; }
+.empty{ grid-column:1/-1; padding:40px; text-align:center; color:var(--text-muted); background:var(--surface); border-radius:12px; }
 </style>
 </head>
 <body>
-<div class="container">
+
 <header>
-<h1>📚 MemeHub</h1>
-<p>The official hub of egangstas And uh mfs with no lifes and jobs</p>
-<div class="dashboard-btn-wrap">
-<a class="dashboard-btn" href="Dashboard.html">
-<span class="icon">👑</span>
-Admin Dashboard
-</a>
-</div>
+  <a href="index.html" class="logo">🔥 MemeHub</a>
+  <a href="Dashboard.html" class="admin-link">⚙️ Admin Vault</a>
 </header>
 
-<!-- IMAGES SECTION -->
-<div id="image-container">
-  <div class="card">
-    <div class="card-header">
-      <div class="filename">📄 it_work.png</div>
-      <div class="badge">IMAGE</div>
-    </div>
-    <div class="preview">
-      <img src="it_work.png">
-    </div>
-    <div class="description">
-      <h3>📖 Tutorial</h3>
-      <p>so to use the meme you need to add it_work.png behind https://memehub-708.pages.dev/ its just that simple. all the names of the memes are above their respective images And uh thats all</p>
-    </div>
-  </div>
+<div class="container">
+  <div class="section-title">🖼️ Meme Gallery</div>
+  <div class="grid" id="main-images"></div>
 
-  <div class="card">
-    <div class="card-header">
-      <div class="filename">📄 best_mistake.png</div>
-      <div class="badge">IMAGE</div>
-    </div>
-    <div class="preview">
-      <img src="best_mistake.png">
-    </div>
-  </div>
+  <div class="section-title">🎵 Audio Clips</div>
+  <div class="grid" id="main-audio"></div>
 
-  <div class="card">
-    <div class="card-header">
-      <div class="filename">📄 skull_bro.png</div>
-      <div class="badge">IMAGE</div>
-    </div>
-    <div class="preview">
-      <img src="skull_bro.png">
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-header">
-      <div class="filename">📄 epstein.gif</div>
-      <div class="badge">IMAGE</div>
-    </div>
-    <div class="preview">
-      <img src="epstein.gif">
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-header">
-      <div class="filename">📄 kill_member.png</div>
-      <div class="badge">IMAGE</div>
-    </div>
-    <div class="preview">
-      <img src="kill_member.png">
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-header">
-      <div class="filename">📄 crack_meme.jpg</div>
-      <div class="badge">IMAGE</div>
-    </div>
-    <div class="preview">
-      <img src="crack_meme.jpg">
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-header">
-      <div class="filename">📄 the_darksystem.png</div>
-      <div class="badge">IMAGE</div>
-    </div>
-    <div class="preview">
-      <img src="the_darksystem.png">
-    </div>
-  </div>
-</div>
-
-<!-- VIDEOS SECTION -->
-<div id="video-wrapper" style="display:none;">
-  <h1 class="section-title">Video collection 🎬</h1>
-  <div id="video-container"></div>
-</div>
-
-<!-- AUDIO SECTION -->
-<h1 class="section-title">Mp3 collection 🎵</h1>
-
-<div id="audio-container">
-  <div class="audio-card">
-    <h2>tiki_mp3</h2>
-    <audio controls>
-      <source src="tiki.mp3" type="audio/mpeg">
-      Your browser does not support the audio element.
-    </audio>
-    <br><br>
-    <a class="download-btn" href="tiki.mp3" download>⬇ Download MP3</a>
-  </div>
-</div>
-
-<footer>
-Workd myself down to the bwone!~
-</footer>
+  <div class="section-title">🎬 Videos</div>
+  <div class="grid" id="main-video"></div>
 </div>
 
 <script>
 const STORAGE_KEY = 'memehub_files_v1';
 
-function esc(s){ return s.replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function esc(s){
+  if(!s) return '';
+  return String(s).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
 
-function loadUploadedMemes() {
+function loadVaultData(){
+  const raw = localStorage.getItem(STORAGE_KEY);
+  if(!raw) return { images:[], audio:[], video:[] };
+  try { return JSON.parse(raw); } catch(e){ return { images:[], audio:[], video:[] }; }
+}
+
+// PROGRAMMATIC FORCE DOWNLOAD WITH ASSIGNED FILENAME
+function downloadMeme(id, cat){
+  const vault = loadVaultData();
+  const file = (vault[cat] || []).find(x => x.id === id);
+  if(!file) return;
+
   try {
-    const saved = localStorage.getItem(STORAGE_KEY);
-    if (!saved) return;
-    const files = JSON.parse(saved);
-
-    // Render Images & GIFs
-    const imgContainer = document.getElementById('image-container');
-    (files.images || []).forEach(item => {
-      const card = document.createElement('div');
-      card.className = 'card';
-      card.innerHTML = `
-        <div class="card-header">
-          <div class="filename">📄 ${esc(item.name)}</div>
-          <div class="badge">IMAGE</div>
-        </div>
-        <div class="preview">
-          <img src="${item.data}">
-        </div>
-      `;
-      imgContainer.appendChild(card);
-    });
-
-    // Render Videos
-    if (files.video && files.video.length > 0) {
-      document.getElementById('video-wrapper').style.display = 'block';
-      const vidContainer = document.getElementById('video-container');
-      files.video.forEach(item => {
-        const card = document.createElement('div');
-        card.className = 'card';
-        card.innerHTML = `
-          <div class="card-header">
-            <div class="filename">🎬 ${esc(item.name)}</div>
-            <div class="badge" style="background:#22c55e;">VIDEO</div>
-          </div>
-          <div class="preview">
-            <video controls src="${item.data}"></video>
-          </div>
-        `;
-        vidContainer.appendChild(card);
-      });
+    const parts = file.data.split(',');
+    const mimeMatch = parts[0].match(/:(.*?);/);
+    const mime = mimeMatch ? mimeMatch[1] : 'application/octet-stream';
+    const bstr = atob(parts[1]);
+    let n = bstr.length;
+    const u8arr = new Uint8Array(n);
+    while(n--){
+      u8arr[n] = bstr.charCodeAt(n);
     }
+    const blob = new Blob([u8arr], {type: mime});
+    const blobUrl = URL.createObjectURL(blob);
 
-    // Render Audio Tracks
-    const audioContainer = document.getElementById('audio-container');
-    (files.audio || []).forEach(item => {
-      const card = document.createElement('div');
-      card.className = 'audio-card';
-      card.innerHTML = `
-        <h2>${esc(item.name)}</h2>
-        <audio controls>
-          <source src="${item.data}">
-          Your browser does not support the audio element.
-        </audio>
-        <br><br>
-        <a class="download-btn" href="${item.data}" download="${esc(item.name)}">⬇ Download Audio</a>
-      `;
-      audioContainer.appendChild(card);
-    });
-
+    const a = document.createElement('a');
+    a.href = blobUrl;
+    a.download = file.name; // STRICT CUSTOM ASSIGNED NAME
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(() => URL.revokeObjectURL(blobUrl), 1000);
   } catch(e) {
-    console.error("Could not load dynamic uploads", e);
+    const a = document.createElement('a');
+    a.href = file.data;
+    a.download = file.name;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
   }
 }
 
-document.addEventListener('DOMContentLoaded', loadUploadedMemes);
+function renderMainSite(){
+  const data = loadVaultData();
+
+  renderGrid('main-images', data.images, 'images', item => `
+    <div class="card">
+      <img class="card-preview" src="${item.data}" alt="${esc(item.name)}">
+      <div class="card-body">
+        <span class="card-title" title="${esc(item.name)}">${esc(item.name)}</span>
+        <button class="download-btn" onclick="downloadMeme('${item.id}', 'images')">Download</button>
+      </div>
+    </div>
+  `);
+
+  renderGrid('main-audio', data.audio, 'audio', item => `
+    <div class="card">
+      <div class="audio-card-box">🎵</div>
+      <div style="padding:10px 14px 0;"><audio controls style="width:100%;height:32px;" src="${item.data}"></audio></div>
+      <div class="card-body">
+        <span class="card-title" title="${esc(item.name)}">${esc(item.name)}</span>
+        <button class="download-btn" onclick="downloadMeme('${item.id}', 'audio')">Download</button>
+      </div>
+    </div>
+  `);
+
+  renderGrid('main-video', data.video, 'video', item => `
+    <div class="card">
+      <video class="card-preview" controls src="${item.data}"></video>
+      <div class="card-body">
+        <span class="card-title" title="${esc(item.name)}">${esc(item.name)}</span>
+        <button class="download-btn" onclick="downloadMeme('${item.id}', 'video')">Download</button>
+      </div>
+    </div>
+  `);
+}
+
+function renderGrid(elemId, items, cat, cardTemplate){
+  const container = document.getElementById(elemId);
+  if(!container) return;
+  if(!items || !items.length){
+    container.innerHTML = `<div class="empty">No ${cat} added yet! Upload some in the Admin Vault.</div>`;
+    return;
+  }
+  container.innerHTML = items.map(cardTemplate).join('');
+}
+
+window.addEventListener('DOMContentLoaded', renderMainSite);
 </script>
 </body>
 </html>
