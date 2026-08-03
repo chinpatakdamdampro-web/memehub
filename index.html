@@ -1,394 +1,296 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>MemeHub 🍆✋</title>
-
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-
 <style>
-
 *{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
+margin:0;
+padding:0;
+box-sizing:border-box;
 }
-
 html{
-    scroll-behavior:smooth;
+scroll-behavior:smooth;
 }
-
 body{
-
-    font-family:'Inter',sans-serif;
-    background:#0d1117;
-    color:#e6edf3;
-
+font-family:'Inter',sans-serif;
+background:#0d1117;
+color:#e6edf3;
 }
-
 ::-webkit-scrollbar{
-    width:10px;
+width:10px;
 }
-
 ::-webkit-scrollbar-thumb{
-    background:#30363d;
-    border-radius:999px;
+background:#30363d;
+border-radius:999px;
 }
-
 ::-webkit-scrollbar-thumb:hover{
-    background:#484f58;
+background:#484f58;
 }
-
 .container{
-
-    width:min(1080px,95%);
-    margin:auto;
-    padding:60px 0 80px;
-
+width:min(1080px,95%);
+margin:auto;
+padding:60px 0 80px;
 }
-
 header{
-
-    text-align:center;
-    margin-bottom:60px;
-
+text-align:center;
+margin-bottom:60px;
 }
-
 header h1{
-
-    font-size:3.2rem;
-    color:white;
-    font-weight:800;
-    letter-spacing:-1px;
-
+font-size:3.2rem;
+color:white;
+font-weight:800;
+letter-spacing:-1px;
 }
-
 header p{
-
-    color:#8b949e;
-    margin-top:12px;
-    font-size:1.05rem;
-
+color:#8b949e;
+margin-top:12px;
+font-size:1.05rem;
 }
+
+/* ── GOLD DASHBOARD BUTTON ── */
+.dashboard-btn-wrap{
+display:flex;
+justify-content:center;
+margin-top:28px;
+}
+.dashboard-btn{
+display:inline-flex;
+align-items:center;
+gap:10px;
+padding:14px 32px;
+background:linear-gradient(135deg,#b8860b 0%,#ffd700 45%,#b8860b 100%);
+background-size:200% 200%;
+color:#0d0d0d;
+font-family:'Inter',sans-serif;
+font-size:1rem;
+font-weight:800;
+letter-spacing:.5px;
+border:none;
+border-radius:12px;
+cursor:pointer;
+text-decoration:none;
+box-shadow:
+0 0 18px rgba(255,215,0,.35),
+0 4px 20px rgba(0,0,0,.5);
+transition:transform .2s, box-shadow .2s, background-position .4s;
+background-position:left center;
+}
+.dashboard-btn:hover{
+transform:translateY(-2px);
+background-position:right center;
+box-shadow:
+0 0 30px rgba(255,215,0,.55),
+0 8px 28px rgba(0,0,0,.6);
+}
+.dashboard-btn:active{
+transform:translateY(0);
+}
+.dashboard-btn .icon{
+font-size:1.2rem;
+}
+/* ── END GOLD BUTTON ── */
 
 .section-title{
-
-    text-align:center;
-    font-size:2rem;
-    font-weight:700;
-    color:white;
-    margin:130px 0 45px;
-
+text-align:center;
+font-size:2rem;
+font-weight:700;
+color:white;
+margin:130px 0 45px;
 }
-
 .card{
-
-    background:#161b22;
-    border:1px solid #30363d;
-    border-radius:18px;
-    overflow:hidden;
-    margin-bottom:35px;
-    transition:.2s;
-    box-shadow:0 10px 30px rgba(0,0,0,.35);
-
+background:#161b22;
+border:1px solid #30363d;
+border-radius:18px;
+overflow:hidden;
+margin-bottom:35px;
+transition:.2s;
+box-shadow:0 10px 30px rgba(0,0,0,.35);
 }
-
 .card:hover{
-
-    transform:translateY(-3px);
-    border-color:#58a6ff;
-
-    box-shadow:
-    0 0 0 1px rgba(88,166,255,.15),
-    0 15px 40px rgba(0,0,0,.45);
-
+transform:translateY(-3px);
+border-color:#58a6ff;
+box-shadow:
+0 0 0 1px rgba(88,166,255,.15),
+0 15px 40px rgba(0,0,0,.45);
 }
-
 .card-header{
-
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    padding:20px 24px;
-    border-bottom:1px solid #30363d;
-
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:20px 24px;
+border-bottom:1px solid #30363d;
 }
-
 .filename{
-
-    font-size:1.3rem;
-    font-weight:700;
-    color:white;
-
+font-size:1.3rem;
+font-weight:700;
+color:white;
 }
-
 .badge{
-
-    background:#1f6feb;
-    color:white;
-    padding:6px 13px;
-    border-radius:999px;
-    font-size:.82rem;
-    font-weight:700;
-
+background:#1f6feb;
+color:white;
+padding:6px 13px;
+border-radius:999px;
+font-size:.82rem;
+font-weight:700;
 }
-
 .preview{
-
-    width:72%;
-    margin:30px auto;
-    background:#000;
-    border:2px solid #000;
-    border-radius:12px;
-    overflow:hidden;
-
+width:72%;
+margin:30px auto;
+background:#000;
+border:2px solid #000;
+border-radius:12px;
+overflow:hidden;
 }
-
 .preview img{
-
-    width:100%;
-    display:block;
-
+width:100%;
+display:block;
 }
-
 .description{
-
-    margin:0 28px 28px;
-    background:#0d1117;
-    border:1px solid #30363d;
-    border-left:5px solid #58a6ff;
-    border-radius:12px;
-    padding:22px;
-
+margin:0 28px 28px;
+background:#0d1117;
+border:1px solid #30363d;
+border-left:5px solid #58a6ff;
+border-radius:12px;
+padding:22px;
 }
-
 .description h3{
-
-    color:#58a6ff;
-    margin-bottom:14px;
-
+color:#58a6ff;
+margin-bottom:14px;
 }
-
 .description p{
-
-    color:#c9d1d9;
-    line-height:1.8;
-
+color:#c9d1d9;
+line-height:1.8;
 }
-
 .audio-card{
-
-    background:#161b22;
-    border:1px solid #30363d;
-    border-radius:18px;
-    padding:35px;
-    text-align:center;
-    transition:.2s;
-    box-shadow:0 10px 30px rgba(0,0,0,.35);
-
+background:#161b22;
+border:1px solid #30363d;
+border-radius:18px;
+padding:35px;
+text-align:center;
+transition:.2s;
+box-shadow:0 10px 30px rgba(0,0,0,.35);
 }
-
 .audio-card:hover{
-
-    transform:translateY(-3px);
-    border-color:#58a6ff;
-
+transform:translateY(-3px);
+border-color:#58a6ff;
 }
-
 .audio-card h2{
-
-    font-size:2rem;
-    color:white;
-    margin-bottom:30px;
-
+font-size:2rem;
+color:white;
+margin-bottom:30px;
 }
-
 audio{
-
-    width:100%;
-    max-width:700px;
-    filter:invert(.92);
-
+width:100%;
+max-width:700px;
+filter:invert(.92);
 }
-
 footer{
-
-    margin-top:70px;
-    text-align:center;
-    color:#6e7681;
-    font-size:.9rem;
-
+margin-top:70px;
+text-align:center;
+color:#6e7681;
+font-size:.9rem;
 }
-
 </style>
-
 </head>
-
 <body>
-
 <div class="container">
-
 <header>
-
 <h1>📚 MemeHub</h1>
-
 <p>The official hub of egangstas And uh mfs with no lifes and jobs</p>
-
+<div class="dashboard-btn-wrap">
+<a class="dashboard-btn" href="dashboard.html">
+<span class="icon">👑</span>
+Admin Dashboard
+</a>
+</div>
 </header>
 
 <!-- it_work -->
-
 <div class="card">
-
 <div class="card-header">
-
 <div class="filename">📄 it_work.png</div>
-
 <div class="badge">IMAGE</div>
-
 </div>
-
 <div class="preview">
-
 <img src="it_work.png">
-
 </div>
-
 <div class="description">
-
 <h3>📖 Tutorial</h3>
-
 <p>
 so to use the meme you need to add it_work.png behind https://memehub-708.pages.dev/ its just that simple. all the names of the memes are above their respective images And uh thats all
 </p>
-
 </div>
-
 </div>
 
 <!-- best_mistake -->
-
 <div class="card">
-
 <div class="card-header">
-
 <div class="filename">📄 best_mistake.png</div>
-
 <div class="badge">IMAGE</div>
-
 </div>
-
 <div class="preview">
-
 <img src="best_mistake.png">
-
 </div>
-
 </div>
 
 <!-- skull_bro -->
-
 <div class="card">
-
 <div class="card-header">
-
 <div class="filename">📄 skull_bro.png</div>
-
 <div class="badge">IMAGE</div>
-
 </div>
-
 <div class="preview">
-
 <img src="skull_bro.png">
-
 </div>
-
 </div>
 
 <!-- epstein_png -->
-
 <div class="card">
-
 <div class="card-header">
-
 <div class="filename">📄 epstein.gif</div>
-
 <div class="badge">IMAGE</div>
-
 </div>
-
 <div class="preview">
-
 <img src="epstein.gif">
-
 </div>
-
 </div>
 
 <!-- skull -->
-
 <div class="card">
-
 <div class="card-header">
-
 <div class="filename">📄 kill_member.png</div>
-
 <div class="badge">IMAGE</div>
-
 </div>
-
 <div class="preview">
-
 <img src="kill_member.png">
-
 </div>
-
 </div>
 
 <!-- crack -->
-
 <div class="card">
-
 <div class="card-header">
-
 <div class="filename">📄 crack_meme.jpg</div>
-
 <div class="badge">IMAGE</div>
-
 </div>
-
 <div class="preview">
-
 <img src="crack_meme.jpg">
-
 </div>
-
 </div>
 
 <!-- the_darksystem -->
-
 <div class="card">
-
 <div class="card-header">
-
 <div class="filename">📄 the_darksystem.png</div>
-
 <div class="badge">IMAGE</div>
-
 </div>
-
 <div class="preview">
-
 <img src="the_darksystem.png">
-
 </div>
-
 </div>
 
 <div style="height:220px;"></div>
@@ -396,33 +298,20 @@ so to use the meme you need to add it_work.png behind https://memehub-708.pages.
 <h1 class="section-title">Mp3 collection 🎵</h1>
 
 <div class="audio-card">
-
-    <h2>tiki_mp3</h2>
-
-    <audio controls>
-
-        <source src="tiki.mp3" type="audio/mpeg">
-
-        Your browser does not support the audio element.
-
-    </audio>
-
-    <br><br>
-
-    <a class="download-btn" href="tiki.mp3" download>
-        ⬇ Download MP3
-    </a>
-
+<h2>tiki_mp3</h2>
+<audio controls>
+<source src="tiki.mp3" type="audio/mpeg">
+Your browser does not support the audio element.
+</audio>
+<br><br>
+<a class="download-btn" href="tiki.mp3" download>
+⬇ Download MP3
+</a>
 </div>
 
 <footer>
-
 Workd myself down to the bwone!~
-
 </footer>
-
 </div>
-
 </body>
-
 </html>
