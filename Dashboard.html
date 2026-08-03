@@ -566,7 +566,6 @@ body{
       MemeHub Vault
     </div>
     <div class="topbar-right">
-      <!-- AQUA MAIN SITE BUTTON -->
       <a href="index.html" class="main-site-btn">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
           <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
@@ -622,7 +621,7 @@ body{
       <div class="cat-header">
         <div class="cat-title">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M9 18V5l12-2v13B"/>
+            <path d="M9 18V5l12-2v13"/>
             <circle cx="6" cy="18" r="3"/>
             <circle cx="18" cy="16" r="3"/>
           </svg>
@@ -693,63 +692,96 @@ const SESSION_KEY = 'memehub_auth_session';
 let files = {images:[], audio:[], video:[]};
 let pendingQueue = [];
 let currentPendingIndex = 0;
+let fallbackAuth = false;
 
-// AUTH & PERSISTENCE
+// SAFE STORAGE WRAPPERS (Prevents security crashes in Private browsing)
+function safeSetSession(k, v){ try{ sessionStorage.setItem(k, v); }catch(e){ fallbackAuth = true; } }
+function safeGetSession(k){ try{ return sessionStorage.getItem(k); }catch(e){ return fallbackAuth ? 'authenticated' : null; } }
+function safeRemoveSession(k){ try{ sessionStorage.removeItem(k); }catch(e){} fallbackAuth = false; }
+function safeSetLocal(k, v){ try{ localStorage.setItem(k, v); return true; }catch(e){ return false; } }
+function safeGetLocal(k){ try{ return localStorage.getItem(k); }catch(e){ return null; } }
+
+// HTML STRING ESCAPING (FIXED SYNTAX)
+function esc(s){
+  if(!s) return '';
+  return String(s)
+    .replace(/&/g, '&amp;')
+    .replace(/"/g, '&quot;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+}
+
+// AUTHENTICATION
 function initAuth(){
-  if(sessionStorage.getItem(SESSION_KEY) === 'authenticated'){
+  if(safeGetSession(SESSION_KEY) === 'authenticated'){
     showDashboard();
   }
 }
 
 function tryLogin(){
-  const val = document.getElementById('pw-input').value;
+  const inputEl = document.getElementById('pw-input');
   const err = document.getElementById('login-error');
+  if(!inputEl) return;
+  
+  const val = inputEl.value.trim();
   if(val === CORRECT_PASSWORD){
-    sessionStorage.setItem(SESSION_KEY, 'authenticated');
+    safeSetSession(SESSION_KEY, 'authenticated');
     showDashboard();
-    toast('👑 Authenticated successfully');
+    toast('👑 Welcome to the Vault');
   } else {
-    err.textContent = '✕ Incorrect password. Access denied.';
-    document.getElementById('pw-input').value = '';
-    setTimeout(()=>err.textContent='', 3000);
+    if(err){
+      err.textContent = '✕ Incorrect password. Access denied.';
+      setTimeout(() => { err.textContent = ''; }, 3000);
+    }
+    inputEl.value = '';
+    inputEl.focus();
   }
 }
 
-document.getElementById('pw-input').addEventListener('keydown', e => {
-  if(e.key === 'Enter') tryLogin();
-});
-
 function showDashboard(){
-  document.getElementById('login-screen').style.display = 'none';
-  document.getElementById('dashboard').style.display = 'block';
+  const loginScr = document.getElementById('login-screen');
+  const dashScr = document.getElementById('dashboard');
+  if(loginScr) loginScr.style.display = 'none';
+  if(dashScr) dashScr.style.display = 'block';
   loadFiles();
 }
 
 function logout(){
-  sessionStorage.removeItem(SESSION_KEY);
-  document.getElementById('dashboard').style.display = 'none';
-  document.getElementById('login-screen').style.display = 'flex';
-  document.getElementById('pw-input').value = '';
+  safeRemoveSession(SESSION_KEY);
+  const loginScr = document.getElementById('login-screen');
+  const dashScr = document.getElementById('dashboard');
+  if(dashScr) dashScr.style.display = 'none';
+  if(loginScr) loginScr.style.display = 'flex';
+  const inputEl = document.getElementById('pw-input');
+  if(inputEl) inputEl.value = '';
 }
 
-// STORAGE
+// LOAD & SAVE
 function saveFiles(){
-  try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(files));
-  } catch(e){
-    toast('⚠️ LocalStorage full! File might be too large.', true);
+  const success = safeSetLocal(STORAGE_KEY, JSON.stringify(files));
+  if(!success){
+    toast('⚠️ Storage limit reached or browser blocked storage!', true);
   }
 }
 
 function loadFiles(){
-  try {
-    const saved = localStorage.getItem(STORAGE_KEY);
-    if(saved) files = JSON.parse(saved);
-  } catch(e){ files = {images:[], audio:[], video:[]}; }
+  const raw = safeGetLocal(STORAGE_KEY);
+  if(raw){
+    try {
+      const parsed = JSON.parse(raw);
+      if(parsed && typeof parsed === 'object'){
+        files.images = Array.isArray(parsed.images) ? parsed.images : [];
+        files.audio  = Array.isArray(parsed.audio)  ? parsed.audio  : [];
+        files.video  = Array.isArray(parsed.video)  ? parsed.video  : [];
+      }
+    } catch(e){
+      files = {images:[], audio:[], video:[]};
+    }
+  }
   renderAll();
 }
 
-// CATEGORIZATION LOGIC
+// FILE CATEGORIZATION
 const ALLOWED = {
   image: ['image/png','image/jpeg','image/jpg','image/gif','image/webp','image/bmp'],
   audio: ['audio/mpeg','audio/mp3','audio/ogg','audio/wav','audio/flac','audio/aac'],
@@ -768,17 +800,23 @@ function getCategory(file){
   return null;
 }
 
+// UPLOAD HANDLERS
 const dropZone = document.getElementById('drop-zone');
 const fileInput = document.getElementById('file-input');
 
-dropZone.addEventListener('dragover', e=>{e.preventDefault();dropZone.classList.add('drag-over');});
-dropZone.addEventListener('dragleave', ()=>dropZone.classList.remove('drag-over'));
-dropZone.addEventListener('drop', e=>{
-  e.preventDefault();
-  dropZone.classList.remove('drag-over');
-  handleFiles([...e.dataTransfer.files]);
-});
-fileInput.addEventListener('change', ()=>handleFiles([...fileInput.files]));
+if(dropZone){
+  dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('drag-over'); });
+  dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drag-over'));
+  dropZone.addEventListener('drop', e => {
+    e.preventDefault();
+    dropZone.classList.remove('drag-over');
+    handleFiles([...e.dataTransfer.files]);
+  });
+}
+
+if(fileInput){
+  fileInput.addEventListener('change', () => handleFiles([...fileInput.files]));
+}
 
 async function handleFiles(rawFiles){
   pendingQueue = [];
@@ -796,7 +834,7 @@ async function handleFiles(rawFiles){
     currentPendingIndex = 0;
     showUploadModal();
   }
-  fileInput.value = '';
+  if(fileInput) fileInput.value = '';
 }
 
 function showUploadModal(){
@@ -851,6 +889,7 @@ function readFile(f){
   });
 }
 
+// RENDERERS
 function renderAll(){
   renderCategory('images', 'images', 'No images or GIFs uploaded yet');
   renderCategory('audio',  'audio',  'No audio files uploaded yet');
@@ -861,8 +900,9 @@ function renderAll(){
 function renderCategory(dataKey, gridId, emptyMsg){
   const grid  = document.getElementById('grid-'+gridId);
   const count = document.getElementById('count-'+gridId);
-  const arr   = files[dataKey] || [];
+  if(!grid || !count) return;
 
+  const arr = files[dataKey] || [];
   count.textContent = arr.length + ' file' + (arr.length!==1?'s':'');
 
   if(!arr.length){
@@ -906,8 +946,6 @@ function buildCard(f, dataKey){
   </div>`;
 }
 
-function esc(s){ return s.replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace/>/g,'&gt;'); }
-
 function deleteFile(id, dataKey){
   if(!confirm('Delete this meme permanently?')) return;
   files[dataKey] = files[dataKey].filter(f=>f.id!==id);
@@ -935,35 +973,41 @@ function openLightbox(type, id, dataKey){
 function closeLightbox(){
   document.getElementById('lightbox').classList.remove('open');
   const vid = document.getElementById('lb-vid');
-  vid.pause && vid.pause();
-  vid.src=''; 
-  document.getElementById('lb-img').src='';
+  if(vid){ vid.pause && vid.pause(); vid.src=''; }
+  const img = document.getElementById('lb-img');
+  if(img) img.src='';
 }
 
-document.getElementById('lightbox').addEventListener('click',function(e){ if(e.target===this) closeLightbox(); });
-document.addEventListener('keydown',e=>{ if(e.key==='Escape') closeLightbox(); });
+const lbEl = document.getElementById('lightbox');
+if(lbEl) lbEl.addEventListener('click', function(e){ if(e.target===this) closeLightbox(); });
+document.addEventListener('keydown', e => { if(e.key==='Escape') closeLightbox(); });
+document.addEventListener('keydown', e => { if(e.key==='Enter' && document.getElementById('login-screen').style.display !== 'none') tryLogin(); });
 
 function updateStats(){
   const total = files.images.length + files.audio.length + files.video.length;
-  document.getElementById('topbar-stats').innerHTML = `
-    <div class="stat-pill">🖼️ ${files.images.length}</div>
-    <div class="stat-pill">🎵 ${files.audio.length}</div>
-    <div class="stat-pill">🎬 ${files.video.length}</div>
-    <div class="stat-pill">📦 ${total} total</div>
-  `;
+  const statsEl = document.getElementById('topbar-stats');
+  if(statsEl){
+    statsEl.innerHTML = `
+      <div class="stat-pill">🖼️ ${files.images.length}</div>
+      <div class="stat-pill">🎵 ${files.audio.length}</div>
+      <div class="stat-pill">🎬 ${files.video.length}</div>
+      <div class="stat-pill">📦 ${total} total</div>
+    `;
+  }
 }
 
 function toast(msg, isWarn=false){
   const wrap = document.getElementById('toast-wrap');
-  const el   = document.createElement('div');
+  if(!wrap) return;
+  const el = document.createElement('div');
   el.className = 'toast';
   if(isWarn) el.style.borderColor = 'var(--red)';
   el.textContent = msg;
   wrap.appendChild(el);
-  setTimeout(()=>el.remove(), 3000);
+  setTimeout(() => el.remove(), 3000);
 }
 
-// Auto-check auth session on boot
+// INITIALIZE ON LOAD
 window.addEventListener('DOMContentLoaded', initAuth);
 </script>
 </body>
