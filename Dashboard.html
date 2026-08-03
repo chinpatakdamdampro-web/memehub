@@ -302,31 +302,6 @@ body{
 .type-tag.audio{background:rgba(168,85,247,.12);border-color:rgba(168,85,247,.4);color:#d8b4fe;}
 .type-tag.video{background:rgba(34,197,94,.12);border-color:rgba(34,197,94,.4);color:#86efac;}
 
-/* ── UPLOAD PROGRESS ── */
-.upload-progress{
-  margin-top:20px;
-  display:none;
-}
-.progress-bar-wrap{
-  background:var(--surface2);
-  border-radius:999px;
-  height:6px;
-  overflow:hidden;
-}
-.progress-bar-fill{
-  height:100%;
-  background:linear-gradient(90deg,var(--gold-deep),var(--gold));
-  border-radius:999px;
-  width:0%;
-  transition:width .3s;
-}
-.progress-label{
-  font-size:.8rem;
-  color:var(--gold);
-  margin-top:8px;
-  text-align:center;
-}
-
 /* ── SECTION HEADERS ── */
 .cat-header{
   display:flex;
@@ -386,7 +361,6 @@ body{
   overflow:hidden;
   transition:transform .2s, border-color .2s, box-shadow .2s;
   position:relative;
-  group:true;
 }
 
 .media-card:hover{
@@ -423,19 +397,6 @@ body{
 }
 .audio-thumb .note{font-size:2.8rem;}
 .audio-thumb .note-label{font-size:.75rem;color:var(--text-muted);}
-
-.video-thumb{
-  width:100%;
-  aspect-ratio:1;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  background:linear-gradient(135deg,#0a1a0e,#081208);
-  gap:8px;
-}
-.video-thumb .play-icon{font-size:2.8rem;}
-.video-thumb .vid-label{font-size:.75rem;color:var(--text-muted);}
 
 .card-info{
   padding:12px 14px;
@@ -488,6 +449,79 @@ body{
   filter:invert(.8) sepia(1) saturate(3) hue-rotate(5deg);
 }
 
+/* ── MODAL (Panel) ── */
+.modal-overlay{
+  display:none;
+  position:fixed;
+  inset:0;
+  z-index:9999;
+  background:rgba(0,0,0,0.8);
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+}
+.modal-overlay.open{ display:flex; }
+.modal-box{
+  background:var(--surface);
+  border:1px solid var(--border-gold);
+  border-radius:18px;
+  width:100%;
+  max-width:440px;
+  padding:28px;
+  box-shadow:0 0 30px rgba(0,0,0,0.8), 0 0 15px var(--gold-glow);
+}
+.modal-box h3{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:1.3rem;
+  color:var(--gold);
+  margin-bottom:18px;
+}
+.modal-field{
+  margin-bottom:16px;
+}
+.modal-field label{
+  display:block;
+  font-size:0.85rem;
+  color:var(--text-muted);
+  margin-bottom:6px;
+}
+.modal-field input, .modal-field select{
+  width:100%;
+  padding:12px;
+  background:var(--surface2);
+  border:1px solid var(--border);
+  border-radius:8px;
+  color:var(--text);
+  font-family:'Inter',sans-serif;
+  font-size:0.95rem;
+  outline:none;
+}
+.modal-field input:focus, .modal-field select:focus{
+  border-color:var(--gold);
+}
+.modal-actions{
+  display:flex;
+  gap:12px;
+  margin-top:24px;
+}
+.modal-btn{
+  flex:1;
+  padding:12px;
+  border-radius:8px;
+  border:none;
+  font-weight:700;
+  cursor:pointer;
+}
+.modal-btn.cancel{
+  background:transparent;
+  border:1px solid var(--border);
+  color:var(--text-muted);
+}
+.modal-btn.confirm{
+  background:linear-gradient(135deg,var(--gold-deep),var(--gold));
+  color:#0d0d0d;
+}
+
 /* ── TOAST ── */
 .toast-wrap{
   position:fixed;
@@ -515,7 +549,6 @@ body{
 
 @keyframes toastIn{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);}}
 @keyframes toastOut{from{opacity:1;transform:translateY(0);}to{opacity:0;transform:translateY(12px);}}
-
 .toast.out{animation:toastOut .3s ease forwards;}
 
 /* ── LIGHTBOX ── */
@@ -567,9 +600,7 @@ body{
 </head>
 <body>
 
-<!-- ══════════════════════════════
-     LOGIN SCREEN
-══════════════════════════════ -->
+<!-- LOGIN SCREEN -->
 <div id="login-screen">
   <div class="login-box">
     <span class="login-crown">👑</span>
@@ -584,11 +615,8 @@ body{
   </div>
 </div>
 
-<!-- ══════════════════════════════
-     DASHBOARD
-══════════════════════════════ -->
+<!-- DASHBOARD -->
 <div id="dashboard">
-
   <!-- TOPBAR -->
   <div class="topbar">
     <div class="topbar-brand">
@@ -602,7 +630,6 @@ body{
 
   <!-- MAIN -->
   <div class="dash-wrap">
-
     <!-- UPLOAD ZONE -->
     <div class="upload-section" id="drop-zone">
       <input type="file" id="file-input" multiple accept="image/*,video/mp4,video/webm,video/ogg,audio/mpeg,audio/mp3,audio/ogg,audio/wav,audio/flac,audio/aac,.gif,.webp,.mp4,.mp3,.wav,.ogg,.flac,.aac,.webm">
@@ -620,12 +647,6 @@ body{
         <span class="type-tag audio">FLAC</span>
         <span class="type-tag video">MP4</span>
         <span class="type-tag video">WEBM</span>
-      </div>
-      <div class="upload-progress" id="upload-progress">
-        <div class="progress-bar-wrap">
-          <div class="progress-bar-fill" id="progress-fill"></div>
-        </div>
-        <div class="progress-label" id="progress-label">Processing...</div>
       </div>
     </div>
 
@@ -661,7 +682,29 @@ body{
         <div class="empty-state"><span>📽️</span>No videos uploaded yet</div>
       </div>
     </div>
+  </div>
+</div>
 
+<!-- DETAILS MODAL PANEL -->
+<div class="modal-overlay" id="upload-modal">
+  <div class="modal-box">
+    <h3>Meme Upload Details</h3>
+    <div class="modal-field">
+      <label>Meme Display Name</label>
+      <input type="text" id="modal-name-input" placeholder="e.g. funny_cat.gif">
+    </div>
+    <div class="modal-field">
+      <label>Category</label>
+      <select id="modal-cat-select">
+        <option value="images">🖼️ Images & GIFs</option>
+        <option value="audio">🎵 Audio</option>
+        <option value="video">🎬 Videos</option>
+      </select>
+    </div>
+    <div class="modal-actions">
+      <button class="modal-btn cancel" onclick="cancelUpload()">Cancel</button>
+      <button class="modal-btn confirm" onclick="confirmUpload()">Publish Meme</button>
+    </div>
   </div>
 </div>
 
@@ -676,20 +719,13 @@ body{
 <div class="toast-wrap" id="toast-wrap"></div>
 
 <script>
-/* ══════════════
-   CONFIG
-══════════════ */
 const CORRECT_PASSWORD = 'Larper68920DkLpOeR';
 const STORAGE_KEY = 'memehub_files_v1';
 
-/* ══════════════
-   STATE
-══════════════ */
 let files = {images:[], audio:[], video:[]};
+let pendingQueue = [];
+let currentPendingIndex = 0;
 
-/* ══════════════
-   AUTH
-══════════════ */
 function tryLogin(){
   const val = document.getElementById('pw-input').value;
   const err = document.getElementById('login-error');
@@ -716,15 +752,11 @@ function logout(){
   document.getElementById('pw-input').value = '';
 }
 
-/* ══════════════
-   STORAGE
-══════════════ */
 function saveFiles(){
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(files));
   } catch(e){
-    // Storage might be full with large base64 data
-    toast('⚠️ Storage full — some files may not persist', true);
+    toast('⚠️ Storage full — file payload is too large', true);
   }
 }
 
@@ -736,9 +768,6 @@ function loadFiles(){
   renderAll();
 }
 
-/* ══════════════
-   FILE VALIDATION
-══════════════ */
 const ALLOWED = {
   image: ['image/png','image/jpeg','image/jpg','image/gif','image/webp','image/bmp','image/svg+xml'],
   audio: ['audio/mpeg','audio/mp3','audio/ogg','audio/wav','audio/flac','audio/aac','audio/x-wav','audio/x-flac'],
@@ -747,20 +776,16 @@ const ALLOWED = {
 
 function getCategory(file){
   const t = file.type.toLowerCase();
-  if(ALLOWED.image.includes(t)) return 'image';
+  if(ALLOWED.image.includes(t)) return 'images';
   if(ALLOWED.audio.includes(t)) return 'audio';
   if(ALLOWED.video.includes(t)) return 'video';
-  // fallback: check extension
   const ext = file.name.split('.').pop().toLowerCase();
-  if(['png','jpg','jpeg','gif','webp','bmp'].includes(ext)) return 'image';
+  if(['png','jpg','jpeg','gif','webp','bmp'].includes(ext)) return 'images';
   if(['mp3','ogg','wav','flac','aac'].includes(ext)) return 'audio';
   if(['mp4','webm'].includes(ext)) return 'video';
   return null;
 }
 
-/* ══════════════
-   UPLOAD HANDLER
-══════════════ */
 const dropZone = document.getElementById('drop-zone');
 const fileInput = document.getElementById('file-input');
 
@@ -774,52 +799,66 @@ dropZone.addEventListener('drop', e=>{
 fileInput.addEventListener('change', ()=>handleFiles([...fileInput.files]));
 
 async function handleFiles(rawFiles){
-  const progress = document.getElementById('upload-progress');
-  const fill = document.getElementById('progress-fill');
-  const label = document.getElementById('progress-label');
-  progress.style.display = 'block';
-
-  let accepted = 0, rejected = 0;
-
-  for(let i = 0; i < rawFiles.length; i++){
-    const f = rawFiles[i];
-    const pct = Math.round(((i+1)/rawFiles.length)*100);
-    fill.style.width = pct+'%';
-    label.textContent = `Processing ${i+1}/${rawFiles.length}: ${f.name}`;
-
+  pendingQueue = [];
+  for(let f of rawFiles){
     const cat = getCategory(f);
-    if(!cat){ rejected++; continue; }
+    if(cat){
+      const dataUrl = await readFile(f);
+      pendingQueue.push({ file: f, dataUrl, cat });
+    } else {
+      toast(`❌ Unsupported file format: ${f.name}`, true);
+    }
+  }
+  
+  if(pendingQueue.length > 0){
+    currentPendingIndex = 0;
+    showUploadModal();
+  }
+  fileInput.value = '';
+}
 
-    // Check duplicate
-    const cat_arr = cat === 'image' ? files.images : cat === 'audio' ? files.audio : files.video;
-    if(cat_arr.find(x=>x.name===f.name)){ toast(`⚠️ "${f.name}" already exists`); continue; }
+function showUploadModal(){
+  if(currentPendingIndex >= pendingQueue.length){
+    document.getElementById('upload-modal').classList.remove('open');
+    saveFiles();
+    renderAll();
+    toast(`✅ All uploads published!`);
+    return;
+  }
+  const item = pendingQueue[currentPendingIndex];
+  document.getElementById('modal-name-input').value = item.file.name;
+  document.getElementById('modal-cat-select').value = item.cat;
+  document.getElementById('upload-modal').classList.add('open');
+}
 
-    const dataUrl = await readFile(f);
-    const entry = {
-      id: Date.now() + '-' + Math.random().toString(36).slice(2),
-      name: f.name,
-      type: f.type || cat,
-      size: f.size,
-      data: dataUrl,
-      cat,
-      added: new Date().toLocaleDateString()
-    };
+function confirmUpload(){
+  const customName = document.getElementById('modal-name-input').value.trim();
+  const selectedCat = document.getElementById('modal-cat-select').value;
+  const item = pendingQueue[currentPendingIndex];
 
-    if(cat === 'image') files.images.push(entry);
-    else if(cat === 'audio') files.audio.push(entry);
-    else files.video.push(entry);
-    accepted++;
+  if(!customName){
+    toast('⚠️ Name required!', true);
+    return;
   }
 
-  saveFiles();
-  renderAll();
-  fill.style.width = '100%';
-  label.textContent = '✓ Done!';
-  setTimeout(()=>{ progress.style.display='none'; fill.style.width='0%'; },'1800');
-  fileInput.value = '';
+  const entry = {
+    id: Date.now() + '-' + Math.random().toString(36).slice(2),
+    name: customName,
+    type: item.file.type || selectedCat,
+    size: item.file.size,
+    data: item.dataUrl,
+    cat: selectedCat,
+    added: new Date().toLocaleDateString()
+  };
 
-  if(accepted) toast(`✅ Added ${accepted} file${accepted>1?'s':''}`);
-  if(rejected) toast(`❌ ${rejected} file${rejected>1?'s':''} rejected (unsupported type)`, true);
+  files[selectedCat].push(entry);
+  currentPendingIndex++;
+  showUploadModal();
+}
+
+function cancelUpload(){
+  currentPendingIndex++;
+  showUploadModal();
 }
 
 function readFile(f){
@@ -831,9 +870,6 @@ function readFile(f){
   });
 }
 
-/* ══════════════
-   RENDER
-══════════════ */
 function renderAll(){
   renderCategory('images', 'images', '📂 No images uploaded yet', '🖼️');
   renderCategory('audio',  'audio',  '🎙️ No audio uploaded yet',  '🎵');
@@ -886,9 +922,6 @@ function buildCard(f, dataKey){
 
 function esc(s){ return s.replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 
-/* ══════════════
-   DELETE
-══════════════ */
 function deleteFile(id, dataKey){
   if(!confirm('Delete this file?')) return;
   files[dataKey] = files[dataKey].filter(f=>f.id!==id);
@@ -897,9 +930,6 @@ function deleteFile(id, dataKey){
   toast('🗑️ File deleted');
 }
 
-/* ══════════════
-   LIGHTBOX
-══════════════ */
 function openLightbox(type, id, dataKey){
   const f = files[dataKey].find(x=>x.id===id);
   if(!f) return;
@@ -927,12 +957,8 @@ function closeLightbox(){
 document.getElementById('lightbox').addEventListener('click',function(e){
   if(e.target===this) closeLightbox();
 });
-
 document.addEventListener('keydown',e=>{if(e.key==='Escape') closeLightbox();});
 
-/* ══════════════
-   STATS TOPBAR
-══════════════ */
 function updateStats(){
   const total = files.images.length + files.audio.length + files.video.length;
   document.getElementById('topbar-stats').innerHTML = `
@@ -943,9 +969,6 @@ function updateStats(){
   `;
 }
 
-/* ══════════════
-   TOAST
-══════════════ */
 function toast(msg, isWarn=false){
   const wrap = document.getElementById('toast-wrap');
   const el   = document.createElement('div');
