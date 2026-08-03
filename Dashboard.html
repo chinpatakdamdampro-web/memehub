@@ -8,7 +8,6 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
-/* ── RESET & TOKENS ── */
 *{margin:0;padding:0;box-sizing:border-box;}
 html{scroll-behavior:smooth;}
 
@@ -37,13 +36,11 @@ body{
   min-height:100vh;
 }
 
-/* ── SCROLLBAR ── */
 ::-webkit-scrollbar{width:8px;}
 ::-webkit-scrollbar-track{background:var(--black);}
 ::-webkit-scrollbar-thumb{background:var(--border-gold);border-radius:999px;}
 ::-webkit-scrollbar-thumb:hover{background:var(--gold-deep);}
 
-/* ── LOGIN SCREEN ── */
 #login-screen{
   display:flex;
   align-items:center;
@@ -69,12 +66,7 @@ body{
   text-align:center;
 }
 
-.login-icon{
-  width:54px;
-  height:54px;
-  margin:0 auto 16px;
-  color:var(--gold);
-}
+.login-icon{ width:54px; height:54px; margin:0 auto 16px; color:var(--gold); }
 
 .login-box h1{
   font-family:'Space Grotesk',sans-serif;
@@ -86,11 +78,7 @@ body{
   margin-bottom:8px;
 }
 
-.login-box p{
-  color:var(--text-muted);
-  font-size:.9rem;
-  margin-bottom:36px;
-}
+.login-box p{ color:var(--text-muted); font-size:.9rem; margin-bottom:36px; }
 
 .login-field input{
   width:100%;
@@ -104,10 +92,7 @@ body{
   margin-bottom:20px;
 }
 
-.login-field input:focus{
-  border-color:var(--gold-deep);
-  box-shadow:0 0 0 3px var(--gold-dim);
-}
+.login-field input:focus{ border-color:var(--gold-deep); box-shadow:0 0 0 3px var(--gold-dim); }
 
 .login-btn{
   width:100%;
@@ -124,29 +109,14 @@ body{
   box-shadow:0 0 20px rgba(255,215,0,.25);
 }
 
-.login-btn:hover{
-  transform:translateY(-1px);
-  box-shadow:0 0 32px rgba(255,215,0,.45);
-}
+.login-btn:hover{ transform:translateY(-1px); box-shadow:0 0 32px rgba(255,215,0,.45); }
 
-.login-error{
-  margin-top:16px;
-  color:var(--red);
-  font-size:.88rem;
-  min-height:20px;
-}
+.login-error{ margin-top:16px; color:var(--red); font-size:.88rem; min-height:20px; }
 
-.back-link{
-  display:inline-block;
-  margin-top:24px;
-  color:var(--text-muted);
-  font-size:.85rem;
-  text-decoration:none;
-}
-.back-link:hover{color:var(--gold);}
+.back-link{ display:inline-block; margin-top:24px; color:var(--text-muted); font-size:.85rem; text-decoration:none; }
+.back-link:hover{ color:var(--gold); }
 
-/* ── DASHBOARD ── */
-#dashboard{display:none;}
+#dashboard{ display:none; }
 
 .topbar{
   position:sticky;
@@ -172,11 +142,7 @@ body{
   color:var(--gold);
 }
 
-.topbar-right{
-  display:flex;
-  align-items:center;
-  gap:16px;
-}
+.topbar-right{ display:flex; align-items:center; gap:16px; }
 
 .main-site-btn{
   display:inline-flex;
@@ -193,15 +159,9 @@ body{
   transition:transform .2s, box-shadow .2s;
 }
 
-.main-site-btn:hover{
-  transform:translateY(-1px);
-  box-shadow:0 0 24px var(--aqua-glow);
-}
+.main-site-btn:hover{ transform:translateY(-1px); box-shadow:0 0 24px var(--aqua-glow); }
 
-.topbar-stats{
-  display:flex;
-  gap:12px;
-}
+.topbar-stats{ display:flex; gap:12px; }
 
 .stat-pill{
   display:flex;
@@ -225,15 +185,10 @@ body{
   font-size:.85rem;
   cursor:pointer;
 }
-.logout-btn:hover{border-color:var(--red);color:var(--red);}
+.logout-btn:hover{ border-color:var(--red); color:var(--red); }
 
-.dash-wrap{
-  width:min(1200px,95%);
-  margin:auto;
-  padding:48px 0 100px;
-}
+.dash-wrap{ width:min(1200px,95%); margin:auto; padding:48px 0 100px; }
 
-/* UPLOAD ZONE */
 .upload-section{
   background:var(--surface);
   border:2px dashed var(--border-gold);
@@ -246,10 +201,7 @@ body{
   transition:border-color .2s, background .2s;
 }
 
-.upload-section.drag-over{
-  border-color:var(--gold);
-  background:var(--gold-dim);
-}
+.upload-section.drag-over{ border-color:var(--gold); background:var(--gold-dim); }
 
 .upload-section input[type="file"]{
   position:absolute;
@@ -260,12 +212,7 @@ body{
   height:100%;
 }
 
-.upload-icon{
-  width:48px;
-  height:48px;
-  color:var(--gold);
-  margin-bottom:12px;
-}
+.upload-icon{ width:48px; height:48px; color:var(--gold); margin-bottom:12px; }
 
 .upload-section h2{
   font-family:'Space Grotesk',sans-serif;
@@ -275,33 +222,16 @@ body{
   margin-bottom:8px;
 }
 
-.upload-section p{
-  color:var(--text-muted);
-  font-size:.92rem;
-  line-height:1.5;
-}
+.upload-section p{ color:var(--text-muted); font-size:.92rem; line-height:1.5; }
 
-.file-types{
-  display:flex;
-  justify-content:center;
-  gap:8px;
-  margin-top:20px;
-  flex-wrap:wrap;
-}
+.file-types{ display:flex; justify-content:center; gap:8px; margin-top:20px; flex-wrap:wrap; }
 
-.type-tag{
-  padding:4px 12px;
-  border-radius:999px;
-  font-size:.75rem;
-  font-weight:700;
-  border:1px solid;
-}
-.type-tag.img{background:rgba(59,130,246,.12);border-color:rgba(59,130,246,.4);color:#93c5fd;}
-.type-tag.audio{background:rgba(168,85,247,.12);border-color:rgba(168,85,247,.4);color:#d8b4fe;}
-.type-tag.video{background:rgba(34,197,94,.12);border-color:rgba(34,197,94,.4);color:#86efac;}
+.type-tag{ padding:4px 12px; border-radius:999px; font-size:.75rem; font-weight:700; border:1px solid; }
+.type-tag.img{ background:rgba(59,130,246,.12); border-color:rgba(59,130,246,.4); color:#93c5fd; }
+.type-tag.audio{ background:rgba(168,85,247,.12); border-color:rgba(168,85,247,.4); color:#d8b4fe; }
+.type-tag.video{ background:rgba(34,197,94,.12); border-color:rgba(34,197,94,.4); color:#86efac; }
 
-/* CATEGORIES */
-.cat-section{margin-bottom:56px;}
+.cat-section{ margin-bottom:56px; }
 
 .cat-header{
   display:flex;
@@ -334,11 +264,7 @@ body{
   font-weight:700;
 }
 
-.media-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
-  gap:20px;
-}
+.media-grid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:20px; }
 
 .media-card{
   background:var(--surface);
@@ -348,10 +274,7 @@ body{
   transition:transform .2s, border-color .2s;
 }
 
-.media-card:hover{
-  transform:translateY(-3px);
-  border-color:var(--gold-deep);
-}
+.media-card:hover{ transform:translateY(-3px); border-color:var(--gold-deep); }
 
 .media-thumb, .media-thumb-video{
   width:100%;
@@ -423,7 +346,6 @@ body{
   font-size:.9rem;
 }
 
-/* MODAL PANEL */
 .modal-overlay{
   display:none;
   position:fixed;
@@ -444,19 +366,9 @@ body{
   padding:28px;
   box-shadow:0 0 30px rgba(0,0,0,0.8);
 }
-.modal-box h3{
-  font-family:'Space Grotesk',sans-serif;
-  font-size:1.3rem;
-  color:var(--gold);
-  margin-bottom:18px;
-}
+.modal-box h3{ font-family:'Space Grotesk',sans-serif; font-size:1.3rem; color:var(--gold); margin-bottom:18px; }
 .modal-field{ margin-bottom:16px; }
-.modal-field label{
-  display:block;
-  font-size:0.85rem;
-  color:var(--text-muted);
-  margin-bottom:6px;
-}
+.modal-field label{ display:block; font-size:0.85rem; color:var(--text-muted); margin-bottom:6px; }
 .modal-field input, .modal-field select{
   width:100%;
   padding:12px;
@@ -469,18 +381,10 @@ body{
 }
 .modal-field input:focus, .modal-field select:focus{ border-color:var(--gold); }
 .modal-actions{ display:flex; gap:12px; margin-top:24px; }
-.modal-btn{
-  flex:1;
-  padding:12px;
-  border-radius:8px;
-  border:none;
-  font-weight:700;
-  cursor:pointer;
-}
+.modal-btn{ flex:1; padding:12px; border-radius:8px; border:none; font-weight:700; cursor:pointer; }
 .modal-btn.cancel{ background:transparent; border:1px solid var(--border); color:var(--text-muted); }
 .modal-btn.confirm{ background:linear-gradient(135deg,var(--gold-deep),var(--gold)); color:#0d0d0d; }
 
-/* LIGHTBOX */
 #lightbox{
   display:none;
   position:fixed;
@@ -491,12 +395,8 @@ body{
   justify-content:center;
   padding:20px;
 }
-#lightbox.open{display:flex;}
-#lightbox img, #lightbox video{
-  max-width:90vw;
-  max-height:85vh;
-  border-radius:12px;
-}
+#lightbox.open{ display:flex; }
+#lightbox img, #lightbox video{ max-width:90vw; max-height:85vh; border-radius:12px; }
 #lightbox-close{
   position:absolute;
   top:20px;
@@ -511,7 +411,6 @@ body{
   cursor:pointer;
 }
 
-/* TOAST */
 .toast-wrap{
   position:fixed;
   bottom:28px;
@@ -538,7 +437,6 @@ body{
 </head>
 <body>
 
-<!-- LOGIN SCREEN -->
 <div id="login-screen">
   <div class="login-box">
     <svg class="login-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -555,7 +453,6 @@ body{
   </div>
 </div>
 
-<!-- DASHBOARD -->
 <div id="dashboard">
   <div class="topbar">
     <div class="topbar-brand">
@@ -578,7 +475,6 @@ body{
   </div>
 
   <div class="dash-wrap">
-    <!-- UPLOAD ZONE -->
     <div class="upload-section" id="drop-zone">
       <input type="file" id="file-input" multiple accept="image/*,video/mp4,video/webm,audio/mpeg,audio/mp3,audio/wav,audio/ogg,.gif,.webp">
       <svg class="upload-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -599,7 +495,6 @@ body{
       </div>
     </div>
 
-    <!-- IMAGES & GIFs -->
     <div class="cat-section">
       <div class="cat-header">
         <div class="cat-title">
@@ -615,7 +510,6 @@ body{
       <div class="media-grid" id="grid-images"></div>
     </div>
 
-    <!-- AUDIO -->
     <div class="cat-section">
       <div class="cat-header">
         <div class="cat-title">
@@ -631,7 +525,6 @@ body{
       <div class="media-grid" id="grid-audio"></div>
     </div>
 
-    <!-- VIDEO -->
     <div class="cat-section">
       <div class="cat-header">
         <div class="cat-title">
@@ -650,13 +543,12 @@ body{
   </div>
 </div>
 
-<!-- UPLOAD MODAL PANEL -->
 <div class="modal-overlay" id="upload-modal">
   <div class="modal-box">
     <h3>Set Meme Details</h3>
     <div class="modal-field">
       <label>Meme Display Name</label>
-      <input type="text" id="modal-name-input" placeholder="e.g. funny_pikachu.gif">
+      <input type="text" id="modal-name-input" placeholder="e.g. funny_pikachu">
     </div>
     <div class="modal-field">
       <label>Category</label>
@@ -673,14 +565,12 @@ body{
   </div>
 </div>
 
-<!-- LIGHTBOX -->
 <div id="lightbox">
   <button id="lightbox-close" onclick="closeLightbox()">✕</button>
   <img id="lb-img" src="" style="display:none;">
   <video id="lb-vid" controls style="display:none;"></video>
 </div>
 
-<!-- TOAST CONTAINER -->
 <div class="toast-wrap" id="toast-wrap"></div>
 
 <script>
@@ -693,14 +583,12 @@ let pendingQueue = [];
 let currentPendingIndex = 0;
 let fallbackAuth = false;
 
-// SAFE STORAGE WRAPPERS
 function safeSetSession(k, v){ try{ sessionStorage.setItem(k, v); }catch(e){ fallbackAuth = true; } }
 function safeGetSession(k){ try{ return sessionStorage.getItem(k); }catch(e){ return fallbackAuth ? 'authenticated' : null; } }
 function safeRemoveSession(k){ try{ sessionStorage.removeItem(k); }catch(e){} fallbackAuth = false; }
 function safeSetLocal(k, v){ try{ localStorage.setItem(k, v); return true; }catch(e){ return false; } }
 function safeGetLocal(k){ try{ return localStorage.getItem(k); }catch(e){ return null; } }
 
-// HTML STRING ESCAPING
 function esc(s){
   if(!s) return '';
   return String(s)
@@ -710,26 +598,28 @@ function esc(s){
     .replace(/>/g, '&gt;');
 }
 
-// FILE EXTENSION DETECTOR
-function getFileExtension(file) {
-  if (file.name && file.name.includes('.')) {
-    const ext = file.name.split('.').pop().toLowerCase();
-    if (ext && ext.length <= 5) return '.' + ext;
+/* ADVANCED MOBILE GALLERY DETECTOR (MAGIC-BYTES BASED) */
+function detectMimeAndExtension(dataUrl, fileCat) {
+  if (!dataUrl || !dataUrl.includes(',')) {
+    return { mime: 'image/png', ext: '.png' };
   }
-  const t = (file.type || '').toLowerCase();
-  if (t.includes('png')) return '.png';
-  if (t.includes('jpeg') || t.includes('jpg')) return '.jpg';
-  if (t.includes('gif')) return '.gif';
-  if (t.includes('webp')) return '.webp';
-  if (t.includes('mp3')) return '.mp3';
-  if (t.includes('wav')) return '.wav';
-  if (t.includes('ogg')) return '.ogg';
-  if (t.includes('mp4')) return '.mp4';
-  if (t.includes('webm')) return '.webm';
-  return '';
+
+  const base64Part = dataUrl.split(',')[1].slice(0, 30);
+
+  // Check binary magic byte signatures in base64
+  if (base64Part.startsWith('/9j/')) return { mime: 'image/jpeg', ext: '.jpg' };
+  if (base64Part.startsWith('iVBORw0KGgo')) return { mime: 'image/png', ext: '.png' };
+  if (base64Part.startsWith('R0lGOD')) return { mime: 'image/gif', ext: '.gif' };
+  if (base64Part.startsWith('UklGR')) return { mime: 'image/webp', ext: '.webp' };
+  if (base64Part.startsWith('SUQz') || base64Part.startsWith('//O3') || base64Part.startsWith('//u3')) return { mime: 'audio/mpeg', ext: '.mp3' };
+  if (base64Part.startsWith('AAAAIGZ0eXA') || base64Part.startsWith('AAAAFGZ0eXA')) return { mime: 'video/mp4', ext: '.mp4' };
+
+  // Category Fallbacks
+  if (fileCat === 'audio') return { mime: 'audio/mpeg', ext: '.mp3' };
+  if (fileCat === 'video') return { mime: 'video/mp4', ext: '.mp4' };
+  return { mime: 'image/png', ext: '.png' };
 }
 
-// AUTHENTICATION
 function initAuth(){
   if(safeGetSession(SESSION_KEY) === 'authenticated'){
     showDashboard();
@@ -774,11 +664,10 @@ function logout(){
   if(inputEl) inputEl.value = '';
 }
 
-// LOAD & SAVE
 function saveFiles(){
   const success = safeSetLocal(STORAGE_KEY, JSON.stringify(files));
   if(!success){
-    toast('⚠️ Storage limit reached or browser blocked storage!', true);
+    toast('⚠️ Storage limit reached!', true);
   }
 }
 
@@ -799,26 +688,18 @@ function loadFiles(){
   renderAll();
 }
 
-// FILE CATEGORIZATION
-const ALLOWED = {
-  image: ['image/png','image/jpeg','image/jpg','image/gif','image/webp','image/bmp'],
-  audio: ['audio/mpeg','audio/mp3','audio/ogg','audio/wav','audio/flac','audio/aac'],
-  video: ['video/mp4','video/webm','video/ogg','video/quicktime']
-};
-
 function getCategory(file){
-  const t = file.type.toLowerCase();
-  if(ALLOWED.image.includes(t)) return 'images';
-  if(ALLOWED.audio.includes(t)) return 'audio';
-  if(ALLOWED.video.includes(t)) return 'video';
-  const ext = file.name.split('.').pop().toLowerCase();
+  const t = (file.type || '').toLowerCase();
+  if(t.startsWith('image/')) return 'images';
+  if(t.startsWith('audio/')) return 'audio';
+  if(t.startsWith('video/')) return 'video';
+  const ext = (file.name || '').split('.').pop().toLowerCase();
   if(['png','jpg','jpeg','gif','webp','bmp'].includes(ext)) return 'images';
   if(['mp3','ogg','wav','flac','aac'].includes(ext)) return 'audio';
-  if(['mp4','webm'].includes(ext)) return 'video';
-  return null;
+  if(['mp4','webm','mov'].includes(ext)) return 'video';
+  return 'images';
 }
 
-// UPLOAD HANDLERS
 const dropZone = document.getElementById('drop-zone');
 const fileInput = document.getElementById('file-input');
 
@@ -840,12 +721,17 @@ async function handleFiles(rawFiles){
   pendingQueue = [];
   for(let f of rawFiles){
     const cat = getCategory(f);
-    if(cat){
-      const dataUrl = await readFile(f);
-      pendingQueue.push({ file: f, dataUrl, cat });
+    const dataUrl = await readFile(f);
+    
+    // Auto-clean mobile gallery names (e.g. image:100234)
+    let cleanName = f.name || 'meme';
+    if(cleanName.includes(':') || cleanName.startsWith('picker') || cleanName.startsWith('image')) {
+      cleanName = 'meme_' + Math.floor(Math.random() * 1000);
     } else {
-      toast(`❌ Unsupported format: ${f.name}`, true);
+      cleanName = cleanName.replace(/\.[^/.]+$/, ""); // strip existing ext
     }
+
+    pendingQueue.push({ rawFile: f, cleanName, dataUrl, cat });
   }
   
   if(pendingQueue.length > 0){
@@ -864,7 +750,7 @@ function showUploadModal(){
     return;
   }
   const item = pendingQueue[currentPendingIndex];
-  document.getElementById('modal-name-input').value = item.file.name;
+  document.getElementById('modal-name-input').value = item.cleanName;
   document.getElementById('modal-cat-select').value = item.cat;
   document.getElementById('upload-modal').classList.add('open');
 }
@@ -879,24 +765,24 @@ function confirmUpload(){
     return;
   }
 
-  // Preserve or attach correct file extension
-  const ext = getFileExtension(item.file);
-  if (ext && !customName.toLowerCase().endsWith(ext)) {
-    customName = customName.replace(/\.+$/, '') + ext;
-  }
+  // Detect real extension & MIME even if Mobile Gallery gave generic binary data
+  const meta = detectMimeAndExtension(item.dataUrl, selectedCat);
 
-  // Normalize Data URL MIME Header
-  let dataUrl = item.dataUrl;
-  if (dataUrl.startsWith('data:application/octet-stream') || dataUrl.startsWith('data:;')) {
-    const mime = item.file.type || (selectedCat === 'images' ? 'image/png' : selectedCat === 'audio' ? 'audio/mpeg' : 'video/mp4');
-    dataUrl = dataUrl.replace(/^data:[^;]*/, 'data:' + mime);
+  // Strip trailing dots or wrong extensions and attach true extension
+  customName = customName.replace(/\.[^/.]+$/, "");
+  customName = customName + meta.ext;
+
+  // Repair Data URL Base64 MIME header
+  let repairedDataUrl = item.dataUrl;
+  if (!repairedDataUrl.startsWith(`data:${meta.mime}`)) {
+    repairedDataUrl = repairedDataUrl.replace(/^data:[^;]*/, `data:${meta.mime}`);
   }
 
   const entry = {
     id: Date.now() + '-' + Math.random().toString(36).slice(2),
     name: customName,
-    type: item.file.type || selectedCat,
-    data: dataUrl,
+    type: meta.mime,
+    data: repairedDataUrl,
     cat: selectedCat,
     added: new Date().toLocaleDateString()
   };
@@ -920,7 +806,6 @@ function readFile(f){
   });
 }
 
-// PROGRAMMATIC DOWNLOAD HANDLER (Forces Exact Name & Extension)
 function triggerDownload(id, dataKey){
   const f = (files[dataKey] || []).find(x => x.id === id);
   if(!f) return;
@@ -955,9 +840,8 @@ function triggerDownload(id, dataKey){
   }
 }
 
-// RENDERERS
 function renderAll(){
-  renderCategory('images', 'images', 'No images or GIFs uploaded yet');
+  renderCategory('images', 'images', 'No images uploaded yet');
   renderCategory('audio',  'audio',  'No audio files uploaded yet');
   renderCategory('video',  'video',  'No videos uploaded yet');
   updateStats();
@@ -1073,7 +957,6 @@ function toast(msg, isWarn=false){
   setTimeout(() => el.remove(), 3000);
 }
 
-// INITIALIZE ON LOAD
 window.addEventListener('DOMContentLoaded', initAuth);
 </script>
 </body>
