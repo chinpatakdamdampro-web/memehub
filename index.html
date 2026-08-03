@@ -5,11 +5,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>MemeHub 🍆 ✋</title>
+<title>MemeHub 🍆✋</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
 <style>
 
@@ -19,141 +19,208 @@
     box-sizing:border-box;
 }
 
+html{
+    scroll-behavior:smooth;
+}
+
 body{
 
     font-family:'Inter',sans-serif;
-
     background:#0d1117;
-
     color:#e6edf3;
 
 }
 
+::-webkit-scrollbar{
+    width:10px;
+}
+
+::-webkit-scrollbar-thumb{
+    background:#30363d;
+    border-radius:999px;
+}
+
+::-webkit-scrollbar-thumb:hover{
+    background:#484f58;
+}
+
 .container{
 
-    width:min(920px,95%);
+    width:min(1080px,95%);
     margin:auto;
-
-    padding:60px 0;
+    padding:60px 0 80px;
 
 }
 
 header{
 
     text-align:center;
-    margin-bottom:55px;
+    margin-bottom:60px;
 
 }
 
 header h1{
 
-    font-size:3rem;
-    font-weight:700;
+    font-size:3.2rem;
     color:white;
+    font-weight:800;
+    letter-spacing:-1px;
 
 }
 
 header p{
 
     color:#8b949e;
-    margin-top:10px;
-    font-size:1rem;
+    margin-top:12px;
+    font-size:1.05rem;
+
+}
+
+.section-title{
+
+    text-align:center;
+    font-size:2rem;
+    font-weight:700;
+    color:white;
+    margin:130px 0 45px;
 
 }
 
 .card{
 
     background:#161b22;
-
     border:1px solid #30363d;
-
     border-radius:18px;
-
-    padding:28px;
-
-    margin-bottom:50px;
-
-    transition:.25s;
-
-    box-shadow:
-        0 12px 30px rgba(0,0,0,.45);
+    overflow:hidden;
+    margin-bottom:35px;
+    transition:.2s;
+    box-shadow:0 10px 30px rgba(0,0,0,.35);
 
 }
 
 .card:hover{
 
-    transform:translateY(-4px);
-
+    transform:translateY(-3px);
     border-color:#58a6ff;
 
     box-shadow:
-        0 0 0 1px rgba(88,166,255,.15),
-        0 18px 45px rgba(0,0,0,.55);
+    0 0 0 1px rgba(88,166,255,.15),
+    0 15px 40px rgba(0,0,0,.45);
 
 }
 
-.card h2{
+.card-header{
 
-    text-align:center;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:20px 24px;
+    border-bottom:1px solid #30363d;
 
+}
+
+.filename{
+
+    font-size:1.3rem;
+    font-weight:700;
     color:white;
 
-    margin-bottom:28px;
+}
 
-    font-size:1.8rem;
+.badge{
 
-    font-weight:600;
+    background:#1f6feb;
+    color:white;
+    padding:6px 13px;
+    border-radius:999px;
+    font-size:.82rem;
+    font-weight:700;
 
 }
 
-.image-box{
+.preview{
 
+    width:72%;
+    margin:30px auto;
     background:#000;
-
-    border:3px solid #000;
-
-    border-radius:14px;
-
+    border:2px solid #000;
+    border-radius:12px;
     overflow:hidden;
 
 }
 
-.image-box img{
+.preview img{
 
     width:100%;
-
     display:block;
 
 }
 
 .description{
 
-    margin-top:25px;
-
-    line-height:1.7;
-
-    color:#b8c1cc;
-
-    font-size:1rem;
+    margin:0 28px 28px;
+    background:#0d1117;
+    border:1px solid #30363d;
+    border-left:5px solid #58a6ff;
+    border-radius:12px;
+    padding:22px;
 
 }
 
 .description h3{
 
     color:#58a6ff;
+    margin-bottom:14px;
 
-    margin-bottom:10px;
+}
+
+.description p{
+
+    color:#c9d1d9;
+    line-height:1.8;
+
+}
+
+.audio-card{
+
+    background:#161b22;
+    border:1px solid #30363d;
+    border-radius:18px;
+    padding:35px;
+    text-align:center;
+    transition:.2s;
+    box-shadow:0 10px 30px rgba(0,0,0,.35);
+
+}
+
+.audio-card:hover{
+
+    transform:translateY(-3px);
+    border-color:#58a6ff;
+
+}
+
+.audio-card h2{
+
+    font-size:2rem;
+    color:white;
+    margin-bottom:30px;
+
+}
+
+audio{
+
+    width:100%;
+    max-width:700px;
+    filter:invert(.92);
 
 }
 
 footer{
 
-    text-align:center;
-
     margin-top:70px;
-
+    text-align:center;
     color:#6e7681;
-
     font-size:.9rem;
 
 }
@@ -168,19 +235,27 @@ footer{
 
 <header>
 
-<h1>MemeHub</h1>
+<h1>📚 MemeHub</h1>
 
-<p>The official encyclopedia of high quality memes.</p>
+<p>The official hub of egangstas And uh mfs with no lifes and jobs</p>
 
 </header>
 
+<!-- it_work -->
+
 <div class="card">
 
-<h2>it_work.png</h2>
+<div class="card-header">
 
-<div class="image-box">
+<div class="filename">📄 it_work.png</div>
 
-<img src="it_work.png" alt="it_work">
+<div class="badge">IMAGE</div>
+
+</div>
+
+<div class="preview">
+
+<img src="it_work.png">
 
 </div>
 
@@ -193,6 +268,64 @@ so to use the meme you need to add it_work.png behind https://memehub-708.pages.
 </p>
 
 </div>
+
+</div>
+
+<!-- best_mistake -->
+
+<div class="card">
+
+<div class="card-header">
+
+<div class="filename">📄 best_mistake.png</div>
+
+<div class="badge">IMAGE</div>
+
+</div>
+
+<div class="preview">
+
+<img src="best_mistake.png">
+
+</div>
+
+</div>
+
+<!-- the_darksystem -->
+
+<div class="card">
+
+<div class="card-header">
+
+<div class="filename">📄 the_darksystem.png</div>
+
+<div class="badge">IMAGE</div>
+
+</div>
+
+<div class="preview">
+
+<img src="the_darksystem.png">
+
+</div>
+
+</div>
+
+<div style="height:220px;"></div>
+
+<h1 class="section-title">Mp3 collection 🎵</h1>
+
+<div class="audio-card">
+
+<h2>tiki_mp3</h2>
+
+<audio controls>
+
+<source src="tiki_mp3.mp3" type="audio/mpeg">
+
+Your browser does not support the audio element.
+
+</audio>
 
 </div>
 
