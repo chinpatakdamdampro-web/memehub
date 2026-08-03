@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>MemeHub</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+
+    font-family:'Inter',sans-serif;
+
+    background:#0d1117;
+
+    color:#e6edf3;
+
+}
+
+.container{
+
+    width:min(920px,95%);
+    margin:auto;
+
+    padding:60px 0;
+
+}
+
+header{
+
+    text-align:center;
+    margin-bottom:55px;
+
+}
+
+header h1{
+
+    font-size:3rem;
+    font-weight:700;
+    color:white;
+
+}
+
+header p{
+
+    color:#8b949e;
+    margin-top:10px;
+    font-size:1rem;
+
+}
+
+.card{
+
+    background:#161b22;
+
+    border:1px solid #30363d;
+
+    border-radius:18px;
+
+    padding:28px;
+
+    margin-bottom:50px;
+
+    transition:.25s;
+
+    box-shadow:
+        0 12px 30px rgba(0,0,0,.45);
+
+}
+
+.card:hover{
+
+    transform:translateY(-4px);
+
+    border-color:#58a6ff;
+
+    box-shadow:
+        0 0 0 1px rgba(88,166,255,.15),
+        0 18px 45px rgba(0,0,0,.55);
+
+}
+
+.card h2{
+
+    text-align:center;
+
+    color:white;
+
+    margin-bottom:28px;
+
+    font-size:1.8rem;
+
+    font-weight:600;
+
+}
+
+.image-box{
+
+    background:#000;
+
+    border:3px solid #000;
+
+    border-radius:14px;
+
+    overflow:hidden;
+
+}
+
+.image-box img{
+
+    width:100%;
+
+    display:block;
+
+}
+
+.description{
+
+    margin-top:25px;
+
+    line-height:1.7;
+
+    color:#b8c1cc;
+
+    font-size:1rem;
+
+}
+
+.description h3{
+
+    color:#58a6ff;
+
+    margin-bottom:10px;
+
+}
+
+footer{
+
+    text-align:center;
+
+    margin-top:70px;
+
+    color:#6e7681;
+
+    font-size:.9rem;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<header>
+
+<h1>MemeHub</h1>
+
+<p>The official encyclopedia of high quality memes.</p>
+
+</header>
+
+<div class="card">
+
+<h2>it_work.png</h2>
+
+<div class="image-box">
+
+<img src="it_work.png" alt="it_work">
+
+</div>
+
+<div class="description">
+
+<h3>📖 Tutorial</h3>
+
+<p>
+Use this meme whenever something works for absolutely no reason,
+especially after changing nothing or after trying the same thing five
+times.
+</p>
+
+</div>
+
+</div>
+
+<footer>
+
+Made with questionable decisions.
+
+</footer>
+
+</div>
+
+</body>
+
+</html>
