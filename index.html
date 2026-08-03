@@ -93,14 +93,13 @@ transform:translateY(0);
 .dashboard-btn .icon{
 font-size:1.2rem;
 }
-/* ── END GOLD BUTTON ── */
 
 .section-title{
 text-align:center;
 font-size:2rem;
 font-weight:700;
 color:white;
-margin:130px 0 45px;
+margin:60px 0 45px;
 }
 .card{
 background:#161b22;
@@ -145,9 +144,15 @@ background:#000;
 border:2px solid #000;
 border-radius:12px;
 overflow:hidden;
+max-height: 500px;
+display: flex;
+align-items: center;
+justify-content: center;
 }
-.preview img{
+.preview img, .preview video{
 width:100%;
+max-height: 500px;
+object-fit: contain;
 display:block;
 }
 .description{
@@ -174,6 +179,7 @@ padding:35px;
 text-align:center;
 transition:.2s;
 box-shadow:0 10px 30px rgba(0,0,0,.35);
+margin-bottom:24px;
 }
 .audio-card:hover{
 transform:translateY(-3px);
@@ -188,6 +194,16 @@ audio{
 width:100%;
 max-width:700px;
 filter:invert(.92);
+}
+.download-btn{
+display:inline-block;
+padding:10px 20px;
+background:#1f6feb;
+color:white;
+border-radius:8px;
+text-decoration:none;
+font-weight:600;
+margin-top:10px;
 }
 footer{
 margin-top:70px;
@@ -210,108 +226,181 @@ Admin Dashboard
 </div>
 </header>
 
-<!-- it_work -->
-<div class="card">
-<div class="card-header">
-<div class="filename">📄 it_work.png</div>
-<div class="badge">IMAGE</div>
-</div>
-<div class="preview">
-<img src="it_work.png">
-</div>
-<div class="description">
-<h3>📖 Tutorial</h3>
-<p>
-so to use the meme you need to add it_work.png behind https://memehub-708.pages.dev/ its just that simple. all the names of the memes are above their respective images And uh thats all
-</p>
-</div>
+<!-- IMAGES SECTION -->
+<div id="image-container">
+  <!-- Static Memes -->
+  <div class="card">
+    <div class="card-header">
+      <div class="filename">📄 it_work.png</div>
+      <div class="badge">IMAGE</div>
+    </div>
+    <div class="preview">
+      <img src="it_work.png">
+    </div>
+    <div class="description">
+      <h3>📖 Tutorial</h3>
+      <p>so to use the meme you need to add it_work.png behind https://memehub-708.pages.dev/ its just that simple. all the names of the memes are above their respective images And uh thats all</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="filename">📄 best_mistake.png</div>
+      <div class="badge">IMAGE</div>
+    </div>
+    <div class="preview">
+      <img src="best_mistake.png">
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="filename">📄 skull_bro.png</div>
+      <div class="badge">IMAGE</div>
+    </div>
+    <div class="preview">
+      <img src="skull_bro.png">
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="filename">📄 epstein.gif</div>
+      <div class="badge">IMAGE</div>
+    </div>
+    <div class="preview">
+      <img src="epstein.gif">
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="filename">📄 kill_member.png</div>
+      <div class="badge">IMAGE</div>
+    </div>
+    <div class="preview">
+      <img src="kill_member.png">
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="filename">📄 crack_meme.jpg</div>
+      <div class="badge">IMAGE</div>
+    </div>
+    <div class="preview">
+      <img src="crack_meme.jpg">
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="filename">📄 the_darksystem.png</div>
+      <div class="badge">IMAGE</div>
+    </div>
+    <div class="preview">
+      <img src="the_darksystem.png">
+    </div>
+  </div>
 </div>
 
-<!-- best_mistake -->
-<div class="card">
-<div class="card-header">
-<div class="filename">📄 best_mistake.png</div>
-<div class="badge">IMAGE</div>
-</div>
-<div class="preview">
-<img src="best_mistake.png">
-</div>
+<!-- VIDEOS SECTION -->
+<div id="video-wrapper" style="display:none;">
+  <h1 class="section-title">Video collection 🎬</h1>
+  <div id="video-container"></div>
 </div>
 
-<!-- skull_bro -->
-<div class="card">
-<div class="card-header">
-<div class="filename">📄 skull_bro.png</div>
-<div class="badge">IMAGE</div>
-</div>
-<div class="preview">
-<img src="skull_bro.png">
-</div>
-</div>
-
-<!-- epstein_png -->
-<div class="card">
-<div class="card-header">
-<div class="filename">📄 epstein.gif</div>
-<div class="badge">IMAGE</div>
-</div>
-<div class="preview">
-<img src="epstein.gif">
-</div>
-</div>
-
-<!-- skull -->
-<div class="card">
-<div class="card-header">
-<div class="filename">📄 kill_member.png</div>
-<div class="badge">IMAGE</div>
-</div>
-<div class="preview">
-<img src="kill_member.png">
-</div>
-</div>
-
-<!-- crack -->
-<div class="card">
-<div class="card-header">
-<div class="filename">📄 crack_meme.jpg</div>
-<div class="badge">IMAGE</div>
-</div>
-<div class="preview">
-<img src="crack_meme.jpg">
-</div>
-</div>
-
-<!-- the_darksystem -->
-<div class="card">
-<div class="card-header">
-<div class="filename">📄 the_darksystem.png</div>
-<div class="badge">IMAGE</div>
-</div>
-<div class="preview">
-<img src="the_darksystem.png">
-</div>
-</div>
-
-<div style="height:220px;"></div>
-
+<!-- AUDIO SECTION -->
 <h1 class="section-title">Mp3 collection 🎵</h1>
 
-<div class="audio-card">
-<h2>tiki_mp3</h2>
-<audio controls>
-<source src="tiki.mp3" type="audio/mpeg">
-Your browser does not support the audio element.
-</audio>
-<br><br>
-<a class="download-btn" href="tiki.mp3" download>
-⬇ Download MP3
-</a>
+<div id="audio-container">
+  <div class="audio-card">
+    <h2>tiki_mp3</h2>
+    <audio controls>
+      <source src="tiki.mp3" type="audio/mpeg">
+      Your browser does not support the audio element.
+    </audio>
+    <br><br>
+    <a class="download-btn" href="tiki.mp3" download>⬇ Download MP3</a>
+  </div>
 </div>
 
 <footer>
 Workd myself down to the bwone!~
 </footer>
 </div>
+
+<script>
+const STORAGE_KEY = 'memehub_files_v1';
+
+function esc(s){ return s.replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+function loadUploadedMemes() {
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (!saved) return;
+    const files = JSON.parse(saved);
+
+    // Render Images
+    const imgContainer = document.getElementById('image-container');
+    (files.images || []).forEach(item => {
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.innerHTML = `
+        <div class="card-header">
+          <div class="filename">📄 ${esc(item.name)}</div>
+          <div class="badge">IMAGE</div>
+        </div>
+        <div class="preview">
+          <img src="${item.data}">
+        </div>
+      `;
+      imgContainer.appendChild(card);
+    });
+
+    // Render Videos
+    if (files.video && files.video.length > 0) {
+      document.getElementById('video-wrapper').style.display = 'block';
+      const vidContainer = document.getElementById('video-container');
+      files.video.forEach(item => {
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.innerHTML = `
+          <div class="card-header">
+            <div class="filename">🎬 ${esc(item.name)}</div>
+            <div class="badge" style="background:#22c55e;">VIDEO</div>
+          </div>
+          <div class="preview">
+            <video controls src="${item.data}"></video>
+          </div>
+        `;
+        vidContainer.appendChild(card);
+      });
+    }
+
+    // Render Audio
+    const audioContainer = document.getElementById('audio-container');
+    (files.audio || []).forEach(item => {
+      const card = document.createElement('div');
+      card.className = 'audio-card';
+      card.innerHTML = `
+        <h2>${esc(item.name)}</h2>
+        <audio controls>
+          <source src="${item.data}">
+          Your browser does not support the audio element.
+        </audio>
+        <br><br>
+        <a class="download-btn" href="${item.data}" download="${esc(item.name)}">⬇ Download Audio</a>
+      `;
+      audioContainer.appendChild(card);
+    });
+
+  } catch(e) {
+    console.error("Could not load local uploaded memes", e);
+  }
+}
+
+document.addEventListener('DOMContentLoaded', loadUploadedMemes);
+</script>
 </body>
 </html>
