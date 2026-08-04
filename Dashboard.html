@@ -712,7 +712,7 @@ const SITE_URL      = 'https://memehub-708.pages.dev';
 // ═══════════════════════════════════════════════════════
 //  AUTH — password to get into the dashboard
 // ═══════════════════════════════════════════════════════
-const PASSWORD = 'memehub2025'; // ← change this to whatever you want
+const PASSWORD = 'Larper68920DkLpOeR';
 
 // ═══════════════════════════════════════════════════════
 //  BOOT — fetch token from Pages Function before anything
@@ -956,10 +956,13 @@ async function saveFile() {
 
     // Save metadata to localStorage for the inventory list
     var files = [];
-    try { files = JSON.parse(localStorage.getItem('memehub_files_v1') || '[]'); }
-    catch(e) { files = []; }
+    try {
+      var parsed = JSON.parse(localStorage.getItem('memehub_files_v1') || '[]');
+      // Guard: parsed must be an array or we discard it
+      files = Array.isArray(parsed) ? parsed : [];
+    } catch(e) { files = []; }
     // Remove any old entry with same name to avoid duplicates
-    files = files.filter(function(f){ return f.name !== safeName; });
+    files = files.filter(function(f){ return f && f.name !== safeName; });
     files.push({
       id: Date.now(),
       name: safeName,
@@ -1011,8 +1014,10 @@ function clearForm() {
 // ═══════════════════════════════════════════════════════
 function renderFileList() {
   var files = [];
-  try { files = JSON.parse(localStorage.getItem('memehub_files_v1') || '[]'); }
-  catch(e) { files = []; }
+  try {
+    var parsed = JSON.parse(localStorage.getItem('memehub_files_v1') || '[]');
+    files = Array.isArray(parsed) ? parsed : [];
+  } catch(e) { files = []; }
 
   var body = document.getElementById('file-list-body');
   body.innerHTML = '';
@@ -1074,11 +1079,13 @@ async function deleteFile(id) {
   if (!confirm('* delete this meme? *\nthis removes it from github too. cannot be undone.')) return;
 
   var files = [];
-  try { files = JSON.parse(localStorage.getItem('memehub_files_v1') || '[]'); }
-  catch(e) { files = []; }
+  try {
+    var parsed = JSON.parse(localStorage.getItem('memehub_files_v1') || '[]');
+    files = Array.isArray(parsed) ? parsed : [];
+  } catch(e) { files = []; }
 
-  var target = files.find(function(f) { return f.id === id; });
-  files = files.filter(function(f) { return f.id !== id; });
+  var target = files.find(function(f) { return f && f.id === id; });
+  files = files.filter(function(f) { return f && f.id !== id; });
   try { localStorage.setItem('memehub_files_v1', JSON.stringify(files)); }
   catch(e) {}
   renderFileList();
