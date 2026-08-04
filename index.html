@@ -51,55 +51,12 @@ color:#8b949e;
 margin-top:12px;
 font-size:1.05rem;
 }
-
-/* ── GOLD DASHBOARD BUTTON ── */
-.dashboard-btn-wrap{
-display:flex;
-justify-content:center;
-margin-top:28px;
-}
-.dashboard-btn{
-display:inline-flex;
-align-items:center;
-gap:10px;
-padding:14px 32px;
-background:linear-gradient(135deg,#b8860b 0%,#ffd700 45%,#b8860b 100%);
-background-size:200% 200%;
-color:#0d0d0d;
-font-family:'Inter',sans-serif;
-font-size:1rem;
-font-weight:800;
-letter-spacing:.5px;
-border:none;
-border-radius:12px;
-cursor:pointer;
-text-decoration:none;
-box-shadow:
-0 0 18px rgba(255,215,0,.35),
-0 4px 20px rgba(0,0,0,.5);
-transition:transform .2s, box-shadow .2s, background-position .4s;
-background-position:left center;
-}
-.dashboard-btn:hover{
-transform:translateY(-2px);
-background-position:right center;
-box-shadow:
-0 0 30px rgba(255,215,0,.55),
-0 8px 28px rgba(0,0,0,.6);
-}
-.dashboard-btn:active{
-transform:translateY(0);
-}
-.dashboard-btn .icon{
-font-size:1.2rem;
-}
-
 .section-title{
 text-align:center;
 font-size:2rem;
 font-weight:700;
 color:white;
-margin:60px 0 45px;
+margin:130px 0 45px;
 }
 .card{
 background:#161b22;
@@ -128,10 +85,6 @@ border-bottom:1px solid #30363d;
 font-size:1.3rem;
 font-weight:700;
 color:white;
-white-space:nowrap;
-overflow:hidden;
-text-overflow:ellipsis;
-max-width:80%;
 }
 .badge{
 background:#1f6feb;
@@ -148,15 +101,13 @@ background:#000;
 border:2px solid #000;
 border-radius:12px;
 overflow:hidden;
-max-height: 500px;
-display: flex;
-align-items: center;
-justify-content: center;
 }
-.preview img, .preview video{
+.preview img{
 width:100%;
-max-height: 500px;
-object-fit: contain;
+display:block;
+}
+.preview video{
+width:100%;
 display:block;
 }
 .description{
@@ -183,7 +134,6 @@ padding:35px;
 text-align:center;
 transition:.2s;
 box-shadow:0 10px 30px rgba(0,0,0,.35);
-margin-bottom:24px;
 }
 .audio-card:hover{
 transform:translateY(-3px);
@@ -193,37 +143,34 @@ border-color:#58a6ff;
 font-size:2rem;
 color:white;
 margin-bottom:30px;
-white-space:nowrap;
-overflow:hidden;
-text-overflow:ellipsis;
 }
 audio{
 width:100%;
 max-width:700px;
 filter:invert(.92);
 }
-.download-btn{
-display:inline-block;
-padding:10px 20px;
-background:#1f6feb;
-color:white;
-border-radius:8px;
-text-decoration:none;
-font-weight:600;
-margin-top:10px;
-border:none;
-font-family:inherit;
-font-size:1rem;
-cursor:pointer;
-}
-.download-btn:hover{
-background:#388bfd;
-}
 footer{
 margin-top:70px;
 text-align:center;
 color:#6e7681;
 font-size:.9rem;
+}
+.download-btn{
+display:inline-block;
+margin-top:18px;
+background:#238636;
+color:white;
+padding:10px 24px;
+border-radius:8px;
+font-weight:700;
+font-size:.95rem;
+text-decoration:none;
+border:none;
+cursor:pointer;
+transition:.2s;
+}
+.download-btn:hover{
+background:#2ea043;
 }
 </style>
 </head>
@@ -232,111 +179,121 @@ font-size:.9rem;
 <header>
 <h1>📚 MemeHub</h1>
 <p>The official hub of egangstas And uh mfs with no lifes and jobs</p>
-<div class="dashboard-btn-wrap">
-<a class="dashboard-btn" href="Dashboard.html">
-<span class="icon">👑</span>
-Admin Dashboard
-</a>
-</div>
 </header>
 
-<!-- IMAGES SECTION -->
-<div id="image-container">
-  <div class="card">
-    <div class="card-header">
-      <div class="filename">📄 it_work.png</div>
-      <div class="badge">IMAGE</div>
-    </div>
-    <div class="preview">
-      <img src="it_work.png">
-    </div>
-    <div class="description">
-      <h3>📖 Tutorial</h3>
-      <p>so to use the meme you need to add it_work.png behind https://memehub-708.pages.dev/ its just that simple. all the names of the memes are above their respective images And uh thats all</p>
-    </div>
-  </div>
+<!-- ═══════════════════════════════════════════
+     HARDCODED MEMES (original, untouched)
+═══════════════════════════════════════════ -->
 
-  <div class="card">
-    <div class="card-header">
-      <div class="filename">📄 best_mistake.png</div>
-      <div class="badge">IMAGE</div>
-    </div>
-    <div class="preview">
-      <img src="best_mistake.png">
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-header">
-      <div class="filename">📄 skull_bro.png</div>
-      <div class="badge">IMAGE</div>
-    </div>
-    <div class="preview">
-      <img src="skull_bro.png">
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-header">
-      <div class="filename">📄 epstein.gif</div>
-      <div class="badge">IMAGE</div>
-    </div>
-    <div class="preview">
-      <img src="epstein.gif">
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-header">
-      <div class="filename">📄 kill_member.png</div>
-      <div class="badge">IMAGE</div>
-    </div>
-    <div class="preview">
-      <img src="kill_member.png">
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-header">
-      <div class="filename">📄 crack_meme.jpg</div>
-      <div class="badge">IMAGE</div>
-    </div>
-    <div class="preview">
-      <img src="crack_meme.jpg">
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-header">
-      <div class="filename">📄 the_darksystem.png</div>
-      <div class="badge">IMAGE</div>
-    </div>
-    <div class="preview">
-      <img src="the_darksystem.png">
-    </div>
-  </div>
+<!-- it_work -->
+<div class="card">
+<div class="card-header">
+<div class="filename">📄 it_work.png</div>
+<div class="badge">IMAGE</div>
+</div>
+<div class="preview">
+<img src="it_work.png">
+</div>
+<div class="description">
+<h3>📖 Tutorial</h3>
+<p>
+so to use the meme you need to add it_work.png behind https://memehub-708.pages.dev/ its just that simple. all the names of the memes are above their respective images And uh thats all
+</p>
+</div>
 </div>
 
-<!-- VIDEOS SECTION -->
-<div id="video-wrapper" style="display:none;">
-  <h1 class="section-title">Video collection 🎬</h1>
-  <div id="video-container"></div>
+<!-- best_mistake -->
+<div class="card">
+<div class="card-header">
+<div class="filename">📄 best_mistake.png</div>
+<div class="badge">IMAGE</div>
+</div>
+<div class="preview">
+<img src="best_mistake.png">
+</div>
 </div>
 
-<!-- AUDIO SECTION -->
+<!-- skull_bro -->
+<div class="card">
+<div class="card-header">
+<div class="filename">📄 skull_bro.png</div>
+<div class="badge">IMAGE</div>
+</div>
+<div class="preview">
+<img src="skull_bro.png">
+</div>
+</div>
+
+<!-- epstein_png -->
+<div class="card">
+<div class="card-header">
+<div class="filename">📄 epstein.gif</div>
+<div class="badge">IMAGE</div>
+</div>
+<div class="preview">
+<img src="epstein.gif">
+</div>
+</div>
+
+<!-- skull -->
+<div class="card">
+<div class="card-header">
+<div class="filename">📄 kill_member.png</div>
+<div class="badge">IMAGE</div>
+</div>
+<div class="preview">
+<img src="kill_member.png">
+</div>
+</div>
+
+<!-- crack -->
+<div class="card">
+<div class="card-header">
+<div class="filename">📄 crack_meme.jpg</div>
+<div class="badge">IMAGE</div>
+</div>
+<div class="preview">
+<img src="crack_meme.jpg">
+</div>
+</div>
+
+<!-- the_darksystem -->
+<div class="card">
+<div class="card-header">
+<div class="filename">📄 the_darksystem.png</div>
+<div class="badge">IMAGE</div>
+</div>
+<div class="preview">
+<img src="the_darksystem.png">
+</div>
+</div>
+
+<div style="height:220px;"></div>
+
 <h1 class="section-title">Mp3 collection 🎵</h1>
 
-<div id="audio-container">
-  <div class="audio-card">
-    <h2>tiki_mp3</h2>
-    <audio controls>
-      <source src="tiki.mp3" type="audio/mpeg">
-      Your browser does not support the audio element.
-    </audio>
-    <br><br>
-    <a class="download-btn" href="tiki.mp3" download>⬇ Download MP3</a>
-  </div>
+<div class="audio-card">
+<h2>tiki_mp3</h2>
+<audio controls>
+<source src="tiki.mp3" type="audio/mpeg">
+Your browser does not support the audio element.
+</audio>
+<br><br>
+<a class="download-btn" href="tiki.mp3" download>
+⬇ Download MP3
+</a>
 </div>
+
+<!-- ═══════════════════════════════════════════
+     DYNAMIC MEMES FROM DASHBOARD (localStorage)
+     These appear BELOW the hardcoded ones above.
+     The download fix (Blob + magic bytes) only
+     applies here since hardcoded files are real
+     URLs and don't need it.
+═══════════════════════════════════════════ -->
+<div id="dynamic-images-section"></div>
+<div id="dynamic-audio-section"></div>
+<div id="dynamic-video-section"></div>
 
 <footer>
 Workd myself down to the bwone!~
@@ -344,152 +301,165 @@ Workd myself down to the bwone!~
 </div>
 
 <script>
-const STORAGE_KEY = 'memehub_files_v1';
+// ─────────────────────────────────────────────
+//  MAGIC-BYTE MIME DETECTION
+//  Fixes mobile uploads stored as octet-stream
+// ─────────────────────────────────────────────
+function detectMimeFromBase64(b64) {
+  const raw = b64.includes(',') ? b64.split(',')[1] : b64;
+  let bytes;
+  try {
+    const bin = atob(raw.slice(0, 32));
+    bytes = new Uint8Array(bin.length);
+    for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+  } catch (e) { return null; }
 
-function esc(s){ return String(s || '').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
-
-/* MAGIC-BYTE BINARY INSPECTION (STOPS .BIN OVERRIDES ON MOBILE) */
-function detectMimeAndExt(dataUrl, cat) {
-  if (!dataUrl || typeof dataUrl !== 'string') return { mime: 'application/octet-stream', ext: '.bin' };
-  
-  const b64 = dataUrl.includes(',') ? dataUrl.split(',')[1] : dataUrl;
-  const head = b64.slice(0, 30);
-
-  if (head.startsWith('/9j/')) return { mime: 'image/jpeg', ext: '.jpg' };
-  if (head.startsWith('iVBORw0KGgo')) return { mime: 'image/png', ext: '.png' };
-  if (head.startsWith('R0lGOD')) return { mime: 'image/gif', ext: '.gif' };
-  if (head.startsWith('UklGR')) return cat === 'audio' ? { mime: 'audio/wav', ext: '.wav' } : { mime: 'image/webp', ext: '.webp' };
-  if (head.startsWith('SUQz') || head.startsWith('//O3') || head.startsWith('//u3') || head.startsWith('+83')) return { mime: 'audio/mpeg', ext: '.mp3' };
-  if (head.startsWith('AAAA') && (head.includes('Z0eXA') || head.includes('ftyp'))) return { mime: 'video/mp4', ext: '.mp4' };
-  if (head.startsWith('GkXf')) return { mime: 'video/webm', ext: '.webm' };
-
-  if (cat === 'images') return { mime: 'image/png', ext: '.png' };
-  if (cat === 'audio') return { mime: 'audio/mpeg', ext: '.mp3' };
-  if (cat === 'video') return { mime: 'video/mp4', ext: '.mp4' };
-
-  return { mime: 'image/png', ext: '.png' };
+  const h = (n) => bytes[n];
+  if (h(0)===0x89 && h(1)===0x50 && h(2)===0x4E && h(3)===0x47) return 'image/png';
+  if (h(0)===0xFF && h(1)===0xD8 && h(2)===0xFF)                 return 'image/jpeg';
+  if (h(0)===0x47 && h(1)===0x49 && h(2)===0x46 && h(3)===0x38) return 'image/gif';
+  if (h(0)===0x52 && h(1)===0x49 && h(2)===0x46 && h(3)===0x46 &&
+      h(8)===0x57 && h(9)===0x45 && h(10)===0x42 && h(11)===0x50) return 'image/webp';
+  if (h(4)===0x66 && h(5)===0x74 && h(6)===0x79 && h(7)===0x70) return 'video/mp4';
+  if (h(0)===0x1A && h(1)===0x45 && h(2)===0xDF && h(3)===0xA3) return 'video/webm';
+  if (h(0)===0x49 && h(1)===0x44 && h(2)===0x33)                 return 'audio/mpeg';
+  if (h(0)===0xFF && (h(1)===0xFB || h(1)===0xF3 || h(1)===0xF2)) return 'audio/mpeg';
+  if (h(0)===0x4F && h(1)===0x67 && h(2)===0x67 && h(3)===0x53) return 'audio/ogg';
+  if (h(0)===0x52 && h(1)===0x49 && h(2)===0x46 && h(3)===0x46 &&
+      h(8)===0x57 && h(9)===0x41 && h(10)===0x56 && h(11)===0x45) return 'audio/wav';
+  return null;
 }
 
-/* FORCED BLOB DOWNLOAD ENGINE */
-function downloadVaultFile(id, cat) {
-  try {
-    const saved = localStorage.getItem(STORAGE_KEY);
-    if (!saved) return;
-    const files = JSON.parse(saved);
-    const item = (files[cat] || []).find(x => x.id === id);
-    if (!item) return;
+const MIME_TO_EXT = {
+  'image/png':'.png','image/jpeg':'.jpg','image/gif':'.gif','image/webp':'.webp',
+  'video/mp4':'.mp4','video/webm':'.webm',
+  'audio/mpeg':'.mp3','audio/ogg':'.ogg','audio/wav':'.wav',
+};
 
-    // 1. Inspect real binary structure
-    const meta = detectMimeAndExt(item.data, cat);
-
-    // 2. Build verified filename
-    let fileName = (item.name || 'meme').trim();
-    const hasExtMatch = fileName.match(/\.(png|jpg|jpeg|gif|webp|mp3|wav|ogg|mp4|webm)$/i);
-    if (!hasExtMatch) {
-      fileName = fileName + meta.ext;
-    }
-
-    // 3. Convert Base64 data string to true binary Uint8Array Blob
-    const base64Str = item.data.includes(',') ? item.data.split(',')[1] : item.data;
-    const binaryStr = atob(base64Str);
-    const len = binaryStr.length;
-    const bytes = new Uint8Array(len);
-    for (let i = 0; i < len; i++) {
-      bytes[i] = binaryStr.charCodeAt(i);
-    }
-
-    const blob = new Blob([bytes], { type: meta.mime });
-    const blobUrl = URL.createObjectURL(blob);
-
-    // 4. Force mobile/desktop browser to download with exact assigned name
-    const a = document.createElement('a');
-    a.href = blobUrl;
-    a.download = fileName;
-    a.style.display = 'none';
-    document.body.appendChild(a);
-    a.click();
-
-    setTimeout(() => {
-      document.body.removeChild(a);
-      URL.revokeObjectURL(blobUrl);
-    }, 2000);
-  } catch (e) {
-    console.error("Download failed:", e);
+// ─────────────────────────────────────────────
+//  BULLETPROOF DOWNLOAD (Blob + Object URL)
+//  Forces browser to honor the exact filename.
+// ─────────────────────────────────────────────
+function downloadFile(dataUrl, desiredFilename) {
+  const detectedMime = detectMimeFromBase64(dataUrl);
+  let base64Data, storedMime;
+  if (dataUrl.includes(',')) {
+    storedMime = dataUrl.split(',')[0].replace('data:','').replace(';base64','').trim();
+    base64Data = dataUrl.split(',')[1];
+  } else {
+    storedMime = 'application/octet-stream';
+    base64Data = dataUrl;
   }
+  const trueMime = detectedMime || (storedMime !== 'application/octet-stream' ? storedMime : 'application/octet-stream');
+
+  let filename = desiredFilename || 'download';
+  if (!/\.[a-zA-Z0-9]{2,5}$/.test(filename) && MIME_TO_EXT[trueMime]) {
+    filename += MIME_TO_EXT[trueMime];
+  }
+
+  let byteString;
+  try { byteString = atob(base64Data); }
+  catch (e) { alert('Could not decode file. Entry may be corrupted.'); return; }
+
+  const byteArray = new Uint8Array(byteString.length);
+  for (let i = 0; i < byteString.length; i++) byteArray[i] = byteString.charCodeAt(i);
+
+  const blob = new Blob([byteArray], { type: trueMime });
+  const objectUrl = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = objectUrl;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  setTimeout(() => URL.revokeObjectURL(objectUrl), 10000);
 }
 
-function loadUploadedMemes() {
-  try {
-    const saved = localStorage.getItem(STORAGE_KEY);
-    if (!saved) return;
-    const files = JSON.parse(saved);
+// ─────────────────────────────────────────────
+//  RENDER DASHBOARD UPLOADS BELOW HARDCODED ONES
+// ─────────────────────────────────────────────
+function renderDynamicMemes() {
+  let files = [];
+  try { files = JSON.parse(localStorage.getItem('memehub_files_v1') || '[]'); }
+  catch(e) { files = []; }
+  if (!files.length) return; // nothing to add, hardcoded memes still show fine
 
-    // Render Images & GIFs
-    const imgContainer = document.getElementById('image-container');
-    (files.images || []).forEach(item => {
+  const images = files.filter(f => f.category === 'images');
+  const audios  = files.filter(f => f.category === 'audio');
+  const videos  = files.filter(f => f.category === 'video');
+
+  function escHtml(str) {
+    return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  // Images
+  const imgSection = document.getElementById('dynamic-images-section');
+  images.forEach(file => {
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.innerHTML = `
+      <div class="card-header">
+        <div class="filename">📄 ${escHtml(file.name)}</div>
+        <div class="badge">IMAGE</div>
+      </div>
+      <div class="preview">
+        <img src="${file.data}" alt="${escHtml(file.name)}" loading="lazy">
+      </div>
+      <div style="text-align:center;padding:0 0 28px;">
+        <button class="download-btn">⬇ Download</button>
+      </div>`;
+    card.querySelector('.download-btn').addEventListener('click', () => downloadFile(file.data, file.name));
+    imgSection.appendChild(card);
+  });
+
+  // Audio
+  const audioSection = document.getElementById('dynamic-audio-section');
+  if (audios.length) {
+    const title = document.createElement('h1');
+    title.className = 'section-title';
+    title.textContent = 'More Audio 🎵';
+    audioSection.appendChild(title);
+    audios.forEach(file => {
+      const card = document.createElement('div');
+      card.className = 'audio-card';
+      card.innerHTML = `
+        <h2>${escHtml(file.name)}</h2>
+        <audio controls><source src="${file.data}">Your browser does not support the audio element.</audio>
+        <br><br>
+        <button class="download-btn">⬇ Download MP3</button>`;
+      card.querySelector('.download-btn').addEventListener('click', () => downloadFile(file.data, file.name));
+      audioSection.appendChild(card);
+    });
+  }
+
+  // Video
+  const videoSection = document.getElementById('dynamic-video-section');
+  if (videos.length) {
+    const title = document.createElement('h1');
+    title.className = 'section-title';
+    title.textContent = 'Video collection 🎬';
+    videoSection.appendChild(title);
+    videos.forEach(file => {
       const card = document.createElement('div');
       card.className = 'card';
       card.innerHTML = `
         <div class="card-header">
-          <div class="filename">📄 ${esc(item.name)}</div>
-          <div class="badge">IMAGE</div>
+          <div class="filename">📄 ${escHtml(file.name)}</div>
+          <div class="badge">VIDEO</div>
         </div>
         <div class="preview">
-          <img src="${item.data}">
+          <video controls preload="metadata"><source src="${file.data}">Your browser does not support the video element.</video>
         </div>
-        <div style="padding:0 28px 22px; text-align:right;">
-          <button class="download-btn" onclick="downloadVaultFile('${item.id}', 'images')">⬇ Download Image</button>
-        </div>
-      `;
-      imgContainer.appendChild(card);
+        <div style="text-align:center;padding:0 0 28px;">
+          <button class="download-btn">⬇ Download Video</button>
+        </div>`;
+      card.querySelector('.download-btn').addEventListener('click', () => downloadFile(file.data, file.name));
+      videoSection.appendChild(card);
     });
-
-    // Render Videos
-    if (files.video && files.video.length > 0) {
-      document.getElementById('video-wrapper').style.display = 'block';
-      const vidContainer = document.getElementById('video-container');
-      files.video.forEach(item => {
-        const card = document.createElement('div');
-        card.className = 'card';
-        card.innerHTML = `
-          <div class="card-header">
-            <div class="filename">🎬 ${esc(item.name)}</div>
-            <div class="badge" style="background:#22c55e;">VIDEO</div>
-          </div>
-          <div class="preview">
-            <video controls src="${item.data}"></video>
-          </div>
-          <div style="padding:0 28px 22px; text-align:right;">
-            <button class="download-btn" onclick="downloadVaultFile('${item.id}', 'video')">⬇ Download Video</button>
-          </div>
-        `;
-        vidContainer.appendChild(card);
-      });
-    }
-
-    // Render Audio Tracks
-    const audioContainer = document.getElementById('audio-container');
-    (files.audio || []).forEach(item => {
-      const card = document.createElement('div');
-      card.className = 'audio-card';
-      card.innerHTML = `
-        <h2>${esc(item.name)}</h2>
-        <audio controls>
-          <source src="${item.data}">
-          Your browser does not support the audio element.
-        </audio>
-        <br><br>
-        <button class="download-btn" onclick="downloadVaultFile('${item.id}', 'audio')">⬇ Download Audio</button>
-      `;
-      audioContainer.appendChild(card);
-    });
-
-  } catch(e) {
-    console.error("Could not load dynamic uploads", e);
   }
 }
 
-document.addEventListener('DOMContentLoaded', loadUploadedMemes);
+renderDynamicMemes();
 </script>
 </body>
 </html>
