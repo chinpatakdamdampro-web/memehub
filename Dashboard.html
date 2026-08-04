@@ -3,961 +3,883 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MemeHub Admin Dashboard</title>
+<title>* MemeHub ADMIN * [MEGALOVANIA]</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
+/* ══════════════════════════════════════════
+   MEGALOVANIA / SANS THEME
+   Palette: deep void black, bone white,
+   electric cyan (soul), warning red (LOVE),
+   and the classic Undertale battle yellow.
+══════════════════════════════════════════ */
+:root{
+  --void:       #0a0a0a;
+  --void2:      #111111;
+  --void3:      #1a1a1a;
+  --bone:       #e8e8e8;
+  --bone-dim:   #888888;
+  --soul:       #00d4ff;      /* cyan — the human SOUL */
+  --soul-dim:   #007a96;
+  --soul-glow:  rgba(0,212,255,0.18);
+  --love:       #ff2222;      /* red — L O V E */
+  --love-dim:   #8b0000;
+  --battle-yel: #ffdd00;      /* Undertale battle box yellow */
+  --hp-green:   #00c44f;
+  --border:     #2a2a2a;
+  --pixel:      'Press Start 2P', monospace;
+  --sans:       'Inter', sans-serif;
+}
+
 *{margin:0;padding:0;box-sizing:border-box;}
 html{scroll-behavior:smooth;}
 
-:root{
-  --gold:       #ffd700;
-  --gold-deep:  #b8860b;
-  --gold-glow:  rgba(255,215,0,.22);
-  --gold-dim:   rgba(255,215,0,.08);
-  --black:      #080808;
-  --surface:    #111111;
-  --surface2:   #1a1a1a;
-  --border:     #2a2a2a;
-  --border-gold:#3d3000;
-  --text:       #e8e0d0;
-  --text-muted: #6b6355;
-  --red:        #ff4444;
-  --aqua:       #00f2fe;
-  --aqua-deep:  #4facfe;
-  --aqua-glow:  rgba(0,242,254,.3);
-}
-
 body{
-  font-family:'Inter',sans-serif;
-  background:var(--black);
-  color:var(--text);
+  font-family: var(--sans);
+  background: var(--void);
+  color: var(--bone);
   min-height:100vh;
+  /* subtle scanline texture */
+  background-image: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(255,255,255,0.012) 2px,
+    rgba(255,255,255,0.012) 4px
+  );
 }
 
+/* ── SCROLLBAR ── */
 ::-webkit-scrollbar{width:8px;}
-::-webkit-scrollbar-track{background:var(--black);}
-::-webkit-scrollbar-thumb{background:var(--border-gold);border-radius:999px;}
-::-webkit-scrollbar-thumb:hover{background:var(--gold-deep);}
+::-webkit-scrollbar-track{background:var(--void2);}
+::-webkit-scrollbar-thumb{background:var(--soul-dim);border-radius:0;}
+::-webkit-scrollbar-thumb:hover{background:var(--soul);}
 
+/* ── BATTLE BOX (the framing border from Undertale) ── */
+.battle-box{
+  border: 3px solid var(--bone);
+  box-shadow:
+    0 0 0 1px var(--void),
+    0 0 0 4px var(--bone),
+    0 0 24px rgba(0,212,255,0.08);
+  border-radius:0;
+}
+
+/* ── CONTAINER ── */
+.container{
+  width:min(820px,95%);
+  margin:auto;
+  padding:48px 0 80px;
+}
+
+/* ══════════════════════════════════════════
+   LOGIN SCREEN  — "* ENTRY DENIED *"
+══════════════════════════════════════════ */
 #login-screen{
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  min-height:100vh;
-  padding:20px;
-  background:
-    radial-gradient(ellipse 60% 40% at 50% 0%, rgba(255,215,0,.07) 0%, transparent 70%),
-    var(--black);
+  max-width:460px;
+  margin:100px auto 0;
+  padding:0;
 }
 
 .login-box{
-  width:100%;
-  max-width:420px;
-  background:var(--surface);
-  border:1px solid var(--border-gold);
-  border-radius:24px;
-  padding:48px 40px;
+  background: var(--void2);
+  border: 3px solid var(--bone);
   box-shadow:
-    0 0 0 1px var(--border-gold),
-    0 0 60px rgba(255,215,0,.08),
-    0 30px 80px rgba(0,0,0,.6);
+    0 0 0 1px var(--void),
+    0 0 0 4px var(--bone),
+    0 0 40px rgba(0,212,255,0.12);
+  padding:44px 40px 40px;
   text-align:center;
 }
 
-.login-icon{ width:54px; height:54px; margin:0 auto 16px; color:var(--gold); }
-
-.login-box h1{
-  font-family:'Space Grotesk',sans-serif;
-  font-size:1.8rem;
-  font-weight:700;
-  background:linear-gradient(135deg,var(--gold-deep),var(--gold),var(--gold-deep));
-  -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;
-  margin-bottom:8px;
+.login-skull{
+  font-size:3.2rem;
+  line-height:1;
+  margin-bottom:18px;
+  display:block;
+  /* slight flicker */
+  animation: flicker 4s infinite;
 }
 
-.login-box p{ color:var(--text-muted); font-size:.9rem; margin-bottom:36px; }
+@keyframes flicker{
+  0%,95%,100%{opacity:1;}
+  96%{opacity:0.6;}
+  97%{opacity:1;}
+  98%{opacity:0.4;}
+  99%{opacity:1;}
+}
 
-.login-field input{
+.login-title{
+  font-family: var(--pixel);
+  font-size:.75rem;
+  color: var(--soul);
+  letter-spacing:2px;
+  line-height:1.8;
+  margin-bottom:28px;
+  text-shadow: 0 0 12px var(--soul);
+}
+
+.login-box input[type=password]{
   width:100%;
-  padding:14px 18px;
-  background:var(--surface2);
-  border:1px solid var(--border);
-  border-radius:12px;
-  color:var(--text);
-  font-size:1rem;
+  background: var(--void);
+  border: 2px solid var(--bone-dim);
+  border-radius:0;
+  padding:13px 16px;
+  color: var(--bone);
+  font-family: var(--pixel);
+  font-size:.6rem;
+  letter-spacing:2px;
   outline:none;
-  margin-bottom:20px;
+  margin-bottom:18px;
+  transition: border-color .15s, box-shadow .15s;
+}
+.login-box input[type=password]:focus{
+  border-color: var(--soul);
+  box-shadow: 0 0 0 2px var(--soul-glow), inset 0 0 8px rgba(0,212,255,0.06);
+}
+.login-box input[type=password]::placeholder{
+  color: var(--bone-dim);
+  letter-spacing:1px;
 }
 
-.login-field input:focus{ border-color:var(--gold-deep); box-shadow:0 0 0 3px var(--gold-dim); }
-
-.login-btn{
-  width:100%;
-  padding:15px;
-  background:linear-gradient(135deg,var(--gold-deep) 0%,var(--gold) 50%,var(--gold-deep) 100%);
-  background-size:200% 200%;
-  border:none;
-  border-radius:12px;
-  color:#0d0d0d;
-  font-size:1rem;
-  font-weight:800;
-  cursor:pointer;
-  transition:transform .15s, box-shadow .2s;
-  box-shadow:0 0 20px rgba(255,215,0,.25);
+#login-error{
+  font-family: var(--pixel);
+  font-size:.55rem;
+  color: var(--love);
+  text-shadow: 0 0 8px var(--love);
+  margin-bottom:14px;
+  display:none;
+  line-height:1.8;
+  letter-spacing:1px;
 }
 
-.login-btn:hover{ transform:translateY(-1px); box-shadow:0 0 32px rgba(255,215,0,.45); }
+.heart-cursor::before{content:'❤ ';}
 
-.login-error{ margin-top:16px; color:var(--red); font-size:.88rem; min-height:20px; }
-
-.back-link{ display:inline-block; margin-top:24px; color:var(--text-muted); font-size:.85rem; text-decoration:none; }
-.back-link:hover{ color:var(--gold); }
-
-#dashboard{ display:none; }
-
-.topbar{
-  position:sticky;
-  top:0;
-  z-index:100;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:0 32px;
-  height:68px;
-  background:rgba(8,8,8,.92);
-  backdrop-filter:blur(12px);
-  border-bottom:1px solid var(--border-gold);
-}
-
-.topbar-brand{
-  display:flex;
-  align-items:center;
-  gap:12px;
-  font-family:'Space Grotesk',sans-serif;
-  font-weight:700;
-  font-size:1.15rem;
-  color:var(--gold);
-}
-
-.topbar-right{ display:flex; align-items:center; gap:16px; }
-
-.main-site-btn{
-  display:inline-flex;
-  align-items:center;
-  gap:8px;
-  padding:8px 18px;
-  background:linear-gradient(135deg, var(--aqua-deep), var(--aqua));
-  color:#041421;
-  font-weight:800;
-  font-size:.85rem;
-  border-radius:10px;
-  text-decoration:none;
-  box-shadow:0 0 16px var(--aqua-glow);
-  transition:transform .2s, box-shadow .2s;
-}
-
-.main-site-btn:hover{ transform:translateY(-1px); box-shadow:0 0 24px var(--aqua-glow); }
-
-.topbar-stats{ display:flex; gap:12px; }
-
-.stat-pill{
-  display:flex;
-  align-items:center;
-  gap:6px;
-  background:var(--surface);
-  border:1px solid var(--border-gold);
-  border-radius:999px;
-  padding:5px 14px;
-  font-size:.8rem;
-  color:var(--gold);
-  font-weight:600;
-}
-
-.logout-btn{
-  padding:8px 18px;
-  background:transparent;
-  border:1px solid var(--border);
-  border-radius:8px;
-  color:var(--text-muted);
-  font-size:.85rem;
-  cursor:pointer;
-}
-.logout-btn:hover{ border-color:var(--red); color:var(--red); }
-
-.dash-wrap{ width:min(1200px,95%); margin:auto; padding:48px 0 100px; }
-
-.upload-section{
-  background:var(--surface);
-  border:2px dashed var(--border-gold);
-  border-radius:20px;
-  padding:48px 40px;
+/* ══════════════════════════════════════════
+   HEADER
+══════════════════════════════════════════ */
+header{
   text-align:center;
+  margin-bottom:48px;
+}
+
+.header-eyebrow{
+  font-family: var(--pixel);
+  font-size:.5rem;
+  color: var(--bone-dim);
+  letter-spacing:4px;
+  text-transform:uppercase;
+  margin-bottom:14px;
+}
+
+header h1{
+  font-family: var(--pixel);
+  font-size:1.1rem;
+  color: var(--soul);
+  text-shadow: 0 0 20px var(--soul), 0 0 40px rgba(0,212,255,0.3);
+  letter-spacing:2px;
+  line-height:1.8;
+  margin-bottom:12px;
+}
+
+header p{
+  font-size:.9rem;
+  color: var(--bone-dim);
+  letter-spacing:1px;
+}
+
+/* ══════════════════════════════════════════
+   BUTTONS
+══════════════════════════════════════════ */
+.btn{
+  display:inline-block;
+  font-family: var(--pixel);
+  font-size:.55rem;
+  letter-spacing:1px;
+  padding:12px 22px;
+  border:2px solid;
+  border-radius:0;
   cursor:pointer;
-  margin-bottom:56px;
+  transition: background .12s, color .12s, box-shadow .12s;
+  line-height:1.4;
+}
+
+/* SOUL button — primary action */
+.btn-soul{
+  background: transparent;
+  color: var(--soul);
+  border-color: var(--soul);
+}
+.btn-soul:hover{
+  background: var(--soul);
+  color: var(--void);
+  box-shadow: 0 0 16px var(--soul);
+}
+
+/* LOVE button — destructive */
+.btn-love{
+  background: transparent;
+  color: var(--love);
+  border-color: var(--love);
+}
+.btn-love:hover{
+  background: var(--love);
+  color: var(--bone);
+  box-shadow: 0 0 16px var(--love);
+}
+
+/* BONE button — secondary / save */
+.btn-bone{
+  background: transparent;
+  color: var(--bone);
+  border-color: var(--bone);
+}
+.btn-bone:hover{
+  background: var(--bone);
+  color: var(--void);
+}
+
+.btn-full{width:100%;}
+
+/* ══════════════════════════════════════════
+   UPLOAD CARD — "* CHOOSE YOUR FILE *"
+══════════════════════════════════════════ */
+.upload-card{
+  background: var(--void2);
+  border: 2px solid var(--border);
+  padding:36px;
+  margin-bottom:28px;
   position:relative;
-  transition:border-color .2s, background .2s;
 }
 
-.upload-section.drag-over{ border-color:var(--gold); background:var(--gold-dim); }
-
-.upload-section input[type="file"]{
+/* corner accents like Undertale battle UI */
+.upload-card::before,.upload-card::after,
+.file-list::before,.file-list::after{
+  content:'';
   position:absolute;
-  inset:0;
-  opacity:0;
-  cursor:pointer;
-  width:100%;
-  height:100%;
+  width:12px;height:12px;
+  border-color: var(--soul);
+  border-style:solid;
 }
+.upload-card::before,.file-list::before{top:-2px;left:-2px;border-width:2px 0 0 2px;}
+.upload-card::after,.file-list::after  {bottom:-2px;right:-2px;border-width:0 2px 2px 0;}
+.upload-card,.file-list{position:relative;}
 
-.upload-icon{ width:48px; height:48px; color:var(--gold); margin-bottom:12px; }
-
-.upload-section h2{
-  font-family:'Space Grotesk',sans-serif;
-  font-size:1.5rem;
-  font-weight:700;
-  color:var(--gold);
-  margin-bottom:8px;
-}
-
-.upload-section p{ color:var(--text-muted); font-size:.92rem; line-height:1.5; }
-
-.file-types{ display:flex; justify-content:center; gap:8px; margin-top:20px; flex-wrap:wrap; }
-
-.type-tag{ padding:4px 12px; border-radius:999px; font-size:.75rem; font-weight:700; border:1px solid; }
-.type-tag.img{ background:rgba(59,130,246,.12); border-color:rgba(59,130,246,.4); color:#93c5fd; }
-.type-tag.audio{ background:rgba(168,85,247,.12); border-color:rgba(168,85,247,.4); color:#d8b4fe; }
-.type-tag.video{ background:rgba(34,197,94,.12); border-color:rgba(34,197,94,.4); color:#86efac; }
-
-.cat-section{ margin-bottom:56px; }
-
-.cat-header{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  margin-bottom:20px;
-  padding-bottom:12px;
-  border-bottom:1px solid var(--border-gold);
-}
-
-.cat-title{
+.section-label{
+  font-family: var(--pixel);
+  font-size:.6rem;
+  color: var(--soul);
+  letter-spacing:2px;
+  margin-bottom:24px;
   display:flex;
   align-items:center;
   gap:10px;
-  font-family:'Space Grotesk',sans-serif;
-  font-size:1.3rem;
-  font-weight:700;
-  color:var(--gold);
+}
+.section-label::after{
+  content:'';
+  flex:1;
+  height:1px;
+  background: linear-gradient(to right, var(--soul-dim), transparent);
 }
 
-.cat-title svg{ width:22px; height:22px; color:var(--gold); }
-
-.cat-count{
-  background:var(--gold-dim);
-  border:1px solid var(--border-gold);
-  border-radius:999px;
-  padding:3px 12px;
-  font-size:.8rem;
-  color:var(--gold);
-  font-weight:700;
+/* ── DROP ZONE ── */
+.drop-zone{
+  border: 2px dashed var(--bone-dim);
+  padding:48px 20px;
+  text-align:center;
+  color: var(--bone-dim);
+  cursor:pointer;
+  transition: border-color .15s, color .15s, background .15s;
+  background: var(--void);
+  user-select:none;
+  position:relative;
+}
+.drop-zone:hover,.drop-zone.drag-over{
+  border-color: var(--soul);
+  border-style:solid;
+  color: var(--soul);
+  background: rgba(0,212,255,0.04);
+}
+.drop-zone input[type=file]{
+  display:none;
+}
+#drop-label{
+  font-family: var(--pixel);
+  font-size:.55rem;
+  line-height:2.2;
+  pointer-events:none;
 }
 
-.media-grid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:20px; }
-
-.media-card{
-  background:var(--surface);
-  border:1px solid var(--border);
-  border-radius:16px;
-  overflow:hidden;
-  transition:transform .2s, border-color .2s;
-}
-
-.media-card:hover{ transform:translateY(-3px); border-color:var(--gold-deep); }
-
-.media-thumb, .media-thumb-video{
-  width:100%;
-  height:180px;
-  object-fit:cover;
+/* ── FIELDS ── */
+.field-row{margin-top:20px;}
+.field-row label{
   display:block;
-  background:#000;
+  font-family: var(--pixel);
+  font-size:.5rem;
+  color: var(--bone-dim);
+  letter-spacing:1px;
+  margin-bottom:8px;
+}
+.field-row input[type=text],
+.field-row select{
+  width:100%;
+  background: var(--void);
+  border: 2px solid var(--border);
+  border-radius:0;
+  padding:11px 14px;
+  color: var(--bone);
+  font-family: var(--sans);
+  font-size:.95rem;
+  outline:none;
+  transition: border-color .15s;
+  appearance:none;
+  -webkit-appearance:none;
+}
+.field-row input[type=text]:focus,
+.field-row select:focus{
+  border-color: var(--soul);
+  box-shadow: 0 0 0 2px var(--soul-glow);
 }
 
-.audio-thumb{
-  height:120px;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  background:linear-gradient(135deg,#1a0a2e,#0d0820);
-  gap:8px;
+/* ── PREVIEW ── */
+#preview-wrap{
+  margin-top:20px;
+  display:none;
+  border: 2px solid var(--border);
+  background: #000;
+  padding:4px;
+}
+#preview-wrap img,
+#preview-wrap video{
+  max-width:100%;
+  display:block;
+  max-height:260px;
+  object-fit:contain;
+  margin:auto;
+}
+#preview-wrap audio{
+  width:100%;
+  margin-top:8px;
+  filter:invert(.85) hue-rotate(180deg);
 }
 
-.audio-thumb svg{ width:36px; height:36px; color:var(--gold); }
+/* ── STATUS ── */
+.status-msg{
+  margin-top:14px;
+  font-family: var(--pixel);
+  font-size:.5rem;
+  line-height:2;
+  letter-spacing:1px;
+  padding:12px 16px;
+  display:none;
+}
+.status-msg.success{
+  background: rgba(0,196,79,0.08);
+  border: 1px solid var(--hp-green);
+  color: var(--hp-green);
+}
+.status-msg.error{
+  background: rgba(255,34,34,0.08);
+  border: 1px solid var(--love);
+  color: var(--love);
+}
 
-.card-info{
-  padding:12px 14px;
+/* ── ACTION ROW ── */
+.action-row{
+  margin-top:22px;
   display:flex;
-  align-items:center;
+  gap:12px;
+  align-items:stretch;
+}
+.action-row .btn-bone{flex:1;}
+
+/* ══════════════════════════════════════════
+   FILE LIST — "* INVENTORY *"
+══════════════════════════════════════════ */
+.file-list{
+  background: var(--void2);
+  border: 2px solid var(--border);
+  padding:36px;
+}
+
+.list-header{
+  display:flex;
   justify-content:space-between;
-  border-top:1px solid var(--border);
-  background:var(--surface);
+  align-items:center;
+  margin-bottom:24px;
+  flex-wrap:wrap;
+  gap:12px;
 }
 
-.card-name{
-  font-size:.82rem;
+.file-item{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:13px 16px;
+  border: 1px solid var(--border);
+  margin-bottom:8px;
+  background: var(--void);
+  gap:12px;
+  transition: border-color .12s;
+}
+.file-item:hover{
+  border-color: var(--soul-dim);
+}
+
+.file-item-info{flex:1;min-width:0;}
+.file-item-info .name{
   font-weight:600;
-  color:var(--text);
+  color: var(--bone);
   white-space:nowrap;
   overflow:hidden;
   text-overflow:ellipsis;
-  max-width:130px;
+  font-size:.95rem;
+}
+.file-item-info .meta{
+  color: var(--bone-dim);
+  font-size:.78rem;
+  margin-top:3px;
 }
 
-.card-actions{ display:flex; gap:6px; }
-
-.action-btn{
-  background:transparent;
-  border:1px solid var(--border);
-  border-radius:6px;
-  color:var(--text-muted);
-  padding:4px 8px;
-  cursor:pointer;
-  display:inline-flex;
-  align-items:center;
-  text-decoration:none;
+.file-badge{
+  font-family: var(--pixel);
+  font-size:.45rem;
+  letter-spacing:1px;
+  padding:5px 10px;
+  border:1px solid;
+  flex-shrink:0;
 }
-.action-btn svg{ width:14px; height:14px; }
-.action-btn:hover{ border-color:var(--gold); color:var(--gold); }
-.action-btn.del:hover{ border-color:var(--red); color:var(--red); }
+.file-badge.image{ color:var(--soul);   border-color:var(--soul);   }
+.file-badge.audio{ color:var(--battle-yel); border-color:var(--battle-yel); }
+.file-badge.video{ color:var(--love);   border-color:var(--love);   }
 
-.audio-player-row{ padding:0 14px 12px; }
-.audio-player-row audio{ width:100%; height:32px; filter:invert(.8) sepia(1); }
-
-.empty-state{
-  grid-column:1/-1;
-  padding:36px;
+#empty-msg{
+  font-family: var(--pixel);
+  font-size:.55rem;
   text-align:center;
-  background:var(--surface);
-  border:1px dashed var(--border);
-  border-radius:16px;
-  color:var(--text-muted);
-  font-size:.9rem;
+  color: var(--bone-dim);
+  padding:36px;
+  line-height:2.4;
+  letter-spacing:1px;
 }
 
-.modal-overlay{
-  display:none;
-  position:fixed;
-  inset:0;
-  z-index:9999;
-  background:rgba(0,0,0,0.82);
-  align-items:center;
-  justify-content:center;
-  padding:20px;
+/* ── FOOTER ── */
+footer{
+  margin-top:60px;
+  text-align:center;
+  font-family: var(--pixel);
+  font-size:.45rem;
+  color: var(--bone-dim);
+  letter-spacing:2px;
+  line-height:2.4;
 }
-.modal-overlay.open{ display:flex; }
-.modal-box{
-  background:var(--surface);
-  border:1px solid var(--border-gold);
-  border-radius:18px;
-  width:100%;
-  max-width:440px;
-  padding:28px;
-  box-shadow:0 0 30px rgba(0,0,0,0.8);
-}
-.modal-box h3{ font-family:'Space Grotesk',sans-serif; font-size:1.3rem; color:var(--gold); margin-bottom:18px; }
-.modal-field{ margin-bottom:16px; }
-.modal-field label{ display:block; font-size:0.85rem; color:var(--text-muted); margin-bottom:6px; }
-.modal-field input, .modal-field select{
-  width:100%;
-  padding:12px;
-  background:var(--surface2);
-  border:1px solid var(--border);
-  border-radius:8px;
-  color:var(--text);
-  font-size:0.95rem;
-  outline:none;
-}
-.modal-field input:focus, .modal-field select:focus{ border-color:var(--gold); }
-.modal-actions{ display:flex; gap:12px; margin-top:24px; }
-.modal-btn{ flex:1; padding:12px; border-radius:8px; border:none; font-weight:700; cursor:pointer; }
-.modal-btn.cancel{ background:transparent; border:1px solid var(--border); color:var(--text-muted); }
-.modal-btn.confirm{ background:linear-gradient(135deg,var(--gold-deep),var(--gold)); color:#0d0d0d; }
-
-#lightbox{
-  display:none;
-  position:fixed;
-  inset:0;
-  z-index:9998;
-  background:rgba(0,0,0,.92);
-  align-items:center;
-  justify-content:center;
-  padding:20px;
-}
-#lightbox.open{ display:flex; }
-#lightbox img, #lightbox video{ max-width:90vw; max-height:85vh; border-radius:12px; }
-#lightbox-close{
-  position:absolute;
-  top:20px;
-  right:24px;
-  background:transparent;
-  border:1px solid var(--border-gold);
-  border-radius:8px;
-  color:var(--gold);
-  font-size:1.2rem;
-  width:40px;
-  height:40px;
-  cursor:pointer;
-}
-
-.toast-wrap{
-  position:fixed;
-  bottom:28px;
-  right:28px;
-  z-index:9999;
-  display:flex;
-  flex-direction:column;
-  gap:10px;
-  pointer-events:none;
-}
-.toast{
-  background:var(--surface);
-  border:1px solid var(--border-gold);
-  border-radius:12px;
-  padding:14px 20px;
-  font-size:.88rem;
-  color:var(--text);
-  box-shadow:0 8px 30px rgba(0,0,0,.5);
-  pointer-events:all;
-  animation:toastIn .3s ease;
-}
-@keyframes toastIn{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);}}
 </style>
 </head>
 <body>
 
+<!-- ════════════════════════════════════════
+     LOGIN SCREEN
+════════════════════════════════════════ -->
 <div id="login-screen">
-  <div class="login-box">
-    <svg class="login-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-      <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/>
-    </svg>
-    <h1>Admin Dashboard</h1>
-    <p>Enter password to unlock MemeHub vault</p>
-    <div class="login-field">
-      <input type="password" id="pw-input" placeholder="Password" autocomplete="off">
-    </div>
-    <button class="login-btn" onclick="tryLogin()">Unlock Dashboard →</button>
-    <div class="login-error" id="login-error"></div>
-    <a class="back-link" href="index.html">← Back to MemeHub</a>
+  <div class="login-box battle-box">
+    <span class="login-skull">💀 </span>
+    <div class="login-title">* SANS IS Gooning *<br>Goo- i mean password REQUIRED</div>
+    <input type="password" id="pw-input" placeholder="ENTER PASSPHRASE" autocomplete="current-password">
+    <div id="login-error">* but nobody came.<br>wrong password, pal.</div>
+    <button class="btn btn-soul btn-full heart-cursor" id="login-btn">FIGHT</button>
   </div>
 </div>
 
-<div id="dashboard">
-  <div class="topbar">
-    <div class="topbar-brand">
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/>
-      </svg>
-      MemeHub Vault
-    </div>
-    <div class="topbar-right">
-      <a href="index.html" class="main-site-btn">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-          <polyline points="9 22 9 12 15 12 15 22"></polyline>
-        </svg>
-        Main Website
-      </a>
-      <div class="topbar-stats" id="topbar-stats"></div>
-      <button class="logout-btn" onclick="logout()">Logout</button>
-    </div>
-  </div>
+<!-- ════════════════════════════════════════
+     DASHBOARD
+════════════════════════════════════════ -->
+<div class="container" id="dashboard" style="display:none;">
+  <header>
+    <div class="header-eyebrow">* it's a beautiful day outside *</div>
+    <h1>MEMEHUB ADMIN</h1>
+    <p>birds are singing, memes are uploading.</p>
+  </header>
 
-  <div class="dash-wrap">
-    <div class="upload-section" id="drop-zone">
-      <input type="file" id="file-input" multiple accept="image/*,video/mp4,video/webm,audio/mpeg,audio/mp3,audio/wav,audio/ogg,.gif,.webp">
-      <svg class="upload-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-        <polyline points="17 8 12 3 7 8"></polyline>
-        <line x1="12" y1="3" x2="12" y2="15"></line>
-      </svg>
-      <h2>Drop Memes Here</h2>
-      <p>Drag & drop or click to upload.<br>Images, GIFs, Audio, and Videos supported.</p>
-      <div class="file-types">
-        <span class="type-tag img">PNG</span>
-        <span class="type-tag img">JPG</span>
-        <span class="type-tag img">GIF</span>
-        <span class="type-tag img">WEBP</span>
-        <span class="type-tag audio">MP3</span>
-        <span class="type-tag audio">WAV</span>
-        <span class="type-tag video">MP4</span>
+  <!-- Upload Card -->
+  <div class="upload-card">
+    <div class="section-label">📤 UPLOAD NEW MEME</div>
+
+    <div class="drop-zone" id="drop-zone">
+      <input type="file" id="file-input" accept="image/*,audio/*,video/*,.gif">
+      <div id="drop-label">
+        * CHOOSE A FILE *<br>
+        <span style="font-size:.45rem;color:var(--bone-dim);font-family:var(--pixel);">drag &amp; drop or click to browse</span>
       </div>
     </div>
 
-    <div class="cat-section">
-      <div class="cat-header">
-        <div class="cat-title">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
-            <circle cx="8.5" cy="8.5" r="1.5"/>
-            <polyline points="21 15 16 10 5 21"/>
-          </svg>
-          Images &amp; GIFs
-        </div>
-        <span class="cat-count" id="count-images">0 files</span>
-      </div>
-      <div class="media-grid" id="grid-images"></div>
+    <div id="preview-wrap"></div>
+
+    <div class="field-row" style="margin-top:22px;">
+      <label>* DISPLAY NAME (becomes the download filename)</label>
+      <input type="text" id="file-name-input" placeholder="e.g. funny_skeleton.png">
     </div>
 
-    <div class="cat-section">
-      <div class="cat-header">
-        <div class="cat-title">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M9 18V5l12-2v13"/>
-            <circle cx="6" cy="18" r="3"/>
-            <circle cx="18" cy="16" r="3"/>
-          </svg>
-          Audio Tracks
-        </div>
-        <span class="cat-count" id="count-audio">0 files</span>
-      </div>
-      <div class="media-grid" id="grid-audio"></div>
-    </div>
-
-    <div class="cat-section">
-      <div class="cat-header">
-        <div class="cat-title">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"/>
-            <line x1="7" y1="2" x2="7" y2="22"/>
-            <line x1="17" y1="2" x2="17" y2="22"/>
-            <line x1="2" y1="12" x2="22" y2="12"/>
-          </svg>
-          Videos
-        </div>
-        <span class="cat-count" id="count-video">0 files</span>
-      </div>
-      <div class="media-grid" id="grid-video"></div>
-    </div>
-  </div>
-</div>
-
-<div class="modal-overlay" id="upload-modal">
-  <div class="modal-box">
-    <h3>Set Meme Details</h3>
-    <div class="modal-field">
-      <label>Meme Display Name</label>
-      <input type="text" id="modal-name-input" placeholder="e.g. funny_pikachu">
-    </div>
-    <div class="modal-field">
-      <label>Category</label>
-      <select id="modal-cat-select">
-        <option value="images">🖼️ Images & GIFs</option>
-        <option value="audio">🎵 Audio</option>
-        <option value="video">🎬 Videos</option>
+    <div class="field-row">
+      <label>* CATEGORY</label>
+      <select id="category-select">
+        <option value="images">🖼  IMAGE</option>
+        <option value="audio">🎵  AUDIO</option>
+        <option value="video">🎬  VIDEO</option>
       </select>
     </div>
-    <div class="modal-actions">
-      <button class="modal-btn cancel" onclick="cancelUpload()">Cancel</button>
-      <button class="modal-btn confirm" onclick="confirmUpload()">Publish Meme</button>
+
+    <div class="status-msg" id="status-msg"></div>
+
+    <div class="action-row">
+      <button class="btn btn-bone" id="save-btn">💾 SAVE TO VAULT</button>
+      <button class="btn btn-love" id="clear-btn">✕ CLEAR</button>
     </div>
   </div>
-</div>
 
-<div id="lightbox">
-  <button id="lightbox-close" onclick="closeLightbox()">✕</button>
-  <img id="lb-img" src="" style="display:none;">
-  <video id="lb-vid" controls style="display:none;"></video>
-</div>
+  <!-- File List -->
+  <div class="file-list">
+    <div class="list-header">
+      <div class="section-label" style="margin-bottom:0;flex:1;">📋 INVENTORY</div>
+      <button class="btn btn-love" id="clear-all-btn" style="font-size:.45rem;padding:8px 14px;">🗑 RESET TIMELINE</button>
+    </div>
+    <div id="file-list-body"></div>
+  </div>
 
-<div class="toast-wrap" id="toast-wrap"></div>
+  <footer>
+    * MemeHub Admin Panel *<br>
+    sans. / undertale ref / changes saved to localStorage
+  </footer>
+</div>
 
 <script>
-const CORRECT_PASSWORD = 'Larper68920DkLpOeR';
-const STORAGE_KEY = 'memehub_files_v1';
-const SESSION_KEY = 'memehub_auth_session';
+// ═══════════════════════════════════════════════════════
+//  MAGIC-BYTE MIME DETECTION
+//  Reads first 24 bytes as ArrayBuffer to identify true
+//  file type — fixes mobile OS passing octet-stream.
+// ═══════════════════════════════════════════════════════
+function detectMimeFromArrayBuffer(buf) {
+  const b = new Uint8Array(buf);
+  const h = (n) => b[n];
 
-let files = {images:[], audio:[], video:[]};
-let pendingQueue = [];
-let currentPendingIndex = 0;
-let fallbackAuth = false;
-
-function safeSetSession(k, v){ try{ sessionStorage.setItem(k, v); }catch(e){ fallbackAuth = true; } }
-function safeGetSession(k){ try{ return sessionStorage.getItem(k); }catch(e){ return fallbackAuth ? 'authenticated' : null; } }
-function safeRemoveSession(k){ try{ sessionStorage.removeItem(k); }catch(e){} fallbackAuth = false; }
-function safeSetLocal(k, v){ try{ localStorage.setItem(k, v); return true; }catch(e){ return false; } }
-function safeGetLocal(k){ try{ return localStorage.getItem(k); }catch(e){ return null; } }
-
-function esc(s){
-  if(!s) return '';
-  return String(s)
-    .replace(/&/g, '&amp;')
-    .replace(/"/g, '&quot;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;');
+  if (h(0)===0x89 && h(1)===0x50 && h(2)===0x4E && h(3)===0x47) return 'image/png';
+  if (h(0)===0xFF && h(1)===0xD8 && h(2)===0xFF)                 return 'image/jpeg';
+  if (h(0)===0x47 && h(1)===0x49 && h(2)===0x46 && h(3)===0x38) return 'image/gif';
+  if (h(0)===0x52 && h(1)===0x49 && h(2)===0x46 && h(3)===0x46 &&
+      h(8)===0x57 && h(9)===0x45 && h(10)===0x42 && h(11)===0x50) return 'image/webp';
+  if (h(4)===0x66 && h(5)===0x74 && h(6)===0x79 && h(7)===0x70) return 'video/mp4';
+  if (h(0)===0x1A && h(1)===0x45 && h(2)===0xDF && h(3)===0xA3) return 'video/webm';
+  if (h(0)===0x49 && h(1)===0x44 && h(2)===0x33)                 return 'audio/mpeg';
+  if (h(0)===0xFF && (h(1)===0xFB || h(1)===0xF3 || h(1)===0xF2)) return 'audio/mpeg';
+  if (h(0)===0x4F && h(1)===0x67 && h(2)===0x67 && h(3)===0x53) return 'audio/ogg';
+  if (h(0)===0x52 && h(1)===0x49 && h(2)===0x46 && h(3)===0x46 &&
+      h(8)===0x57 && h(9)===0x41 && h(10)===0x56 && h(11)===0x45) return 'audio/wav';
+  return null;
 }
 
-/* ADVANCED MOBILE GALLERY DETECTOR (MAGIC-BYTES BASED) */
-function detectMimeAndExtension(dataUrl, fileCat) {
-  if (!dataUrl || !dataUrl.includes(',')) {
-    return { mime: 'image/png', ext: '.png' };
-  }
+const MIME_TO_EXT = {
+  'image/png':'.png','image/jpeg':'.jpg','image/gif':'.gif','image/webp':'.webp',
+  'video/mp4':'.mp4','video/webm':'.webm',
+  'audio/mpeg':'.mp3','audio/ogg':'.ogg','audio/wav':'.wav',
+};
 
-  const base64Part = dataUrl.split(',')[1].slice(0, 30);
+// ═══════════════════════════════════════════════════════
+//  AUTH
+// ═══════════════════════════════════════════════════════
+const PASSWORD = 'memehub2025'; // ← change to your actual password
 
-  // Check binary magic byte signatures in base64
-  if (base64Part.startsWith('/9j/')) return { mime: 'image/jpeg', ext: '.jpg' };
-  if (base64Part.startsWith('iVBORw0KGgo')) return { mime: 'image/png', ext: '.png' };
-  if (base64Part.startsWith('R0lGOD')) return { mime: 'image/gif', ext: '.gif' };
-  if (base64Part.startsWith('UklGR')) return { mime: 'image/webp', ext: '.webp' };
-  if (base64Part.startsWith('SUQz') || base64Part.startsWith('//O3') || base64Part.startsWith('//u3')) return { mime: 'audio/mpeg', ext: '.mp3' };
-  if (base64Part.startsWith('AAAAIGZ0eXA') || base64Part.startsWith('AAAAFGZ0eXA')) return { mime: 'video/mp4', ext: '.mp4' };
-
-  // Category Fallbacks
-  if (fileCat === 'audio') return { mime: 'audio/mpeg', ext: '.mp3' };
-  if (fileCat === 'video') return { mime: 'video/mp4', ext: '.mp4' };
-  return { mime: 'image/png', ext: '.png' };
-}
-
-function initAuth(){
-  if(safeGetSession(SESSION_KEY) === 'authenticated'){
-    showDashboard();
-  }
-}
-
-function tryLogin(){
-  const inputEl = document.getElementById('pw-input');
-  const err = document.getElementById('login-error');
-  if(!inputEl) return;
-  
-  const val = inputEl.value.trim();
-  if(val === CORRECT_PASSWORD){
-    safeSetSession(SESSION_KEY, 'authenticated');
-    showDashboard();
-    toast('👑 Welcome to the Vault');
+function tryLogin() {
+  const val = document.getElementById('pw-input').value;
+  if (val === PASSWORD) {
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('dashboard').style.display = 'block';
+    renderFileList();
   } else {
-    if(err){
-      err.textContent = '✕ Incorrect password. Access denied.';
-      setTimeout(() => { err.textContent = ''; }, 3000);
-    }
-    inputEl.value = '';
-    inputEl.focus();
+    document.getElementById('login-error').style.display = 'block';
   }
 }
 
-function showDashboard(){
-  const loginScr = document.getElementById('login-screen');
-  const dashScr = document.getElementById('dashboard');
-  if(loginScr) loginScr.style.display = 'none';
-  if(dashScr) dashScr.style.display = 'block';
-  loadFiles();
-}
+document.getElementById('login-btn').addEventListener('click', tryLogin);
+document.getElementById('pw-input').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') tryLogin();
+});
 
-function logout(){
-  safeRemoveSession(SESSION_KEY);
-  const loginScr = document.getElementById('login-screen');
-  const dashScr = document.getElementById('dashboard');
-  if(dashScr) dashScr.style.display = 'none';
-  if(loginScr) loginScr.style.display = 'flex';
-  const inputEl = document.getElementById('pw-input');
-  if(inputEl) inputEl.value = '';
-}
+// ═══════════════════════════════════════════════════════
+//  DROP ZONE
+//  BUG FIX: guard click handler so clicking the hidden
+//  <input> doesn't bubble back up and open picker twice.
+// ═══════════════════════════════════════════════════════
+let pendingFile = null;
 
-function saveFiles(){
-  const success = safeSetLocal(STORAGE_KEY, JSON.stringify(files));
-  if(!success){
-    toast('⚠️ Storage limit reached!', true);
-  }
-}
-
-function loadFiles(){
-  const raw = safeGetLocal(STORAGE_KEY);
-  if(raw){
-    try {
-      const parsed = JSON.parse(raw);
-      if(parsed && typeof parsed === 'object'){
-        files.images = Array.isArray(parsed.images) ? parsed.images : [];
-        files.audio  = Array.isArray(parsed.audio)  ? parsed.audio  : [];
-        files.video  = Array.isArray(parsed.video)  ? parsed.video  : [];
-      }
-    } catch(e){
-      files = {images:[], audio:[], video:[]};
-    }
-  }
-  renderAll();
-}
-
-function getCategory(file){
-  const t = (file.type || '').toLowerCase();
-  if(t.startsWith('image/')) return 'images';
-  if(t.startsWith('audio/')) return 'audio';
-  if(t.startsWith('video/')) return 'video';
-  const ext = (file.name || '').split('.').pop().toLowerCase();
-  if(['png','jpg','jpeg','gif','webp','bmp'].includes(ext)) return 'images';
-  if(['mp3','ogg','wav','flac','aac'].includes(ext)) return 'audio';
-  if(['mp4','webm','mov'].includes(ext)) return 'video';
-  return 'images';
-}
-
-const dropZone = document.getElementById('drop-zone');
+const dropZone  = document.getElementById('drop-zone');
 const fileInput = document.getElementById('file-input');
 
-if(dropZone){
-  dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('drag-over'); });
-  dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drag-over'));
-  dropZone.addEventListener('drop', e => {
-    e.preventDefault();
-    dropZone.classList.remove('drag-over');
-    handleFiles([...e.dataTransfer.files]);
-  });
+dropZone.addEventListener('click', function(e) {
+  // Only trigger picker when clicking the zone itself, not children re-bubbling
+  if (e.target === fileInput) return;
+  fileInput.click();
+});
+
+dropZone.addEventListener('dragover', function(e) {
+  e.preventDefault();
+  dropZone.classList.add('drag-over');
+});
+dropZone.addEventListener('dragleave', function() {
+  dropZone.classList.remove('drag-over');
+});
+dropZone.addEventListener('drop', function(e) {
+  e.preventDefault();
+  dropZone.classList.remove('drag-over');
+  var f = e.dataTransfer.files[0];
+  if (f) handleFile(f);
+});
+
+fileInput.addEventListener('change', function() {
+  if (fileInput.files[0]) handleFile(fileInput.files[0]);
+});
+
+function handleFile(file) {
+  showStatus('', '');
+
+  // Step 1: read only the first 24 bytes to detect MIME from magic bytes
+  var headerReader = new FileReader();
+  headerReader.onerror = function() {
+    showStatus('error', '* ERROR * could not read file header.');
+  };
+  headerReader.onload = function(e) {
+    var buf = e.target.result;
+    var detectedMime = detectMimeFromArrayBuffer(buf);
+    var trueMime = detectedMime
+      || (file.type && file.type !== 'application/octet-stream' ? file.type : null)
+      || 'application/octet-stream';
+
+    // Step 2: read full file as base64 data URL
+    var b64Reader = new FileReader();
+    b64Reader.onerror = function() {
+      showStatus('error', '* ERROR * could not read file data.');
+    };
+    b64Reader.onload = function(ev) {
+      var rawB64 = ev.target.result.split(',')[1];
+      // Rebuild data URL with the CORRECTED mime type
+      var fixedDataUrl = 'data:' + trueMime + ';base64,' + rawB64;
+
+      pendingFile = { data: fixedDataUrl, detectedMime: trueMime };
+
+      // Auto-fill name only if the field is empty
+      var nameInput = document.getElementById('file-name-input');
+      if (!nameInput.value.trim()) {
+        var suggested = file.name || '';
+        // Sanitize junk mobile temp names like "image:1000023"
+        if (!suggested || /^(image|video):\d+$/i.test(suggested)) {
+          suggested = 'meme' + (MIME_TO_EXT[trueMime] || '');
+        }
+        // Append extension if missing
+        if (!/\.[a-zA-Z0-9]{2,5}$/.test(suggested) && MIME_TO_EXT[trueMime]) {
+          suggested += MIME_TO_EXT[trueMime];
+        }
+        nameInput.value = suggested;
+      }
+
+      // Auto-pick category from mime
+      var cat = document.getElementById('category-select');
+      if (trueMime.startsWith('video/'))      cat.value = 'video';
+      else if (trueMime.startsWith('audio/')) cat.value = 'audio';
+      else                                     cat.value = 'images';
+
+      // Show preview
+      showPreview(fixedDataUrl, trueMime);
+
+      // Update drop zone label
+      var label = document.getElementById('drop-label');
+      label.innerHTML =
+        '* ' + escHtml(file.name || 'file') + ' *<br>' +
+        '<span style="font-size:.45rem;color:var(--hp-green);font-family:var(--pixel);">loaded ✓</span>';
+    };
+    b64Reader.readAsDataURL(file);
+  };
+  headerReader.readAsArrayBuffer(file.slice(0, 24));
 }
 
-if(fileInput){
-  fileInput.addEventListener('change', () => handleFiles([...fileInput.files]));
-}
+function showPreview(dataUrl, mime) {
+  var wrap = document.getElementById('preview-wrap');
+  wrap.style.display = 'block';
+  wrap.innerHTML = '';
 
-async function handleFiles(rawFiles){
-  pendingQueue = [];
-  for(let f of rawFiles){
-    const cat = getCategory(f);
-    const dataUrl = await readFile(f);
-    
-    // Auto-clean mobile gallery names (e.g. image:100234)
-    let cleanName = f.name || 'meme';
-    if(cleanName.includes(':') || cleanName.startsWith('picker') || cleanName.startsWith('image')) {
-      cleanName = 'meme_' + Math.floor(Math.random() * 1000);
-    } else {
-      cleanName = cleanName.replace(/\.[^/.]+$/, ""); // strip existing ext
-    }
-
-    pendingQueue.push({ rawFile: f, cleanName, dataUrl, cat });
+  if (mime.startsWith('image/')) {
+    var img = document.createElement('img');
+    img.src = dataUrl;
+    img.alt = 'preview';
+    wrap.appendChild(img);
+  } else if (mime.startsWith('video/')) {
+    var vid = document.createElement('video');
+    vid.src = dataUrl;
+    vid.controls = true;
+    vid.preload = 'metadata';
+    wrap.appendChild(vid);
+  } else if (mime.startsWith('audio/')) {
+    var aud = document.createElement('audio');
+    aud.src = dataUrl;
+    aud.controls = true;
+    wrap.appendChild(aud);
   }
-  
-  if(pendingQueue.length > 0){
-    currentPendingIndex = 0;
-    showUploadModal();
-  }
-  if(fileInput) fileInput.value = '';
 }
 
-function showUploadModal(){
-  if(currentPendingIndex >= pendingQueue.length){
-    document.getElementById('upload-modal').classList.remove('open');
-    saveFiles();
-    renderAll();
-    toast(`✅ Memes published successfully!`);
+// ═══════════════════════════════════════════════════════
+//  SAVE TO LOCALSTORAGE
+// ═══════════════════════════════════════════════════════
+document.getElementById('save-btn').addEventListener('click', saveFile);
+
+function saveFile() {
+  if (!pendingFile) {
+    showStatus('error', '* no file selected, pal.');
     return;
   }
-  const item = pendingQueue[currentPendingIndex];
-  document.getElementById('modal-name-input').value = item.cleanName;
-  document.getElementById('modal-cat-select').value = item.cat;
-  document.getElementById('upload-modal').classList.add('open');
-}
-
-function confirmUpload(){
-  let customName = document.getElementById('modal-name-input').value.trim();
-  const selectedCat = document.getElementById('modal-cat-select').value;
-  const item = pendingQueue[currentPendingIndex];
-
-  if(!customName){
-    toast('⚠️ Display name required!', true);
+  var name = document.getElementById('file-name-input').value.trim();
+  if (!name) {
+    showStatus('error', '* you need to give it a name.');
     return;
   }
+  var category = document.getElementById('category-select').value;
 
-  // Detect real extension & MIME even if Mobile Gallery gave generic binary data
-  const meta = detectMimeAndExtension(item.dataUrl, selectedCat);
+  var files = [];
+  try { files = JSON.parse(localStorage.getItem('memehub_files_v1') || '[]'); }
+  catch(e) { files = []; }
 
-  // Strip trailing dots or wrong extensions and attach true extension
-  customName = customName.replace(/\.[^/.]+$/, "");
-  customName = customName + meta.ext;
-
-  // Repair Data URL Base64 MIME header
-  let repairedDataUrl = item.dataUrl;
-  if (!repairedDataUrl.startsWith(`data:${meta.mime}`)) {
-    repairedDataUrl = repairedDataUrl.replace(/^data:[^;]*/, `data:${meta.mime}`);
-  }
-
-  const entry = {
-    id: Date.now() + '-' + Math.random().toString(36).slice(2),
-    name: customName,
-    type: meta.mime,
-    data: repairedDataUrl,
-    cat: selectedCat,
-    added: new Date().toLocaleDateString()
+  var entry = {
+    id: Date.now(),
+    name: name,
+    category: category,
+    data: pendingFile.data,
+    uploadedAt: new Date().toISOString(),
   };
 
-  files[selectedCat].push(entry);
-  currentPendingIndex++;
-  showUploadModal();
-}
-
-function cancelUpload(){
-  currentPendingIndex++;
-  showUploadModal();
-}
-
-function readFile(f){
-  return new Promise((res,rej)=>{
-    const r = new FileReader();
-    r.onload = ()=>res(r.result);
-    r.onerror = rej;
-    r.readAsDataURL(f);
-  });
-}
-
-function triggerDownload(id, dataKey){
-  const f = (files[dataKey] || []).find(x => x.id === id);
-  if(!f) return;
+  files.push(entry);
 
   try {
-    const parts = f.data.split(',');
-    const mimeMatch = parts[0].match(/:(.*?);/);
-    const mime = mimeMatch ? mimeMatch[1] : 'application/octet-stream';
-    const bstr = atob(parts[1]);
-    let n = bstr.length;
-    const u8arr = new Uint8Array(n);
-    while(n--){
-      u8arr[n] = bstr.charCodeAt(n);
-    }
-    const blob = new Blob([u8arr], {type: mime});
-    const blobUrl = URL.createObjectURL(blob);
-
-    const a = document.createElement('a');
-    a.href = blobUrl;
-    a.download = f.name;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    setTimeout(() => URL.revokeObjectURL(blobUrl), 1000);
+    localStorage.setItem('memehub_files_v1', JSON.stringify(files));
+    showStatus('success', '* "' + name + '" added to the vault. *');
+    clearForm();
+    renderFileList();
   } catch(e) {
-    const a = document.createElement('a');
-    a.href = f.data;
-    a.download = f.name;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
+    if (e.name === 'QuotaExceededError') {
+      showStatus('error', '* storage is full. delete something first.');
+    } else {
+      showStatus('error', '* save failed: ' + e.message);
+    }
   }
 }
 
-function renderAll(){
-  renderCategory('images', 'images', 'No images uploaded yet');
-  renderCategory('audio',  'audio',  'No audio files uploaded yet');
-  renderCategory('video',  'video',  'No videos uploaded yet');
-  updateStats();
+// ═══════════════════════════════════════════════════════
+//  CLEAR FORM
+// ═══════════════════════════════════════════════════════
+document.getElementById('clear-btn').addEventListener('click', clearForm);
+
+function clearForm() {
+  pendingFile = null;
+  fileInput.value = '';
+  document.getElementById('file-name-input').value = '';
+  document.getElementById('drop-label').innerHTML =
+    '* CHOOSE A FILE *<br>' +
+    '<span style="font-size:.45rem;color:var(--bone-dim);font-family:var(--pixel);">drag &amp; drop or click to browse</span>';
+  var wrap = document.getElementById('preview-wrap');
+  wrap.style.display = 'none';
+  wrap.innerHTML = '';
+  // BUG FIX: clear className cleanly with no trailing space
+  var st = document.getElementById('status-msg');
+  st.className = 'status-msg';
+  st.textContent = '';
+  st.style.display = 'none';
 }
 
-function renderCategory(dataKey, gridId, emptyMsg){
-  const grid  = document.getElementById('grid-'+gridId);
-  const count = document.getElementById('count-'+gridId);
-  if(!grid || !count) return;
+// ═══════════════════════════════════════════════════════
+//  RENDER FILE LIST
+// ═══════════════════════════════════════════════════════
+function renderFileList() {
+  var files = [];
+  try { files = JSON.parse(localStorage.getItem('memehub_files_v1') || '[]'); }
+  catch(e) { files = []; }
 
-  const arr = files[dataKey] || [];
-  count.textContent = arr.length + ' file' + (arr.length!==1?'s':'');
+  var body = document.getElementById('file-list-body');
+  body.innerHTML = '';
 
-  if(!arr.length){
-    grid.innerHTML = `<div class="empty-state">${emptyMsg}</div>`;
+  if (!files.length) {
+    body.innerHTML = '<div id="empty-msg">* the vault is empty *<br>upload something, buddy.</div>';
     return;
   }
 
-  grid.innerHTML = arr.map(f => buildCard(f, dataKey)).join('');
+  // Newest first
+  var reversed = files.slice().reverse();
+  reversed.forEach(function(f) {
+    var item = document.createElement('div');
+    item.className = 'file-item';
+
+    var badgeClass  = f.category === 'audio' ? 'audio' : f.category === 'video' ? 'video' : 'image';
+    var badgeLabel  = f.category === 'audio' ? 'AUDIO' : f.category === 'video' ? 'VIDEO' : 'IMAGE';
+    var kb = f.data ? Math.round(f.data.length * 0.75 / 1024) : 0;
+    var date = '';
+    try { date = new Date(f.uploadedAt).toLocaleString(); } catch(e) { date = '?'; }
+
+    item.innerHTML =
+      '<div class="file-item-info">' +
+        '<div class="name">📄 ' + escHtml(f.name) + '</div>' +
+        '<div class="meta">~' + kb + ' KB &nbsp;•&nbsp; ' + escHtml(date) + '</div>' +
+      '</div>' +
+      '<span class="file-badge ' + badgeClass + '">' + badgeLabel + '</span>';
+
+    // BUG FIX: use addEventListener instead of inline onclick to avoid
+    // any risk of id-based injection and keep closure reference clean.
+    var delBtn = document.createElement('button');
+    delBtn.className = 'btn btn-love';
+    delBtn.style.cssText = 'font-size:.45rem;padding:8px 12px;';
+    delBtn.textContent = '🗑';
+    delBtn.addEventListener('click', function() { deleteFile(f.id); });
+
+    item.appendChild(delBtn);
+    body.appendChild(item);
+  });
 }
 
-function buildCard(f, dataKey){
-  const isImg   = dataKey === 'images';
-  const isAudio = dataKey === 'audio';
-  const isVid   = dataKey === 'video';
+// ═══════════════════════════════════════════════════════
+//  DELETE / CLEAR ALL
+// ═══════════════════════════════════════════════════════
+document.getElementById('clear-all-btn').addEventListener('click', clearAll);
 
-  let thumb = '';
-  if(isImg){
-    thumb = `<img class="media-thumb" src="${f.data}" alt="${esc(f.name)}" loading="lazy" onclick="openLightbox('img','${f.id}','${dataKey}')">`;
-  } else if(isAudio){
-    thumb = `<div class="audio-thumb">
-               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
-             </div>
-             <div class="audio-player-row"><audio controls><source src="${f.data}"></audio></div>`;
-  } else if(isVid){
-    thumb = `<video class="media-thumb-video" src="${f.data}" muted playsinline onclick="openLightbox('vid','${f.id}','${dataKey}')" style="cursor:pointer"></video>`;
-  }
-
-  return `<div class="media-card" id="card-${f.id}">
-    ${thumb}
-    <div class="card-info">
-      <span class="card-name" title="${esc(f.name)}">${esc(f.name)}</span>
-      <div class="card-actions">
-        <button class="action-btn" onclick="triggerDownload('${f.id}','${dataKey}')" title="Download">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-        </button>
-        <button class="action-btn del" onclick="deleteFile('${f.id}','${dataKey}')" title="Delete">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
-        </button>
-      </div>
-    </div>
-  </div>`;
+function deleteFile(id) {
+  if (!confirm('* delete this meme? *\nthis cannot be undone.')) return;
+  var files = [];
+  try { files = JSON.parse(localStorage.getItem('memehub_files_v1') || '[]'); }
+  catch(e) { files = []; }
+  files = files.filter(function(f) { return f.id !== id; });
+  try {
+    localStorage.setItem('memehub_files_v1', JSON.stringify(files));
+  } catch(e) { /* extremely unlikely but swallow */ }
+  renderFileList();
 }
 
-function deleteFile(id, dataKey){
-  if(!confirm('Delete this meme permanently?')) return;
-  files[dataKey] = files[dataKey].filter(f=>f.id!==id);
-  saveFiles();
-  renderAll();
-  toast('🗑️ File deleted');
+function clearAll() {
+  if (!confirm('* RESET THE TIMELINE? *\nall uploaded memes will be deleted. this cannot be undone.')) return;
+  localStorage.removeItem('memehub_files_v1');
+  renderFileList();
 }
 
-function openLightbox(type, id, dataKey){
-  const f = files[dataKey].find(x=>x.id===id);
-  if(!f) return;
-  const lb = document.getElementById('lightbox');
-  const img = document.getElementById('lb-img');
-  const vid = document.getElementById('lb-vid');
-  if(type==='img'){
-    img.src = f.data; img.style.display='block';
-    vid.style.display='none'; vid.pause && vid.pause();
-  } else {
-    vid.src = f.data; vid.style.display='block';
-    img.style.display='none';
-  }
-  lb.classList.add('open');
-}
-
-function closeLightbox(){
-  document.getElementById('lightbox').classList.remove('open');
-  const vid = document.getElementById('lb-vid');
-  if(vid){ vid.pause && vid.pause(); vid.src=''; }
-  const img = document.getElementById('lb-img');
-  if(img) img.src='';
-}
-
-const lbEl = document.getElementById('lightbox');
-if(lbEl) lbEl.addEventListener('click', function(e){ if(e.target===this) closeLightbox(); });
-document.addEventListener('keydown', e => { if(e.key==='Escape') closeLightbox(); });
-document.addEventListener('keydown', e => { if(e.key==='Enter' && document.getElementById('login-screen').style.display !== 'none') tryLogin(); });
-
-function updateStats(){
-  const total = files.images.length + files.audio.length + files.video.length;
-  const statsEl = document.getElementById('topbar-stats');
-  if(statsEl){
-    statsEl.innerHTML = `
-      <div class="stat-pill">🖼️ ${files.images.length}</div>
-      <div class="stat-pill">🎵 ${files.audio.length}</div>
-      <div class="stat-pill">🎬 ${files.video.length}</div>
-      <div class="stat-pill">📦 ${total} total</div>
-    `;
-  }
-}
-
-function toast(msg, isWarn=false){
-  const wrap = document.getElementById('toast-wrap');
-  if(!wrap) return;
-  const el = document.createElement('div');
-  el.className = 'toast';
-  if(isWarn) el.style.borderColor = 'var(--red)';
+// ═══════════════════════════════════════════════════════
+//  HELPERS
+// ═══════════════════════════════════════════════════════
+function showStatus(type, msg) {
+  var el = document.getElementById('status-msg');
+  // Clean className — no trailing space
+  el.className = 'status-msg' + (type ? ' ' + type : '');
   el.textContent = msg;
-  wrap.appendChild(el);
-  setTimeout(() => el.remove(), 3000);
+  el.style.display = msg ? 'block' : 'none';
 }
 
-window.addEventListener('DOMContentLoaded', initAuth);
+function escHtml(str) {
+  return String(str)
+    .replace(/&/g,'&amp;')
+    .replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;');
+}
 </script>
 </body>
 </html>
