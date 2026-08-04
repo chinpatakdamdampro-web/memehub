@@ -172,9 +172,32 @@ transition:.2s;
 .download-btn:hover{
 background:#2ea043;
 }
+#dashboard-btn{
+position:fixed;
+top:18px;
+right:18px;
+z-index:999;
+background:#161b22;
+color:#e6edf3;
+border:1px solid #30363d;
+border-radius:8px;
+padding:8px 16px;
+font-family:'Inter',sans-serif;
+font-size:.85rem;
+font-weight:600;
+text-decoration:none;
+cursor:pointer;
+transition:.2s;
+box-shadow:0 4px 12px rgba(0,0,0,.4);
+}
+#dashboard-btn:hover{
+border-color:#58a6ff;
+color:#58a6ff;
+}
 </style>
 </head>
 <body>
+<a id="dashboard-btn" href="Dashboard.html">⚙ Dashboard</a>
 <div class="container">
 <header>
 <h1>📚 MemeHub</h1>
