@@ -380,7 +380,6 @@ Workd myself down to the bwone!~
 const GITHUB_OWNER  = 'chinpatakdamdampro-web';
 const GITHUB_REPO   = 'memehub';
 const GITHUB_BRANCH = 'main';
-const SITE_URL      = 'https://memehub-708.pages.dev';
 
 // Files already hardcoded above — skip them in the dynamic section
 const HARDCODED = new Set([
@@ -416,7 +415,9 @@ function categoryOf(name) {
 //  RENDER
 // ─────────────────────────────────────────────
 function renderImage(file) {
-  const src = SITE_URL + '/' + encodeURIComponent(file.name);
+  // Use relative path — Cloudflare Pages serves files from root.
+  // Avoids any SITE_URL or encodeURIComponent edge cases.
+  const src = './' + file.name;
   const card = document.createElement('div');
   card.className = 'card';
   card.innerHTML =
@@ -425,7 +426,7 @@ function renderImage(file) {
       '<div class="badge">IMAGE</div>' +
     '</div>' +
     '<div class="preview">' +
-      '<img src="' + escHtml(src) + '" alt="' + escHtml(file.name) + '" loading="lazy">' +
+      '<img src="' + escHtml(src) + '" alt="' + escHtml(file.name) + '" loading="lazy" onerror="this.parentElement.innerHTML=\'<p style=\\\"color:#8b949e;text-align:center;padding:20px;font-size:.85rem;\\\">⚠️ Image not found on server yet — try refreshing in ~1 min after upload.</p>\'">' +
     '</div>' +
     '<div class="card-footer">' +
       '<a class="download-btn" href="' + escHtml(src) + '" download="' + escHtml(file.name) + '">⬇ Download</a>' +
@@ -434,7 +435,7 @@ function renderImage(file) {
 }
 
 function renderAudio(file) {
-  const src  = SITE_URL + '/' + encodeURIComponent(file.name);
+  const src  = './' + file.name;
   const stem = file.name.replace(/\.[^/.]+$/, '');
   const card = document.createElement('div');
   card.className = 'audio-card';
@@ -449,7 +450,7 @@ function renderAudio(file) {
 }
 
 function renderVideo(file) {
-  const src = SITE_URL + '/' + encodeURIComponent(file.name);
+  const src = './' + file.name;
   const card = document.createElement('div');
   card.className = 'card';
   card.innerHTML =
@@ -482,28 +483,64 @@ function sectionTitle(text) {
 
 // ─────────────────────────────────────────────
 //  FETCH FROM GITHUB & DISPLAY
+//  Caches the tree in sessionStorage so repeated
+//  page loads don't burn the 60 req/hr rate limit.
 // ─────────────────────────────────────────────
 async function loadDynamicMemes() {
-  const apiUrl = 'https://api.github.com/repos/' + GITHUB_OWNER + '/' + GITHUB_REPO
-               + '/git/trees/' + GITHUB_BRANCH + '?recursive=1';
+  const CACHE_KEY = 'memehub_tree_cache';
+  const CACHE_TTL = 5 * 60 * 1000; // 5 minutes
+
   let tree;
+
+  // Try sessionStorage cache first
   try {
-    const resp = await fetch(apiUrl, {
-      headers: { 'Accept': 'application/vnd.github+json' }
-    });
-    if (!resp.ok) throw new Error('GitHub API ' + resp.status);
-    const data = await resp.json();
-    // Only root-level files (no slashes in path = not in a subfolder)
-    tree = (data.tree || []).filter(f => f.type === 'blob' && !f.path.includes('/'));
-  } catch(e) {
-    console.warn('Could not load dynamic memes:', e);
-    return;
+    const cached = sessionStorage.getItem(CACHE_KEY);
+    if (cached) {
+      const parsed = JSON.parse(cached);
+      if (Date.now() - parsed.ts < CACHE_TTL) {
+        tree = parsed.tree;
+      }
+    }
+  } catch(e) { /* ignore cache errors */ }
+
+  // Fetch from GitHub if no valid cache
+  if (!tree) {
+    const apiUrl = 'https://api.github.com/repos/' + GITHUB_OWNER + '/' + GITHUB_REPO
+                 + '/git/trees/' + GITHUB_BRANCH + '?recursive=1';
+    try {
+      const resp = await fetch(apiUrl, {
+        headers: { 'Accept': 'application/vnd.github+json' }
+      });
+
+      if (resp.status === 403 || resp.status === 429) {
+        // Rate limited — show message but don't crash
+        const notice = document.createElement('p');
+        notice.style.cssText = 'text-align:center;color:#8b949e;padding:20px;font-size:.9rem;';
+        notice.textContent = '⚠️ GitHub API rate limit hit — uploaded memes will appear after a few minutes. Hardcoded memes above still work fine.';
+        document.getElementById('dynamic-images-section').appendChild(notice);
+        return;
+      }
+
+      if (!resp.ok) throw new Error('GitHub API ' + resp.status);
+      const data = await resp.json();
+      // Only root-level files (no slash in path = not in a subfolder)
+      tree = (data.tree || []).filter(f => f.type === 'blob' && !f.path.includes('/'));
+
+      // Save to cache
+      try {
+        sessionStorage.setItem(CACHE_KEY, JSON.stringify({ ts: Date.now(), tree }));
+      } catch(e) { /* quota full, skip caching */ }
+
+    } catch(e) {
+      console.warn('Could not load dynamic memes:', e);
+      return;
+    }
   }
 
   const images = [], audios = [], videos = [];
 
   tree.forEach(function(f) {
-    if (HARDCODED.has(f.path)) return; // skip already-hardcoded ones
+    if (HARDCODED.has(f.path)) return;
     const cat = categoryOf(f.path);
     if (cat === 'images') images.push({ name: f.path });
     else if (cat === 'audio') audios.push({ name: f.path });
