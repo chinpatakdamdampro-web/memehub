@@ -354,7 +354,7 @@ function getExt(name) {
 
 function categoryOf(name) {
   const ext = getExt(name);
-  if (IMAGE_EXT.has(ext)) return 'image';
+  if (IMAGE_EXT.has(ext)) return 'images'; // 'images' matches render checks below
   if (AUDIO_EXT.has(ext)) return 'audio';
   if (VIDEO_EXT.has(ext)) return 'video';
   return null;
@@ -448,7 +448,7 @@ async function loadDynamicMemes() {
   tree.forEach(function(f) {
     if (HARDCODED.has(f.path)) return; // skip already-hardcoded ones
     const cat = categoryOf(f.path);
-    if (cat === 'image') images.push({ name: f.path });
+    if (cat === 'images') images.push({ name: f.path });
     else if (cat === 'audio') audios.push({ name: f.path });
     else if (cat === 'video') videos.push({ name: f.path });
   });
