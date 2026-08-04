@@ -474,9 +474,124 @@ footer{
   letter-spacing:2px;
   line-height:2.4;
 }
+
+/* ── BACK BUTTON (top-left fixed) ── */
+#back-btn{
+  position:fixed;
+  top:18px;
+  left:18px;
+  z-index:9999;
+  background: var(--void2);
+  color: var(--bone);
+  border: 1px solid var(--border);
+  border-radius:0;
+  padding:8px 14px;
+  font-family: var(--pixel);
+  font-size:.5rem;
+  letter-spacing:1px;
+  text-decoration:none;
+  cursor:pointer;
+  transition: border-color .15s, color .15s;
+  box-shadow:0 4px 12px rgba(0,0,0,.5);
+}
+#back-btn:hover{
+  border-color: var(--soul);
+  color: var(--soul);
+}
+
+/* ── COPY-SNIPPET BUTTON in file list ── */
+.btn-yel{
+  background: transparent;
+  color: var(--battle-yel);
+  border-color: var(--battle-yel);
+}
+.btn-yel:hover{
+  background: var(--battle-yel);
+  color: var(--void);
+  box-shadow: 0 0 16px var(--battle-yel);
+}
+
+/* ── SNIPPET MODAL ── */
+#snippet-modal{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.82);
+  z-index:99999;
+  align-items:center;
+  justify-content:center;
+}
+#snippet-modal.open{ display:flex; }
+#snippet-inner{
+  background: var(--void2);
+  border: 3px solid var(--bone);
+  box-shadow: 0 0 0 1px var(--void), 0 0 0 4px var(--bone), 0 0 40px rgba(0,212,255,0.12);
+  padding:36px;
+  max-width:600px;
+  width:90%;
+  position:relative;
+}
+#snippet-inner h3{
+  font-family: var(--pixel);
+  font-size:.65rem;
+  color: var(--soul);
+  letter-spacing:2px;
+  margin-bottom:6px;
+}
+#snippet-inner p{
+  font-family: var(--pixel);
+  font-size:.45rem;
+  color: var(--bone-dim);
+  letter-spacing:1px;
+  line-height:2;
+  margin-bottom:18px;
+}
+#snippet-code{
+  width:100%;
+  background: var(--void);
+  border: 1px solid var(--border);
+  color: var(--bone);
+  font-family: monospace;
+  font-size:.8rem;
+  padding:14px;
+  resize:vertical;
+  min-height:120px;
+  line-height:1.6;
+  outline:none;
+}
+#snippet-close{
+  position:absolute;
+  top:12px;right:16px;
+  background:none;border:none;
+  color:var(--bone-dim);
+  font-family:var(--pixel);
+  font-size:.6rem;
+  cursor:pointer;
+  letter-spacing:1px;
+}
+#snippet-close:hover{ color:var(--love); }
+#snippet-copy-btn{ margin-top:14px; }
 </style>
 </head>
 <body>
+
+<!-- ════════════════════════════════════════
+     BACK TO HOME BUTTON
+════════════════════════════════════════ -->
+<a id="back-btn" href="index.html">← HOME</a>
+
+<!-- ════════════════════════════════════════
+     HTML SNIPPET MODAL
+════════════════════════════════════════ -->
+<div id="snippet-modal">
+  <div id="snippet-inner">
+    <button id="snippet-close" onclick="closeSnippet()">✕ CLOSE</button>
+    <h3>* COPY HTML SNIPPET *</h3>
+    <p>paste this into index.html to hardcode it permanently.<br>add the actual file to your repo too!</p>
+    <textarea id="snippet-code" readonly></textarea>
+    <button class="btn btn-yel btn-full" id="snippet-copy-btn" onclick="copySnippet()">📋 COPY TO CLIPBOARD</button>
+  </div>
+</div>
 
 <!-- ════════════════════════════════════════
      LOGIN SCREEN
@@ -485,7 +600,7 @@ footer{
   <div class="login-box battle-box">
     <span class="login-skull">💀 </span>
     <div class="login-title">* SANS IS Gooning *<br>Goo- i mean password REQUIRED</div>
-    <input type="password" id="pw-input" placeholder="ENTER PASSPHRASE" autocomplete="current-password">
+    <input type="password" id="pw-input" placeholder="ENTER PASSPHRASE" autocomplete="off">
     <div id="login-error">* but nobody gooned 😢.<br>wrong password, nika</div>
     <button class="btn btn-soul btn-full heart-cursor" id="login-btn">Goon</button>
   </div>
@@ -584,9 +699,38 @@ const MIME_TO_EXT = {
 };
 
 // ═══════════════════════════════════════════════════════
-//  AUTH
+//  CONFIG — loaded at runtime from /api/config
+//  Token never touches the repo. Set it in:
+//  Cloudflare Pages → Settings → Environment Variables
 // ═══════════════════════════════════════════════════════
-const PASSWORD = 'Larper68920DkLpOeR'; // ← change to your actual password
+let GITHUB_TOKEN  = null;
+const GITHUB_OWNER  = 'chinpatakdamdampro-web';
+const GITHUB_REPO   = 'memehub';
+const GITHUB_BRANCH = 'main';
+const SITE_URL      = 'https://memehub-708.pages.dev';
+
+// ═══════════════════════════════════════════════════════
+//  AUTH — password to get into the dashboard
+// ═══════════════════════════════════════════════════════
+const PASSWORD = 'memehub2025'; // ← change this to whatever you want
+
+// ═══════════════════════════════════════════════════════
+//  BOOT — fetch token from Pages Function before anything
+// ═══════════════════════════════════════════════════════
+async function loadConfig() {
+  try {
+    var resp = await fetch('/api/config');
+    if (!resp.ok) throw new Error('HTTP ' + resp.status);
+    var cfg = await resp.json();
+    GITHUB_TOKEN = cfg.token || null;
+  } catch(e) {
+    console.error('Could not load config:', e);
+    GITHUB_TOKEN = null;
+  }
+}
+
+// Run config load immediately — saveFile checks if token is ready
+var configReady = loadConfig();
 
 function tryLogin() {
   const val = document.getElementById('pw-input').value;
@@ -725,11 +869,12 @@ function showPreview(dataUrl, mime) {
 }
 
 // ═══════════════════════════════════════════════════════
-//  SAVE TO LOCALSTORAGE
+//  SAVE — commits file directly to GitHub repo
+//  Cloudflare Pages auto-redeploys in ~1 minute after.
 // ═══════════════════════════════════════════════════════
 document.getElementById('save-btn').addEventListener('click', saveFile);
 
-function saveFile() {
+async function saveFile() {
   if (!pendingFile) {
     showStatus('error', '* no file selected, pal.');
     return;
@@ -739,33 +884,103 @@ function saveFile() {
     showStatus('error', '* you need to give it a name.');
     return;
   }
+  // Wait for config to finish loading
+  await configReady;
+  if (!GITHUB_TOKEN) {
+    showStatus('error', '* no token found. set GITHUB_TOKEN in cloudflare pages → settings → environment variables, then redeploy.');
+    return;
+  }
+
   var category = document.getElementById('category-select').value;
+  var saveBtn  = document.getElementById('save-btn');
+  saveBtn.disabled = true;
+  saveBtn.textContent = '⏳ COMMITTING...';
+  showStatus('', '');
 
-  var files = [];
-  try { files = JSON.parse(localStorage.getItem('memehub_files_v1') || '[]'); }
-  catch(e) { files = []; }
+  // Sanitize filename
+  var safeName = name.replace(/[^a-zA-Z0-9._\-]/g, '_').replace(/\.{2,}/g, '.').slice(0, 200);
+  if (!safeName) {
+    showStatus('error', '* invalid filename.');
+    saveBtn.disabled = false;
+    saveBtn.textContent = '💾 SAVE TO VAULT';
+    return;
+  }
 
-  var entry = {
-    id: Date.now(),
-    name: name,
-    category: category,
-    data: pendingFile.data,
-    uploadedAt: new Date().toISOString(),
-  };
+  // Extract raw base64 (GitHub API wants plain b64, no data: prefix)
+  var b64 = pendingFile.data.includes(',')
+    ? pendingFile.data.split(',')[1]
+    : pendingFile.data;
 
-  files.push(entry);
+  var apiUrl = 'https://api.github.com/repos/' + GITHUB_OWNER + '/' + GITHUB_REPO
+             + '/contents/' + encodeURIComponent(safeName);
 
   try {
+    // Check if file already exists (need its SHA to overwrite)
+    var existingSha = null;
+    var checkResp = await fetch(apiUrl, {
+      headers: {
+        'Authorization': 'Bearer ' + GITHUB_TOKEN,
+        'Accept': 'application/vnd.github+json',
+      }
+    });
+    if (checkResp.ok) {
+      var existing = await checkResp.json();
+      existingSha = existing.sha;
+    }
+
+    // Commit the file
+    var body = {
+      message: 'upload: add ' + safeName + ' via MemeHub dashboard',
+      content: b64,
+      branch: GITHUB_BRANCH,
+    };
+    if (existingSha) body.sha = existingSha; // required when overwriting
+
+    var commitResp = await fetch(apiUrl, {
+      method: 'PUT',
+      headers: {
+        'Authorization': 'Bearer ' + GITHUB_TOKEN,
+        'Accept': 'application/vnd.github+json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(body),
+    });
+
+    if (!commitResp.ok) {
+      var err = await commitResp.json().catch(function(){ return {}; });
+      showStatus('error', '* github error ' + commitResp.status + ': ' + (err.message || 'unknown'));
+      return;
+    }
+
+    var liveUrl = SITE_URL + '/' + safeName;
+
+    // Save metadata to localStorage for the inventory list
+    var files = [];
+    try { files = JSON.parse(localStorage.getItem('memehub_files_v1') || '[]'); }
+    catch(e) { files = []; }
+    // Remove any old entry with same name to avoid duplicates
+    files = files.filter(function(f){ return f.name !== safeName; });
+    files.push({
+      id: Date.now(),
+      name: safeName,
+      category: category,
+      url: liveUrl,
+      uploadedAt: new Date().toISOString(),
+    });
     localStorage.setItem('memehub_files_v1', JSON.stringify(files));
-    showStatus('success', '* "' + name + '" added to the vault. *');
+
+    showStatus('success',
+      '* "' + safeName + '" committed to github! *\n' +
+      '* live at: ' + liveUrl + ' (after ~1 min deploy) *'
+    );
     clearForm();
     renderFileList();
+
   } catch(e) {
-    if (e.name === 'QuotaExceededError') {
-      showStatus('error', '* storage is full. delete something first.');
-    } else {
-      showStatus('error', '* save failed: ' + e.message);
-    }
+    showStatus('error', '* network error: ' + e.message);
+  } finally {
+    saveBtn.disabled = false;
+    saveBtn.textContent = '💾 SAVE TO VAULT';
   }
 }
 
@@ -819,22 +1034,33 @@ function renderFileList() {
     var date = '';
     try { date = new Date(f.uploadedAt).toLocaleString(); } catch(e) { date = '?'; }
 
+    var liveLink = f.url ? '<a href="' + escHtml(f.url) + '" target="_blank" style="color:var(--soul);font-size:.7rem;text-decoration:none;margin-left:8px;">↗ live</a>' : '';
     item.innerHTML =
       '<div class="file-item-info">' +
-        '<div class="name">📄 ' + escHtml(f.name) + '</div>' +
-        '<div class="meta">~' + kb + ' KB &nbsp;•&nbsp; ' + escHtml(date) + '</div>' +
+        '<div class="name">📄 ' + escHtml(f.name) + liveLink + '</div>' +
+        '<div class="meta">' + escHtml(date) + '</div>' +
       '</div>' +
       '<span class="file-badge ' + badgeClass + '">' + badgeLabel + '</span>';
 
-    // BUG FIX: use addEventListener instead of inline onclick to avoid
-    // any risk of id-based injection and keep closure reference clean.
+    var btnWrap = document.createElement('div');
+    btnWrap.style.cssText = 'display:flex;gap:8px;flex-shrink:0;';
+
+    var snipBtn = document.createElement('button');
+    snipBtn.className = 'btn btn-yel';
+    snipBtn.style.cssText = 'font-size:.45rem;padding:8px 12px;';
+    snipBtn.textContent = '📋';
+    snipBtn.title = 'Copy HTML snippet';
+    snipBtn.addEventListener('click', function() { openSnippet(f); });
+
     var delBtn = document.createElement('button');
     delBtn.className = 'btn btn-love';
     delBtn.style.cssText = 'font-size:.45rem;padding:8px 12px;';
     delBtn.textContent = '🗑';
     delBtn.addEventListener('click', function() { deleteFile(f.id); });
 
-    item.appendChild(delBtn);
+    btnWrap.appendChild(snipBtn);
+    btnWrap.appendChild(delBtn);
+    item.appendChild(btnWrap);
     body.appendChild(item);
   });
 }
@@ -844,16 +1070,51 @@ function renderFileList() {
 // ═══════════════════════════════════════════════════════
 document.getElementById('clear-all-btn').addEventListener('click', clearAll);
 
-function deleteFile(id) {
-  if (!confirm('* delete this meme? *\nthis cannot be undone.')) return;
+async function deleteFile(id) {
+  if (!confirm('* delete this meme? *\nthis removes it from github too. cannot be undone.')) return;
+
   var files = [];
   try { files = JSON.parse(localStorage.getItem('memehub_files_v1') || '[]'); }
   catch(e) { files = []; }
+
+  var target = files.find(function(f) { return f.id === id; });
   files = files.filter(function(f) { return f.id !== id; });
-  try {
-    localStorage.setItem('memehub_files_v1', JSON.stringify(files));
-  } catch(e) { /* extremely unlikely but swallow */ }
+  try { localStorage.setItem('memehub_files_v1', JSON.stringify(files)); }
+  catch(e) {}
   renderFileList();
+
+  // Delete from GitHub repo
+  if (target && target.name && GITHUB_TOKEN) {
+    var apiUrl = 'https://api.github.com/repos/' + GITHUB_OWNER + '/' + GITHUB_REPO
+               + '/contents/' + encodeURIComponent(target.name);
+    try {
+      // Need SHA first
+      var check = await fetch(apiUrl, {
+        headers: {
+          'Authorization': 'Bearer ' + GITHUB_TOKEN,
+          'Accept': 'application/vnd.github+json',
+        }
+      });
+      if (check.ok) {
+        var meta = await check.json();
+        await fetch(apiUrl, {
+          method: 'DELETE',
+          headers: {
+            'Authorization': 'Bearer ' + GITHUB_TOKEN,
+            'Accept': 'application/vnd.github+json',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            message: 'delete: remove ' + target.name + ' via MemeHub dashboard',
+            sha: meta.sha,
+            branch: GITHUB_BRANCH,
+          }),
+        });
+      }
+    } catch(e) {
+      console.warn('GitHub delete failed:', e);
+    }
+  }
 }
 
 function clearAll() {
@@ -880,6 +1141,95 @@ function escHtml(str) {
     .replace(/>/g,'&gt;')
     .replace(/"/g,'&quot;');
 }
+
+// ═══════════════════════════════════════════════════════
+//  HTML SNIPPET GENERATOR
+//  Generates ready-to-paste HTML for index.html so
+//  files can be hardcoded permanently into the site.
+//  NOTE: For Discord embeds / real URLs you still need
+//  to commit the actual file to your repo. The snippet
+//  uses a relative src path (e.g. stink.png) matching
+//  whatever name you saved it as in the dashboard.
+// ═══════════════════════════════════════════════════════
+function openSnippet(f) {
+  var snippet = '';
+  var name = f.name || 'file';
+  var src = f.url || (SITE_URL + '/' + name);
+
+  if (f.category === 'images') {
+    snippet =
+'<!-- ' + name + ' -->\n' +
+'<div class="card">\n' +
+'<div class="card-header">\n' +
+'<div class="filename">📄 ' + name + '</div>\n' +
+'<div class="badge">IMAGE</div>\n' +
+'</div>\n' +
+'<div class="preview">\n' +
+'<img src="' + src + '">\n' +
+'</div>\n' +
+'</div>';
+  } else if (f.category === 'audio') {
+    var stem = name.replace(/\.[^/.]+$/, '');
+    snippet =
+'<!-- ' + name + ' -->\n' +
+'<div class="audio-card">\n' +
+'<h2>' + stem + '</h2>\n' +
+'<audio controls>\n' +
+'<source src="' + src + '" type="audio/mpeg">\n' +
+'Your browser does not support the audio element.\n' +
+'</audio>\n' +
+'<br><br>\n' +
+'<a class="download-btn" href="' + src + '" download>\n' +
+'⬇ Download MP3\n' +
+'</a>\n' +
+'</div>';
+  } else if (f.category === 'video') {
+    snippet =
+'<!-- ' + name + ' -->\n' +
+'<div class="card">\n' +
+'<div class="card-header">\n' +
+'<div class="filename">📄 ' + name + '</div>\n' +
+'<div class="badge">VIDEO</div>\n' +
+'</div>\n' +
+'<div class="preview">\n' +
+'<video controls preload="metadata">\n' +
+'<source src="' + src + '">\n' +
+'Your browser does not support the video element.\n' +
+'</video>\n' +
+'</div>\n' +
+'</div>';
+  }
+
+  document.getElementById('snippet-code').value = snippet;
+  document.getElementById('snippet-modal').classList.add('open');
+}
+
+function closeSnippet() {
+  document.getElementById('snippet-modal').classList.remove('open');
+}
+
+function copySnippet() {
+  var ta = document.getElementById('snippet-code');
+  ta.select();
+  ta.setSelectionRange(0, 99999);
+  try {
+    navigator.clipboard.writeText(ta.value).then(function() {
+      var btn = document.getElementById('snippet-copy-btn');
+      btn.textContent = '✓ COPIED!';
+      setTimeout(function(){ btn.textContent = '📋 COPY TO CLIPBOARD'; }, 2000);
+    });
+  } catch(e) {
+    document.execCommand('copy');
+    var btn = document.getElementById('snippet-copy-btn');
+    btn.textContent = '✓ COPIED!';
+    setTimeout(function(){ btn.textContent = '📋 COPY TO CLIPBOARD'; }, 2000);
+  }
+}
+
+// Close modal on backdrop click
+document.getElementById('snippet-modal').addEventListener('click', function(e) {
+  if (e.target === this) closeSnippet();
+});
 </script>
 </body>
 </html>
